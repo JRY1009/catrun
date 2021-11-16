@@ -1,0 +1,9 @@
+{
+  "appName": "CatRun",
+  "close": "close",
+  "language": "language",
+  "chinese": "简体中文",
+  "english": "English",
+  "auto": "Auto",
+  "notFoundPage": "页面不存在"
+}

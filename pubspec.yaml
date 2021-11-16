@@ -12,7 +12,47 @@ dependencies:
   flutter:
     sdk: flutter
 
+  flutter_localizations:
+    sdk: flutter
+
   cupertino_icons: ^1.0.2
+
+  # 状态管理 https://github.com/rrousselGit/provider
+  provider: ^5.0.0
+  # 设备信息
+  device_info: ^2.0.2
+  # https://github.com/flutter/plugins/tree/master/packages/shared_preferences
+  shared_preferences: ^2.0.6
+  #日期格式化 https://github.com/tejainece/date_format
+  date_format: ^2.0.2
+  # https://github.com/marcojakob/dart-event-buscached_network_image
+  event_bus: ^2.0.0
+  # https://github.com/flutter/plugins/tree/master/packages/path_provider
+  path_provider: ^2.0.2
+  # https://github.com/flutter/plugins/tree/master/packages/package_infodate_format
+  package_info: ^2.0.2
+  # https://github.com/Baseflow/flutter-permission-handler
+  permission_handler: ^8.0.1
+  # 加密库 https://github.com/leocavalcante/encrypt
+  encrypt: ^5.0.0
+  # 小数计算 https://github.com/a14n/dart-decimal
+  decimal: ^1.0.0
+  # 处理键盘事件 https://github.com/diegoveloper/flutter_keyboard_actions
+  keyboard_actions: ^3.4.0
+  # 友盟统计 https://github.com/Wayaer/fl_umeng/blob/main/android/build.gradle
+  fl_umeng: ^1.1.8
+  # 路由框架 https://github.com/theyakka/fluro
+  fluro: ^2.0.3
+  # bugly https://github.com/crazecoder/flutter_bugly
+  flutter_bugly: ^0.3.2+1
+  # 网络库 https://github.com/flutterchina/dio
+  dio: ^4.0.0
+  # 启动URL的插件 https://github.com/flutter/plugins/tree/master/packages/url_launcher
+  url_launcher: ^6.0.3
+
+  flame: ^1.0.0-releasecandidate.16
+  flame_audio: ^1.0.0-rc.15
+  flame_splash_screen: ^0.1.0
 
 dev_dependencies:
   flutter_test:
@@ -22,3 +62,5 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+flutter_intl:
+  enabled: true
