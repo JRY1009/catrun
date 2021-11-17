@@ -66,7 +66,7 @@ class DefaultApp {
 
       await setPageCollectionModeManualWithUM();
 
-      await Flame.device.setLandscape();
+      await Flame.device.setPortrait();
       await Flame.device.fullScreen();
     }
 
@@ -106,7 +106,7 @@ class _MyAppState extends State<MyApp> {
 
           Widget child = MaterialApp(
             title: 'CatRun',
-            home: Container(color: Colours.white),
+            home: Container(color: Colours.white, child: Text('CatRun')),
             theme:  themeProvider.getThemeData(),
             darkTheme: themeProvider.getThemeData(isDarkMode: true),
             themeMode: themeProvider.getThemeMode(),
