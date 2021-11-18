@@ -27,6 +27,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "close": MessageLookupByLibrary.simpleMessage("关闭"),
         "english": MessageLookupByLibrary.simpleMessage("English"),
         "language": MessageLookupByLibrary.simpleMessage("语言"),
-        "notFoundPage": MessageLookupByLibrary.simpleMessage("页面不存在")
+        "notFoundPage": MessageLookupByLibrary.simpleMessage("页面不存在"),
+        "startGame": MessageLookupByLibrary.simpleMessage("开始游戏")
       };
 }

@@ -1,4 +1,4 @@
-import 'package:catrun/page/not_found_page.dart';
+import 'package:catrun/game/page/not_found_page.dart';
 import 'package:catrun/router/page_builder.dart';
 import 'package:catrun/router/parameters.dart';
 import 'package:catrun/utils/log_util.dart';
@@ -16,6 +16,7 @@ class Routers {
   static String webviewPage = '/webviewPage';
   static String inappWebviewPage = '/inappWebviewPage';
 
+  static String menuPage = '/menuPage';
   static String mainPage = '/mainPage';
 
 
@@ -62,7 +63,7 @@ class Routers {
   static Future navigateTo(BuildContext context, String path,
       {Parameters? parameters,
         bool clearStack = false,
-        TransitionType transition = TransitionType.cupertino}) {
+        TransitionType transition = TransitionType.fadeIn}) {
 
     var pageBuilder = pageRounters[path];
     if (pageBuilder != null) {

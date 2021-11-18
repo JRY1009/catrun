@@ -7,6 +7,7 @@ class TextStyles {
   static const String familyRuizi = 'Ruizi';
   static const String familyBlackItalic = 'BlackItalic';
 
+  static const TextStyle textMain24_w700 = TextStyle(fontSize: 24.0, color: Colours.app_main, fontWeight: FontWeight.w700, height: 1.0);
   static const TextStyle textMain16 = TextStyle(fontSize: 16.0, color: Colours.app_main, height: 1.0);
   static const TextStyle textMain16_w700 = TextStyle(fontSize: 16.0, color: Colours.app_main, fontWeight: FontWeight.w700, height: 1.0);
   static const TextStyle textMain14 = TextStyle(fontSize: 14.0, color: Colours.app_main, height: 1.0);
@@ -14,6 +15,8 @@ class TextStyles {
   static const TextStyle textMain13 = TextStyle(fontSize: 13.0, color: Colours.app_main, height: 1.0);
   static const TextStyle textMain12 = TextStyle(fontSize: 12.0, color: Colours.app_main, height: 1.0);
   static const TextStyle textMain10 = TextStyle(fontSize: 10.0, color: Colours.app_main, height: 1.0);
+
+  static const TextStyle textWhite16 = TextStyle(fontSize: 16.0, color: Colours.white, height: 1.0);
 }
 
 class BorderStyles {

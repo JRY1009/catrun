@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:catrun/game/page/menu_page.dart';
 import 'package:catrun/generated/l10n.dart';
 import 'package:catrun/global/locale_provider.dart';
 import 'package:catrun/global/theme_provider.dart';
@@ -106,7 +107,7 @@ class _MyAppState extends State<MyApp> {
 
           Widget child = MaterialApp(
             title: 'CatRun',
-            home: Container(color: Colours.white, child: Text('CatRun')),
+            home: MenuPage(),
             theme:  themeProvider.getThemeData(),
             darkTheme: themeProvider.getThemeData(isDarkMode: true),
             themeMode: themeProvider.getThemeMode(),
