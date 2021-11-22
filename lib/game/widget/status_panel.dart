@@ -1,0 +1,68 @@
+import 'package:catrun/generated/l10n.dart';
+import 'package:catrun/res/colors.dart';
+import 'package:catrun/res/styles.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
+class StatusPanel extends StatefulWidget {
+  @override
+  _StatusPanelState createState() => _StatusPanelState();
+}
+
+class _StatusPanelState extends State<StatusPanel> {
+  bool showSplash = true;
+  int currentPosition = 0;
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  Widget _buildStatus(name, value) {
+    return Container(
+      alignment: Alignment.centerLeft,
+      margin: const EdgeInsets.only(top: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
+      child: Text.rich(TextSpan(
+          children: [
+            TextSpan(text: '${name}: ', style: TextStyles.textMain14),
+            TextSpan(text: '${value}', style: TextStyles.textMain14),
+          ]
+      ),
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+
+
+    return Container(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildStatus('生命', 100),
+              _buildStatus('饱食', 100),
+              _buildStatus('攻击', 10),
+              _buildStatus('防御', 0),
+            ]
+          ),
+          Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildStatus('力量', 100),
+                _buildStatus('体格', 100),
+                _buildStatus('灵巧', 10),
+              ]
+          )
+        ],
+      ),
+    );
+  }
+
+}

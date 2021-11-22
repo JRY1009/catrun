@@ -1,5 +1,8 @@
 import 'dart:async' as async;
 
+import 'package:catrun/game/widget/action_panel.dart';
+import 'package:catrun/game/widget/status_panel.dart';
+import 'package:catrun/res/styles.dart';
 import 'package:flutter/material.dart';
 
 class MainPage extends StatefulWidget {
@@ -20,13 +23,16 @@ class _MenuState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-          ],
-        ),
+      body: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Container(
+            child: Text('第一天', style: TextStyles.textMain16)
+          ),
+          StatusPanel(),
+        ],
       ),
+      bottomNavigationBar: ActionPanel(),
     );
   }
 

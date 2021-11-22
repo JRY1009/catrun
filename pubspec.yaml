@@ -49,7 +49,8 @@ dependencies:
   dio: ^4.0.0
   # 启动URL的插件 https://github.com/flutter/plugins/tree/master/packages/url_launcher
   url_launcher: ^6.0.3
-
+  # https://github.com/aagarwal1012/Animated-Text-Kit
+  animated_text_kit: ^4.2.1
   flame: ^1.0.0-releasecandidate.16
   flame_audio: ^1.0.0-rc.15
   flame_splash_screen: ^0.1.0
