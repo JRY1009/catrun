@@ -240,15 +240,15 @@ class ScreenUtil {
 
 extension SizeExtension on num {
   ///[ScreenUtil.setWidth]
-  double get w => ScreenUtil().getWidth(this.toDouble());
+  double get w => ScreenUtil.instance().getWidth(this.toDouble());
 
   ///[ScreenUtil.setHeight]
-  double get h => ScreenUtil().getHeight(this.toDouble());
+  double get h => ScreenUtil.instance().getHeight(this.toDouble());
 
   ///[ScreenUtil.setHeight]
-  double get dp => ScreenUtil().getAdapterSize(this.toDouble());
+  double get dp => ScreenUtil.instance().getAdapterSize(this.toDouble());
 
   ///[ScreenUtil.setSp]
-  double get sp => ScreenUtil().getSp(this.toDouble());
+  double get sp => ScreenUtil.instance().getSp(this.toDouble());
 
 }

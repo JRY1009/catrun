@@ -8,7 +8,7 @@ class GradientButton extends StatefulWidget {
 
   final List<Color> colors;
   final String? text;
-  final TextStyle textStyle;
+  final TextStyle? textStyle;
   final TextStyle? disableTextStyle;
   final double? width;
   final double? height;
@@ -20,7 +20,7 @@ class GradientButton extends StatefulWidget {
     Key? key,
     required this.colors,
     this.text,
-    this.textStyle = TextStyles.textWhite16,
+    this.textStyle,
     this.disableTextStyle,
     this.width,
     this.height,
@@ -37,7 +37,7 @@ class _GradientButtonState extends State<GradientButton> {
 
   @override
   Widget build(BuildContext context) {
-    TextStyle disablStyle = widget.disableTextStyle ?? widget.textStyle;
+    TextStyle disablStyle = widget.disableTextStyle ?? widget.textStyle ?? TextStyles.textWhite16;
     return Container(
       width: widget.width,
       height: widget.height,

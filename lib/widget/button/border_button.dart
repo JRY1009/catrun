@@ -8,7 +8,7 @@ class BorderButton extends StatefulWidget {
   final Color? color;
   final Color borderColor;
   final String? text;
-  final TextStyle textStyle;
+  final TextStyle? textStyle;
   final double? width;
   final double? height;
   final Function()? onPressed;
@@ -18,7 +18,7 @@ class BorderButton extends StatefulWidget {
     required this.borderColor,
     this.color,
     this.text,
-    this.textStyle = TextStyles.textMain16,
+    this.textStyle,
     this.width,
     this.height,
     this.onPressed,
@@ -46,7 +46,7 @@ class _BorderButtonState extends State<BorderButton> {
         disabledColor: Colours.button_disabled,
         child: Text(
           widget.text ?? '',
-          style: widget.textStyle,
+          style: widget.textStyle ?? TextStyles.textMain16,
         ),
         onPressed: widget.onPressed,
       ),

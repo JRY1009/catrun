@@ -1,6 +1,7 @@
 import 'package:catrun/generated/l10n.dart';
 import 'package:catrun/res/colors.dart';
 import 'package:catrun/res/styles.dart';
+import 'package:catrun/utils/screen_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -21,8 +22,8 @@ class _StatusPanelState extends State<StatusPanel> {
   Widget _buildStatus(name, value) {
     return Container(
       alignment: Alignment.centerLeft,
-      margin: const EdgeInsets.only(top: 5),
-      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
+      margin: EdgeInsets.only(top: 5.dp),
+      padding: EdgeInsets.symmetric(horizontal: 5.dp, vertical: 3.dp),
       child: Text.rich(TextSpan(
           children: [
             TextSpan(text: '${name}: ', style: TextStyles.textMain14),

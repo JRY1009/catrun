@@ -5,6 +5,7 @@ import 'package:catrun/res/colors.dart';
 import 'package:catrun/res/gaps.dart';
 import 'package:catrun/res/styles.dart';
 import 'package:catrun/router/routers.dart';
+import 'package:catrun/utils/screen_util.dart';
 import 'package:catrun/widget/button/gradient_button.dart';
 import 'package:flame_splash_screen/flame_splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -44,9 +45,10 @@ class _MenuState extends State<MenuPage> {
             ),
             Gaps.vGap50,
             GradientButton(
-                width: 150,
-                height: 48,
+                width: 150.dp,
+                height: 48.dp,
                 text: S.of(context).startGame,
+                textStyle: TextStyles.textWhite16,
                 colors: <Color>[   //背景渐变
                   Colours.app_main,
                   Colours.app_main
@@ -60,8 +62,8 @@ class _MenuState extends State<MenuPage> {
       ),
       bottomNavigationBar: SafeArea(
         child: Container(
-          height: 20,
-          margin: EdgeInsets.all(20.0),
+          height: 20.dp,
+          margin: EdgeInsets.all(20.dp),
           child: Stack(
             children: <Widget>[
               Align(
