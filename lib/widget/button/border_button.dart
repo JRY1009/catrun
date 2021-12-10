@@ -1,5 +1,6 @@
 import 'package:catrun/res/colors.dart';
 import 'package:catrun/res/styles.dart';
+import 'package:catrun/utils/screen_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -36,12 +37,12 @@ class _BorderButtonState extends State<BorderButton> {
       width: widget.width,
       height: widget.height,
       decoration: BoxDecoration(
-        border: Border.all(color: widget.borderColor, width: 1.0),
-        borderRadius: BorderRadius.circular(15.0),   //圆角
+        border: Border.all(color: widget.borderColor, width: 1.dp),
+        borderRadius: BorderRadius.circular(10.dp),   //圆角
       ),
       child: FlatButton(
         padding: EdgeInsets.zero,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15.0))),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10.dp))),
         color: widget.color,
         disabledColor: Colours.button_disabled,
         child: Text(

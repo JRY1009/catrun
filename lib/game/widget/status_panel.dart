@@ -1,5 +1,3 @@
-import 'package:catrun/generated/l10n.dart';
-import 'package:catrun/res/colors.dart';
 import 'package:catrun/res/styles.dart';
 import 'package:catrun/utils/screen_util.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,8 +9,6 @@ class StatusPanel extends StatefulWidget {
 }
 
 class _StatusPanelState extends State<StatusPanel> {
-  bool showSplash = true;
-  int currentPosition = 0;
 
   @override
   void dispose() {
@@ -41,26 +37,32 @@ class _StatusPanelState extends State<StatusPanel> {
 
 
     return Container(
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      padding: EdgeInsets.symmetric(horizontal: 20.dp, vertical: 3.dp),
+      child: Column(
         children: [
-          Column(
+          Container(child: Text('第一天', style: TextStyles.textMain16_w700)),
+          Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildStatus('生命', 100),
-              _buildStatus('饱食', 100),
-              _buildStatus('攻击', 10),
-              _buildStatus('防御', 0),
-            ]
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildStatus('生命', 100),
+                  _buildStatus('饱食', 100),
+                  _buildStatus('攻击', 10),
+                  _buildStatus('防御', 0),
+                ]
+              ),
+              Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildStatus('力量', 100),
+                    _buildStatus('体格', 100),
+                    _buildStatus('灵巧', 10),
+                  ]
+              )
+            ],
           ),
-          Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildStatus('力量', 100),
-                _buildStatus('体格', 100),
-                _buildStatus('灵巧', 10),
-              ]
-          )
         ],
       ),
     );

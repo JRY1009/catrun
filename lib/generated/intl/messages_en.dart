@@ -25,6 +25,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "auto": MessageLookupByLibrary.simpleMessage("Auto"),
         "chinese": MessageLookupByLibrary.simpleMessage("简体中文"),
         "close": MessageLookupByLibrary.simpleMessage("close"),
+        "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
         "english": MessageLookupByLibrary.simpleMessage("English"),
         "language": MessageLookupByLibrary.simpleMessage("language"),
         "notFoundPage": MessageLookupByLibrary.simpleMessage("页面不存在"),

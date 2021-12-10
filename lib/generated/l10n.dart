@@ -130,6 +130,16 @@ class S {
     );
   }
 
+  /// `Confirm`
+  String get confirm {
+    return Intl.message(
+      'Confirm',
+      name: 'confirm',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Yali`
   String get yali {
     return Intl.message(

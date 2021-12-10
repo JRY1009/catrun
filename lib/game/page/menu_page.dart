@@ -54,7 +54,7 @@ class _MenuState extends State<MenuPage> {
                   Colours.app_main
                 ],
                 onPressed: () {
-                  Routers.navigateTo(context, Routers.mainPage);
+                  Routers.navigateTo(context, Routers.storyPage);
                 },
             )
           ],
@@ -74,13 +74,13 @@ class _MenuState extends State<MenuPage> {
                     Text('powered_by: ', style: TextStyles.textMain12),
                     InkWell(
                       onTap: () {},
-                      child: Text('惊蛰工作室', style: TextStyles.textMain14),
+                      child: Text('Unicode', style: TextStyles.textMain14),
                     )
                   ],
                 ),
               ),
               Align(
-                alignment: Alignment.bottomRight,
+                alignment: Alignment.centerRight,
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[

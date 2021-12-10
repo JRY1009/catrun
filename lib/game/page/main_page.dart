@@ -1,22 +1,29 @@
 import 'dart:async' as async;
 
-import 'package:catrun/game/widget/action_panel.dart';
+import 'package:catrun/game/widget/event_panel.dart';
 import 'package:catrun/game/widget/status_panel.dart';
-import 'package:catrun/res/styles.dart';
+import 'package:catrun/res/gaps.dart';
 import 'package:flutter/material.dart';
+
+BuildContext? sMainContext;
 
 class MainPage extends StatefulWidget {
   @override
-  _MenuState createState() => _MenuState();
+  _MainState createState() => _MainState();
 }
 
-class _MenuState extends State<MainPage> {
-  bool showSplash = true;
-  int currentPosition = 0;
+class _MainState extends State<MainPage> {
+
+  @override
+  void initState() {
+    super.initState();
+    sMainContext = context;
+  }
 
   @override
   void dispose() {
     super.dispose();
+    sMainContext = null;
   }
 
   @override
@@ -26,13 +33,11 @@ class _MenuState extends State<MainPage> {
       body: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Container(
-            child: Text('第一天', style: TextStyles.textMain16)
-          ),
+          Gaps.vGap20,
           StatusPanel(),
+          Expanded(child: EventPanel())
         ],
       ),
-      bottomNavigationBar: ActionPanel(),
     );
   }
 
