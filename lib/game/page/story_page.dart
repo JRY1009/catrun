@@ -1,5 +1,6 @@
 
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:catrun/game/config/app_config.dart';
 import 'package:catrun/game/page/main_page.dart';
 import 'package:catrun/generated/l10n.dart';
 import 'package:catrun/res/colors.dart';
@@ -51,10 +52,12 @@ class _StoryPageState extends State<StoryPage> {
   List<Widget> _buildFade(List<String> listStr) {
     return listStr.asMap().entries.map((entry) {
       return _count >= entry.key ? Container(
+        padding: EdgeInsets.symmetric(vertical: 5.dp),
         alignment: Alignment.center,
         child: AnimatedTextKit(
           totalRepeatCount: 1,
           displayFullTextOnTap: true,
+          pause: AppConfig.textPauseDuration,
           animatedTexts: [
             FadeInAnimatedText(entry.value, textStyle: TextStyles.textWhite16_w700),
           ],

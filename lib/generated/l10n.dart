@@ -159,6 +159,16 @@ class S {
       args: [],
     );
   }
+
+  /// `再按一次退出游戏`
+  String get doubleTapExit {
+    return Intl.message(
+      '再按一次退出游戏',
+      name: 'doubleTapExit',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

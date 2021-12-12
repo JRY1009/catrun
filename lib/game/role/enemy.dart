@@ -14,7 +14,7 @@ class Enemy extends Role {
       id: '1',
       name: S.current.master,
       life: 50,
-      attack: 5,
+      attack: 50,
       defence: 0,
       power: 0,
       physic: 0,

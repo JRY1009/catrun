@@ -8,7 +8,7 @@ class FadeInAnimatedText extends AnimatedText {
       String text, {
         TextAlign textAlign = TextAlign.start,
         TextStyle? textStyle,
-        Duration duration = const Duration(milliseconds: 1000),
+        Duration duration = const Duration(milliseconds: 500),
         this.fadeInEnd = 0.5,
       }) : super(
         text: text,
@@ -29,11 +29,23 @@ class FadeInAnimatedText extends AnimatedText {
     );
   }
 
+  Widget completeText(BuildContext context) => Text(
+    text,
+    textAlign: textAlign,
+    style: textStyle,
+    strutStyle: StrutStyle(forceStrutHeight: true, height:1, leading: 0.5),
+  );
+
   @override
   Widget animatedBuilder(BuildContext context, Widget? child) {
     return Opacity(
       opacity: _fadeIn.value != 1.0 ? _fadeIn.value : 1,
-      child: textWidget(text),
+      child: Text(
+        text,
+        textAlign: textAlign,
+        style: textStyle,
+        strutStyle: StrutStyle(forceStrutHeight: true, height:1, leading: 0.5),
+      ),
     );
   }
 }

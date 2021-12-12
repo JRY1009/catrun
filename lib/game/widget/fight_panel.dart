@@ -1,10 +1,12 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:catrun/game/config/app_config.dart';
 import 'package:catrun/game/manager/fight_mgr.dart';
 import 'package:catrun/game/role/enemy.dart';
 import 'package:catrun/res/colors.dart';
 import 'package:catrun/res/gaps.dart';
 import 'package:catrun/res/styles.dart';
 import 'package:catrun/utils/screen_util.dart';
+import 'package:catrun/widget/animate/type_writer_text.dart';
 import 'package:catrun/widget/button/border_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -33,8 +35,6 @@ class _FightPanelState extends State<FightPanel> {
 
   late Fight _fight;
   late Fight _enemyFight;
-
-  Duration _duration = Duration(milliseconds: 500);
 
   @override
   void initState() {
@@ -86,18 +86,19 @@ class _FightPanelState extends State<FightPanel> {
           child: AnimatedTextKit(
             totalRepeatCount: 1,
             displayFullTextOnTap: true,
+            pause: AppConfig.textPauseDuration,
             animatedTexts: [
-              TyperAnimatedText(_fight.desc, textStyle: TextStyles.textMain16_w700),
+              TypeWriterAnimatedText(_fight.desc, textStyle: TextStyles.textMain16_w700),
             ],
             onFinished: () {
               if (_fight.status == FightStatus.next) {
-                Future.delayed(_duration, () {
+                Future.delayed(AppConfig.fightDuration, () {
                   _enemyFight = FightMgr.instance()!.enemyFight();
                   startFight(enemy: true);
                 });
 
               } else if (_fight.status == FightStatus.win) {
-                Future.delayed(_duration, () {
+                Future.delayed(AppConfig.fightDuration, () {
                   if (widget.onFinish != null) {
                     widget.onFinish(
                         Fight(hert: 0,
@@ -115,13 +116,14 @@ class _FightPanelState extends State<FightPanel> {
           child: AnimatedTextKit(
             totalRepeatCount: 1,
             displayFullTextOnTap: true,
+            pause: AppConfig.textPauseDuration,
             animatedTexts: [
-              TyperAnimatedText(_enemyFight.desc, textStyle: TextStyles.textMain16_w700),
+              TypeWriterAnimatedText(_enemyFight.desc, textStyle: TextStyles.textMain16_w700),
             ],
             onFinished: () {
               _enableAction = true;
               if (_enemyFight.status == FightStatus.lose) {
-                Future.delayed(_duration, () {
+                Future.delayed(AppConfig.fightDuration, () {
                   if (widget.onFinish != null) {
                     widget.onFinish(
                         Fight(hert: 0,

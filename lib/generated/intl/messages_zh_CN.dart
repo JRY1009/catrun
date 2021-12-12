@@ -26,6 +26,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "chinese": MessageLookupByLibrary.simpleMessage("简体中文"),
         "close": MessageLookupByLibrary.simpleMessage("关闭"),
         "confirm": MessageLookupByLibrary.simpleMessage("确定"),
+        "doubleTapExit": MessageLookupByLibrary.simpleMessage("再按一次退出游戏"),
         "english": MessageLookupByLibrary.simpleMessage("English"),
         "language": MessageLookupByLibrary.simpleMessage("语言"),
         "master": MessageLookupByLibrary.simpleMessage("大魔王"),

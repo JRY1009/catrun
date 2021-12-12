@@ -1,4 +1,5 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:catrun/game/config/app_config.dart';
 import 'package:catrun/game/manager/fight_mgr.dart';
 import 'package:catrun/game/role/enemy.dart';
 import 'package:catrun/game/widget/fight_panel.dart';
@@ -7,6 +8,8 @@ import 'package:catrun/res/gaps.dart';
 import 'package:catrun/res/styles.dart';
 import 'package:catrun/utils/screen_util.dart';
 import 'package:catrun/widget/animate/fade_in_text.dart';
+import 'package:catrun/widget/animate/scale_widget.dart';
+import 'package:catrun/widget/animate/type_writer_text.dart';
 import 'package:catrun/widget/button/border_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -43,7 +46,6 @@ class EventPanelState extends State<EventPanel> {
   void startAction(int action) {
 
     setState(() {
-
       _action = action;
       _count = -1;
 
@@ -56,8 +58,7 @@ class EventPanelState extends State<EventPanel> {
     });
     
     if (action == 2) {
-
-      Future.delayed(Duration(milliseconds: 1000), () {
+      Future.delayed(Duration(milliseconds: 500), () {
         setState(() {
           _fightVisible = true;
         });
@@ -68,10 +69,12 @@ class EventPanelState extends State<EventPanel> {
   List<Widget> _buildFade(List<String> listStr) {
     return listStr.asMap().entries.map((entry) {
       return _count >= entry.key ? Container(
+        padding: EdgeInsets.symmetric(vertical: 5.dp),
         alignment: Alignment.center,
         child: AnimatedTextKit(
           totalRepeatCount: 1,
           displayFullTextOnTap: true,
+          pause: AppConfig.textPauseDuration,
           animatedTexts: [
             FadeInAnimatedText(entry.value, textStyle: TextStyles.textMain16_w700),
           ],
@@ -88,12 +91,14 @@ class EventPanelState extends State<EventPanel> {
   List<Widget> _buildTyper(List<String> listStr) {
     return listStr.asMap().entries.map((entry) {
       return _count >= entry.key ? Container(
+        padding: EdgeInsets.symmetric(vertical: 5.dp),
         alignment: Alignment.center,
         child: AnimatedTextKit(
           totalRepeatCount: 1,
           displayFullTextOnTap: true,
+          pause: AppConfig.textPauseDuration,
           animatedTexts: [
-            TyperAnimatedText(entry.value, textStyle: TextStyles.textMain16_w700),
+            TypeWriterAnimatedText(entry.value, textStyle: TextStyles.textMain16_w700),
           ],
           onFinished: () {
             setState(() {
@@ -150,22 +155,33 @@ class EventPanelState extends State<EventPanel> {
       ),
     );
 
-    return !_fightVisible ? Container(
-      padding: EdgeInsets.symmetric(horizontal: 20.dp, vertical: 20.dp),
-      child: Column(
-        children: [
-          Expanded(child: _buildEvent(_action)),
-          actionPanel
-        ],
-      ),
-    ) : FightPanel(
-      enemy: Enemy(),
-      onFinish: (result) {
-        _fightVisible = false;
-        _fightResult = result;
-        startAction(4);
-      },
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        !_fightVisible ? ScaleWidget(
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 20.dp, vertical: 20.dp),
+            child: Column(
+              children: [
+                Expanded(child: _buildEvent(_action)),
+                actionPanel
+              ],
+            ),
+          )
+        ) : Gaps.empty,
+
+        _fightVisible ? ScaleWidget(
+          child: FightPanel(
+            enemy: Enemy(),
+            onFinish: (result) {
+              _fightVisible = false;
+              _fightResult = result;
+              startAction(4);
+            },
+          ),
+        ) : Gaps.empty
+
+      ],
     );
   }
-
 }

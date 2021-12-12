@@ -9,5 +9,6 @@
   "startGame": "Start Game",
   "confirm": "Confirm",
   "yali": "Yali",
-  "master": "大魔王"
+  "master": "大魔王",
+  "doubleTapExit": "再按一次退出游戏"
 }

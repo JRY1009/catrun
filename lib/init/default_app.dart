@@ -6,20 +6,19 @@ import 'package:catrun/global/locale_provider.dart';
 import 'package:catrun/global/theme_provider.dart';
 import 'package:catrun/main_router.dart';
 import 'package:catrun/mvvm/provider_widget.dart';
-import 'package:catrun/res/colors.dart';
 import 'package:catrun/router/app_analysis.dart';
 import 'package:catrun/router/routers.dart';
 import 'package:catrun/utils/channel_util.dart';
 import 'package:catrun/utils/device_util.dart';
 import 'package:catrun/utils/log_util.dart';
 import 'package:catrun/utils/sp_util.dart';
+import 'package:catrun/utils/toast_util.dart';
 import 'package:fl_umeng/fl_umeng.dart';
 import 'package:flame/flame.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-
 
 //默认App的启动
 class DefaultApp {
@@ -43,8 +42,7 @@ class DefaultApp {
   //程序初始化操作
   static Future<void> initApp() async {
 
-    LogUtil.init(isDebug: true);
-    //JPushUtil.initPlatformState();
+    LogUtil.init(isDebug: kDebugMode);
 
     if (DeviceUtil.isAndroid) {
       // 透明状态栏
@@ -85,7 +83,6 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-
 
     Routers.init([
       MainRouter(),
@@ -141,7 +138,7 @@ class _MyAppState extends State<MyApp> {
             },
           );
 
-          return child;
+          return ToastUtil.init(child);
         }
     );
   }
