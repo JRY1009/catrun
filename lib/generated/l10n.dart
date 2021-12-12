@@ -149,6 +149,16 @@ class S {
       args: [],
     );
   }
+
+  /// `大魔王`
+  String get master {
+    return Intl.message(
+      '大魔王',
+      name: 'master',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

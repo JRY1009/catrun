@@ -8,10 +8,7 @@ class SPUtil {
 
   static const String key_theme = 'key_theme';
   static const String key_locale = 'key_locale';
-  static const String key_latest_account = 'key_latest_account';
-  static const String key_first_launch = 'key_first_launch';
-  static const String key_first_login = 'key_first_login';
-  static const String key_old_version = 'key_old_version';
+  static const String key_player = 'key_player';
 
   static SharedPreferences? _spf;
 

@@ -1,4 +1,7 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:catrun/game/manager/fight_mgr.dart';
+import 'package:catrun/game/role/enemy.dart';
+import 'package:catrun/game/widget/fight_panel.dart';
 import 'package:catrun/res/colors.dart';
 import 'package:catrun/res/gaps.dart';
 import 'package:catrun/res/styles.dart';
@@ -23,6 +26,9 @@ class EventPanelState extends State<EventPanel> {
   int _count = 0;
   int _action = 0;
   List<String> _listStr = [];
+  
+  bool _fightVisible = false;
+  Fight? _fightResult;
 
   @override
   void initState() {
@@ -48,6 +54,15 @@ class EventPanelState extends State<EventPanel> {
       });
 
     });
+    
+    if (action == 2) {
+
+      Future.delayed(Duration(milliseconds: 1000), () {
+        setState(() {
+          _fightVisible = true;
+        });
+      });
+    }
   }
 
   List<Widget> _buildFade(List<String> listStr) {
@@ -96,10 +111,14 @@ class EventPanelState extends State<EventPanel> {
       _listStr = ['锻炼事件锻炼事件锻炼事件锻炼事件1', '锻炼事件锻炼事件锻炼事件锻炼事件222222'];
       return Column(children: _buildFade(_listStr));
     } else if (_action == 2) {
-      _listStr = ['外出事件外出事件外出事件外出事件外出事件111', '外出事件外出事件外出事件2', '外出事件外出事件外出事件外出事件外出事件外出事件外出事件3'];
+      _listStr = ['遇到大魔王'];
       return Column(children: _buildTyper(_listStr));
     } else if (_action == 3) {
-      _listStr = ['休息事件111'];
+      _listStr = ['休息事件111', '休息事件2222221', '休息事件333'];
+      return Column(children: _buildTyper(_listStr));
+    } else if (_action == 4) {
+      //战斗结束
+      _listStr = [_fightResult?.desc ?? ''];
       return Column(children: _buildTyper(_listStr));
     }
 
@@ -131,7 +150,7 @@ class EventPanelState extends State<EventPanel> {
       ),
     );
 
-    return Container(
+    return !_fightVisible ? Container(
       padding: EdgeInsets.symmetric(horizontal: 20.dp, vertical: 20.dp),
       child: Column(
         children: [
@@ -139,6 +158,13 @@ class EventPanelState extends State<EventPanel> {
           actionPanel
         ],
       ),
+    ) : FightPanel(
+      enemy: Enemy(),
+      onFinish: (result) {
+        _fightVisible = false;
+        _fightResult = result;
+        startAction(4);
+      },
     );
   }
 

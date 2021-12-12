@@ -28,6 +28,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "confirm": MessageLookupByLibrary.simpleMessage("确定"),
         "english": MessageLookupByLibrary.simpleMessage("English"),
         "language": MessageLookupByLibrary.simpleMessage("语言"),
+        "master": MessageLookupByLibrary.simpleMessage("大魔王"),
         "notFoundPage": MessageLookupByLibrary.simpleMessage("页面不存在"),
         "startGame": MessageLookupByLibrary.simpleMessage("开始游戏"),
         "yali": MessageLookupByLibrary.simpleMessage("Yali")

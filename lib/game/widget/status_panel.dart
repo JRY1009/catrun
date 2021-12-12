@@ -1,3 +1,7 @@
+import 'package:catrun/game/manager/player_mgr.dart';
+import 'package:catrun/game/role/player.dart';
+import 'package:catrun/game/viewmodel/player_model.dart';
+import 'package:catrun/mvvm/provider_widget.dart';
 import 'package:catrun/res/styles.dart';
 import 'package:catrun/utils/screen_util.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,6 +13,16 @@ class StatusPanel extends StatefulWidget {
 }
 
 class _StatusPanelState extends State<StatusPanel> {
+
+  late PlayerModel _playerModel;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _playerModel = PlayerModel();
+    _playerModel.listenEvent();
+  }
 
   @override
   void dispose() {
@@ -35,37 +49,46 @@ class _StatusPanelState extends State<StatusPanel> {
   @override
   Widget build(BuildContext context) {
 
+    return ProviderWidget<PlayerModel>(
+        model: _playerModel,
+        builder: (context, model, child) {
 
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20.dp, vertical: 3.dp),
-      child: Column(
-        children: [
-          Container(child: Text('第一天', style: TextStyles.textMain16_w700)),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildStatus('生命', 100),
-                  _buildStatus('饱食', 100),
-                  _buildStatus('攻击', 10),
-                  _buildStatus('防御', 0),
-                ]
-              ),
-              Column(
+          Player? player = PlayerMgr.instance()!.getPlayer();
+
+          return Container(
+            padding: EdgeInsets.symmetric(horizontal: 20.dp, vertical: 3.dp),
+            child: Column(
+              children: [
+                Container(child: Text('第一天', style: TextStyles.textMain16_w700)),
+                Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _buildStatus('力量', 100),
-                    _buildStatus('体格', 100),
-                    _buildStatus('灵巧', 10),
-                  ]
-              )
-            ],
-          ),
-        ],
-      ),
+                    Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _buildStatus('生命', player?.life),
+                          _buildStatus('饱食', player?.hungry),
+                          _buildStatus('攻击', player?.attack),
+                          _buildStatus('防御', player?.defence),
+                        ]
+                    ),
+                    Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _buildStatus('力量', player?.power),
+                          _buildStatus('体格', player?.physic),
+                          _buildStatus('灵巧', player?.skill),
+                        ]
+                    )
+                  ],
+                ),
+              ],
+            ),
+          );
+        }
     );
+
+
   }
 
 }

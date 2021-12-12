@@ -1,5 +1,7 @@
 import 'dart:async' as async;
 
+import 'package:catrun/game/manager/player_mgr.dart';
+import 'package:catrun/game/role/player.dart';
 import 'package:catrun/game/widget/event_panel.dart';
 import 'package:catrun/game/widget/status_panel.dart';
 import 'package:catrun/res/gaps.dart';
@@ -18,6 +20,7 @@ class _MainState extends State<MainPage> {
   void initState() {
     super.initState();
     sMainContext = context;
+    PlayerMgr.instance()!.setPlayer(Player());
   }
 
   @override
