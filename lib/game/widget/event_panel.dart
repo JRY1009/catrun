@@ -1,7 +1,11 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:catrun/game/config/app_config.dart';
+import 'package:catrun/game/event/event.dart';
+import 'package:catrun/game/event/player_event.dart';
 import 'package:catrun/game/manager/fight_mgr.dart';
+import 'package:catrun/game/manager/player_mgr.dart';
 import 'package:catrun/game/role/enemy.dart';
+import 'package:catrun/game/role/player.dart';
 import 'package:catrun/game/widget/fight_panel.dart';
 import 'package:catrun/res/colors.dart';
 import 'package:catrun/res/gaps.dart';
@@ -31,7 +35,8 @@ class EventPanelState extends State<EventPanel> {
   bool _enableAction = true;
 
   List<String> _listStr = [];
-  
+
+  bool _practiceVisible = false;
   bool _fightVisible = false;
   Fight? _fightResult;
 
@@ -65,6 +70,18 @@ class EventPanelState extends State<EventPanel> {
           _fightVisible = true;
         });
       });
+    } else if (action == 101) {
+      Player? player = PlayerMgr.instance()!.getPlayer();
+      player?.power = (player.power ?? 0) + 1;
+      Event.eventBus.fire(PlayerEvent(player, PlayerEventState.update));
+    } else if (action == 102) {
+      Player? player = PlayerMgr.instance()!.getPlayer();
+      player?.physic = (player.physic ?? 0) + 1;
+      Event.eventBus.fire(PlayerEvent(player, PlayerEventState.update));
+    } else if (action == 103) {
+      Player? player = PlayerMgr.instance()!.getPlayer();
+      player?.skill = (player.skill ?? 0) + 1;
+      Event.eventBus.fire(PlayerEvent(player, PlayerEventState.update));
     }
   }
 
@@ -116,19 +133,19 @@ class EventPanelState extends State<EventPanel> {
 
   Widget _buildEvent(int action) {
 
-    if (action == 1) {
-      _listStr = ['锻炼事件锻炼事件锻炼事件锻炼事件1', '锻炼事件锻炼事件锻炼事件锻炼事件222222'];
-      return Column(children: _buildFade(_listStr));
-    } else if (_action == 2) {
+    if (_action == 2) {
       _listStr = ['遇到大魔王'];
-      return Column(children: _buildTyper(_listStr));
     } else if (_action == 3) {
       _listStr = ['休息事件111', '休息事件2222221', '休息事件333'];
-      return Column(children: _buildTyper(_listStr));
     } else if (_action == 4) {
       //战斗结束
       _listStr = [_fightResult?.desc ?? ''];
-      return Column(children: _buildTyper(_listStr));
+    } else if (action == 101) {
+      _listStr = ['力量+1'];
+    } else if (action == 102) {
+      _listStr = ['体魄+1'];
+    } else if (action == 103) {
+      _listStr = ['灵巧+1'];
     }
 
     return Column(children: _buildTyper(_listStr));
@@ -141,11 +158,24 @@ class EventPanelState extends State<EventPanel> {
       color: Colours.transparent,
       borderColor: Colours.app_main,
       onPressed: () {
-        if (!_enableAction) {
-          return;
+        if (action == 1) {
+          setState(() {
+            _practiceVisible = true;
+          });
+        } else if (action == 3) {
+
+        } else if (action == 100) {
+          setState(() {
+            _practiceVisible = false;
+          });
+        } else {
+          if (!_enableAction) {
+            return;
+          }
+          _enableAction = false;
+
+          startAction(action);
         }
-        _enableAction = false;
-        startAction(action);
       }
     );
   }
@@ -153,7 +183,7 @@ class EventPanelState extends State<EventPanel> {
   @override
   Widget build(BuildContext context) {
 
-    Widget actionPanel = Container(
+    Widget actionPanel = ScaleWidget(
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -161,6 +191,19 @@ class EventPanelState extends State<EventPanel> {
           _buildActionButton('锻炼', 1),
           _buildActionButton('外出', 2),
           _buildActionButton('休息', 3),
+        ],
+      ),
+    );
+
+    Widget practicePanel = ScaleWidget(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          _buildActionButton('返回', 100),
+          _buildActionButton('力量', 101),
+          _buildActionButton('体魄', 102),
+          _buildActionButton('灵巧', 103),
         ],
       ),
     );
@@ -174,7 +217,8 @@ class EventPanelState extends State<EventPanel> {
             child: Column(
               children: [
                 Expanded(child: _buildEvent(_action)),
-                actionPanel
+                !_practiceVisible ? actionPanel : Gaps.empty,
+                _practiceVisible ? practicePanel : Gaps.empty
               ],
             ),
           )

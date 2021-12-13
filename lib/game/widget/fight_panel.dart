@@ -6,6 +6,7 @@ import 'package:catrun/res/colors.dart';
 import 'package:catrun/res/gaps.dart';
 import 'package:catrun/res/styles.dart';
 import 'package:catrun/utils/screen_util.dart';
+import 'package:catrun/widget/animate/scale_text.dart';
 import 'package:catrun/widget/animate/type_writer_text.dart';
 import 'package:catrun/widget/button/border_button.dart';
 import 'package:catrun/widget/shake/shake_animation_controller.dart';
@@ -62,7 +63,6 @@ class _FightPanelState extends State<FightPanel> {
   }
 
   void startFight({enemy = false}) {
-
     setState(() {
       if (enemy) {
         _enemyReset = false;
@@ -85,6 +85,7 @@ class _FightPanelState extends State<FightPanel> {
   Widget _buildFight() {
     return Column(
       children: [
+        Gaps.vGap10,
         _reset ? Container(
           alignment: Alignment.center,
           child: AnimatedTextKit(
@@ -95,7 +96,8 @@ class _FightPanelState extends State<FightPanel> {
               TypeWriterAnimatedText(_fight.desc, textStyle: TextStyles.textMain16_w700),
             ],
             onFinished: () {
-              if (_fight.status == FightStatus.next) {
+              if (_fight.status == FightStatus.next ||
+                  _fight.status == FightStatus.escape_failed) {
                 Future.delayed(AppConfig.fightDuration, () {
                   _enemyFight = FightMgr.instance()!.enemyFight();
                   startFight(enemy: true);
@@ -112,10 +114,22 @@ class _FightPanelState extends State<FightPanel> {
                     );
                   }
                 });
+              } else if (_fight.status == FightStatus.escape) {
+
+                Future.delayed(AppConfig.fightDuration, () {
+                  if (widget.onFinish != null) {
+                    widget.onFinish(
+                        Fight(hert: 0,
+                            status: FightStatus.escape,
+                            desc: _fight.desc)
+                    );
+                  }
+                });
               }
             },
           ),
         ) : Gaps.empty,
+        Gaps.vGap10,
         _enemyReset ? Container(
           alignment: Alignment.center,
           child: AnimatedTextKit(
@@ -123,7 +137,7 @@ class _FightPanelState extends State<FightPanel> {
             displayFullTextOnTap: true,
             pause: AppConfig.textPauseDuration,
             animatedTexts: [
-              TypeWriterAnimatedText(_enemyFight.desc, textStyle: TextStyles.textMain16_w700),
+              ScaleInAnimatedText(_enemyFight.desc, textStyle: TextStyles.textMain16_w700),
             ],
             onFinished: () {
               _enableAction = true;
@@ -157,8 +171,13 @@ class _FightPanelState extends State<FightPanel> {
         }
 
         _enableAction = false;
+
         if (action == 1) {
           _fight = FightMgr.instance()!.fight();
+          startFight();
+
+        } else if (action == 2) {
+          _fight = FightMgr.instance()!.escape();
           startFight();
         }
       },

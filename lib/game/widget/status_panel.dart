@@ -36,7 +36,7 @@ class _StatusPanelState extends State<StatusPanel> {
       padding: EdgeInsets.symmetric(horizontal: 5.dp, vertical: 3.dp),
       child: Text.rich(TextSpan(
           children: [
-            TextSpan(text: '${name}: ', style: TextStyles.textMain14),
+            TextSpan(text: '${name} ', style: TextStyles.textMain14),
             TextSpan(text: '${value}', style: TextStyles.textMain14),
           ]
       ),
@@ -56,18 +56,29 @@ class _StatusPanelState extends State<StatusPanel> {
           Player? player = PlayerMgr.instance()!.getPlayer();
 
           return Container(
-            padding: EdgeInsets.symmetric(horizontal: 20.dp, vertical: 3.dp),
+            padding: EdgeInsets.symmetric(horizontal: 20.dp),
             child: Column(
               children: [
-                Container(child: Text('第一天', style: TextStyles.textMain16_w700)),
+                Container(
+                    padding: EdgeInsets.symmetric(vertical: 10.dp),
+                    child: Text('第一天', style: TextStyles.textMain16_w700)
+                ),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          _buildStatus('精神', player?.energy),
                           _buildStatus('生命', player?.life),
                           _buildStatus('饱食', player?.hungry),
+                        ]
+                    ),
+                    Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _buildStatus('', ''),
                           _buildStatus('攻击', player?.attack),
                           _buildStatus('防御', player?.defence),
                         ]

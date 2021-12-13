@@ -8,10 +8,12 @@ class Player extends Role {
 
   num? desc;
   num? hungry;
+  num? energy;
 
   Player({
     this.desc,
-    this.hungry = 100
+    this.hungry = 100,
+    this.energy = 10
   }) : super(
       id: '1',
       name: S.current.yali,
@@ -43,6 +45,8 @@ class Player extends Role {
     dodge = jsonMap['dodge'] ?? 0;
     props = Prop.fromJsonList(jsonMap['props']) ?? [];
 
+    hungry = jsonMap['hungry'] ?? 0;
+    energy = jsonMap['energy'] ?? 0;
   }
 
   Map<String, dynamic> toJson() {
@@ -60,6 +64,8 @@ class Player extends Role {
     jsonMap['dodge'] = this.dodge;
     jsonMap['props'] = this.props?.map((v) => v.toJson()).toList();
 
+    jsonMap['hungry'] = this.hungry;
+    jsonMap['energy'] = this.energy;
     return jsonMap;
   }
 
@@ -76,6 +82,9 @@ class Player extends Role {
     block = jsonMap['block'] ?? 0;
     dodge = jsonMap['dodge'] ?? 0;
     props = Prop.fromJsonList(jsonMap['props']) ?? [];
+
+    hungry = jsonMap['hungry'] ?? 0;
+    energy = jsonMap['energy'] ?? 0;
   }
 
   Map<String, dynamic> toLocalJson() {
@@ -93,6 +102,8 @@ class Player extends Role {
     jsonMap['dodge'] = this.dodge;
     jsonMap['props'] = this.props?.map((v) => v.toJson()).toList();
 
+    jsonMap['hungry'] = this.hungry;
+    jsonMap['energy'] = this.energy;
     return jsonMap;
   }
 

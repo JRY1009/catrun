@@ -12,6 +12,7 @@ enum FightStatus {
   lose,
   next,
   escape,
+  escape_failed,
   unknown
 }
 
@@ -42,6 +43,8 @@ class FightMgr {
   Enemy? _enemy;
 
   Enemy? getEnemy() => _enemy;
+
+  Random _random = Random();
 
   setEnemy(Enemy? enemy) {
     _enemy = enemy;
@@ -96,6 +99,33 @@ class FightMgr {
       } else {
         status = FightStatus.next;
         desc = '${_enemy?.name}对你发起了攻击，造成${hert}点伤害';
+      }
+
+      Event.eventBus.fire(PlayerEvent(player, PlayerEventState.update));
+    }
+
+    return Fight(
+        hert: hert,
+        status: status,
+        desc: desc
+    );
+  }
+
+  Fight escape() {
+    FightStatus status = FightStatus.unknown;
+    num hert = 0;
+    String desc = '';
+
+    Player? player = PlayerMgr.instance()!.getPlayer();
+    if (player != null && _enemy != null) {
+
+      bool ret = _random.nextBool();
+      if (ret) {
+        status = FightStatus.escape;
+        desc = '逃跑成功';
+      } else {
+        status = FightStatus.escape_failed;
+        desc = '逃跑失败';
       }
 
       Event.eventBus.fire(PlayerEvent(player, PlayerEventState.update));

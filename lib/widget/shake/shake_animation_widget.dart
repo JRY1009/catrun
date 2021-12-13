@@ -30,7 +30,7 @@ class ShakeAnimationWidget extends StatefulWidget {
 
   ShakeAnimationWidget(
       {required this.child,
-      this.shakeRange = 0.2,
+      this.shakeRange = 0.1,
       this.shakeCount = 0,
       this.shakeAnimationType = ShakeAnimationType.SkewShake,
       this.shakeAnimationController,
@@ -78,7 +78,7 @@ class _ShakeAnimationState extends State<ShakeAnimationWidget>
 
     ///1、创建动画控制器
     _animationController = AnimationController(
-        duration: const Duration(milliseconds: 200), vsync: this);
+        duration: const Duration(milliseconds: 100), vsync: this);
 
     ///2、创建串行动画
     _angleAnimation = TweenSequence<double>([

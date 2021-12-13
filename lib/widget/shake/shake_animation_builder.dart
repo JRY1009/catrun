@@ -82,7 +82,7 @@ class ShakeAnimationBuilder extends StatelessWidget {
         dy = animation!.value * 15;
       }
 
-      print("dx $dx dy $dy");
+      //print("dx $dx dy $dy");
 
       ///在XOY平面的平移
       return Matrix4.translationValues(dx, dy, 0);
