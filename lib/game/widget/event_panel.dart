@@ -28,6 +28,8 @@ class EventPanelState extends State<EventPanel> {
 
   int _count = 0;
   int _action = 0;
+  bool _enableAction = true;
+
   List<String> _listStr = [];
   
   bool _fightVisible = false;
@@ -79,6 +81,7 @@ class EventPanelState extends State<EventPanel> {
             FadeInAnimatedText(entry.value, textStyle: TextStyles.textMain16_w700),
           ],
           onFinished: () {
+            _enableAction = true;
             setState(() {
               _count ++;
             });
@@ -101,6 +104,7 @@ class EventPanelState extends State<EventPanel> {
             TypeWriterAnimatedText(entry.value, textStyle: TextStyles.textMain16_w700),
           ],
           onFinished: () {
+            _enableAction = true;
             setState(() {
               _count ++;
             });
@@ -136,7 +140,13 @@ class EventPanelState extends State<EventPanel> {
       textStyle: TextStyles.textMain12,
       color: Colours.transparent,
       borderColor: Colours.app_main,
-      onPressed: () => startAction(action),
+      onPressed: () {
+        if (!_enableAction) {
+          return;
+        }
+        _enableAction = false;
+        startAction(action);
+      }
     );
   }
 

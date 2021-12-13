@@ -8,6 +8,8 @@ import 'package:catrun/res/styles.dart';
 import 'package:catrun/utils/screen_util.dart';
 import 'package:catrun/widget/animate/type_writer_text.dart';
 import 'package:catrun/widget/button/border_button.dart';
+import 'package:catrun/widget/shake/shake_animation_controller.dart';
+import 'package:catrun/widget/shake/shake_animation_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -35,6 +37,8 @@ class _FightPanelState extends State<FightPanel> {
 
   late Fight _fight;
   late Fight _enemyFight;
+
+  ShakeAnimationController _shakeAnimationController = new ShakeAnimationController();
 
   @override
   void initState() {
@@ -95,6 +99,7 @@ class _FightPanelState extends State<FightPanel> {
                 Future.delayed(AppConfig.fightDuration, () {
                   _enemyFight = FightMgr.instance()!.enemyFight();
                   startFight(enemy: true);
+                  _shakeAnimationController.start();
                 });
 
               } else if (_fight.status == FightStatus.win) {
@@ -174,17 +179,23 @@ class _FightPanelState extends State<FightPanel> {
       ),
     );
 
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20.dp, vertical: 20.dp),
-      child: Column(
-        children: [
-          Container(
-            alignment: Alignment.center,
-            child: Text('${widget.enemy.name}\nhp：${widget.enemy.life}', style: TextStyles.textMain16_w700),
-          ),
-          Expanded(child: _buildFight()),
-          actionPanel
-        ],
+    return ShakeAnimationWidget(
+      shakeAnimationController: _shakeAnimationController,
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 20.dp, vertical: 20.dp),
+        child: Column(
+          children: [
+            Container(
+              alignment: Alignment.center,
+              child: Text('${widget.enemy.name}\nhp：${widget.enemy.life}',
+                style: TextStyles.textMain16_w700,
+                strutStyle: StrutStyle(forceStrutHeight: true, height:1, leading: 0.5),
+              )
+            ),
+            Expanded(child: _buildFight()),
+            actionPanel
+          ],
+        ),
       ),
     );
   }
