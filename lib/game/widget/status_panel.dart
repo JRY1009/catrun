@@ -1,6 +1,8 @@
 import 'package:catrun/game/manager/player_mgr.dart';
+import 'package:catrun/game/manager/time_mgr.dart';
 import 'package:catrun/game/role/player.dart';
 import 'package:catrun/game/viewmodel/player_model.dart';
+import 'package:catrun/game/viewmodel/time_model.dart';
 import 'package:catrun/mvvm/provider_widget.dart';
 import 'package:catrun/res/styles.dart';
 import 'package:catrun/utils/screen_util.dart';
@@ -15,13 +17,17 @@ class StatusPanel extends StatefulWidget {
 class _StatusPanelState extends State<StatusPanel> {
 
   late PlayerModel _playerModel;
+  late TimeModel _timeModel;
 
   @override
   void initState() {
     super.initState();
 
     _playerModel = PlayerModel();
-    _playerModel.listenEvent();
+    _playerModel.listenEvent(context);
+
+    _timeModel = TimeModel();
+    _timeModel.listenEvent();
   }
 
   @override
@@ -49,10 +55,12 @@ class _StatusPanelState extends State<StatusPanel> {
   @override
   Widget build(BuildContext context) {
 
-    return ProviderWidget<PlayerModel>(
-        model: _playerModel,
-        builder: (context, model, child) {
+    return ProviderWidget2<PlayerModel, TimeModel>(
+        model1: _playerModel,
+        model2: _timeModel,
+        builder: (context, model1, model2, child) {
 
+          int day = TimeMgr.instance()!.getDay();
           Player? player = PlayerMgr.instance()!.getPlayer();
 
           return Container(
@@ -61,7 +69,7 @@ class _StatusPanelState extends State<StatusPanel> {
               children: [
                 Container(
                     padding: EdgeInsets.symmetric(vertical: 10.dp),
-                    child: Text('第一天', style: TextStyles.textMain16_w700)
+                    child: Text('第${day}天', style: TextStyles.textMain16_w700)
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -71,7 +79,7 @@ class _StatusPanelState extends State<StatusPanel> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           _buildStatus('精神', player?.energy),
-                          _buildStatus('生命', player?.life),
+                          _buildStatus('生命', '${player?.life}/${player?.maxlife}'),
                           _buildStatus('饱食', player?.hungry),
                         ]
                     ),
@@ -87,7 +95,7 @@ class _StatusPanelState extends State<StatusPanel> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           _buildStatus('力量', player?.power),
-                          _buildStatus('体格', player?.physic),
+                          _buildStatus('体魄', player?.physic),
                           _buildStatus('灵巧', player?.skill),
                         ]
                     )

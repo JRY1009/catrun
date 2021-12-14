@@ -13,21 +13,20 @@ import 'package:catrun/widget/animate/scale_widget.dart';
 import 'package:catrun/widget/button/border_button.dart';
 import 'package:flutter/material.dart';
 
-class StoryPage extends StatefulWidget {
+class GameOver extends StatefulWidget {
 
-  StoryPage({
+  GameOver({
     Key? key,
   }): super(key: key);
 
   @override
-  _StoryPageState createState() => _StoryPageState();
+  _GameOverState createState() => _GameOverState();
 }
 
-class _StoryPageState extends State<StoryPage> {
+class _GameOverState extends State<GameOver> {
 
   int _count = 0;
   List<String> _listStr = [];
-  List<String> _listSelect = [];
 
   @override
   void initState() {
@@ -78,7 +77,7 @@ class _StoryPageState extends State<StoryPage> {
 
   Widget _buildStory() {
 
-    _listStr = ['故事段落故事段落故事段落故事段落1', '故事段落故事段落故事段落故事段落2222222','故事段落故事段落故事段落故事段落故事段落故事段落故事段落故事段落故事段落故事段落故事段落故事段落故事段落故事段落故事段落故事段落33333'];
+    _listStr = ['饿死了，不玩了', '游戏结束'];
 
     return Column(children: _buildFade(_listStr));
   }
@@ -91,46 +90,12 @@ class _StoryPageState extends State<StoryPage> {
         color: Colours.transparent,
         borderColor: Colours.white,
         onPressed: () {
-          if (sMainContext == null) {
-            Routers.goBack(context);
-            Routers.navigateTo(context, Routers.mainPage);
-          } else {
-            Routers.goBack(context);
-          }
+          Routers.navigateTo(context, Routers.menuPage, clearStack: true);
         },
       ),
     ) : Gaps.empty;
   }
-
-  Widget _buildSelectButtons() {
-
-    _listSelect = ['选项1', '选项2', '选项3'];
-
-    return _count >= _listStr.length ? ScaleWidget(
-      child: Column(
-        children: _listSelect.asMap().entries.map((entry) {
-          return Container(
-            margin: EdgeInsets.only(top: 10),
-            child: BorderButton(width: 108.dp, height: 36.dp,
-              text: entry.value,
-              textStyle: TextStyles.textWhite16,
-              color: Colours.transparent,
-              borderColor: Colours.white,
-              onPressed: () {
-                if (sMainContext == null) {
-                  Routers.goBack(context);
-                  Routers.navigateTo(context, Routers.mainPage);
-                } else {
-                  Routers.goBack(context);
-                }
-              },
-            ),
-          );
-        }).toList(),
-      ),
-    ) : Gaps.empty;
-  }
-
+  
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -146,7 +111,7 @@ class _StoryPageState extends State<StoryPage> {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Expanded(child: _buildStory()),
-                _buildSelectButtons()
+                _buildConfirmButton()
               ],
             ),
           ),

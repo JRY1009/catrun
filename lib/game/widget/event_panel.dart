@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:catrun/game/config/app_config.dart';
 import 'package:catrun/game/event/event.dart';
@@ -10,6 +12,7 @@ import 'package:catrun/game/widget/fight_panel.dart';
 import 'package:catrun/res/colors.dart';
 import 'package:catrun/res/gaps.dart';
 import 'package:catrun/res/styles.dart';
+import 'package:catrun/router/routers.dart';
 import 'package:catrun/utils/screen_util.dart';
 import 'package:catrun/widget/animate/fade_in_text.dart';
 import 'package:catrun/widget/animate/scale_widget.dart';
@@ -30,6 +33,7 @@ class EventPanel extends StatefulWidget {
 
 class EventPanelState extends State<EventPanel> {
 
+  Random _random = Random();
   int _count = 0;
   int _action = 0;
   bool _enableAction = true;
@@ -52,8 +56,43 @@ class EventPanelState extends State<EventPanel> {
 
   void startAction(int action) {
 
-    setState(() {
+    Player? player = PlayerMgr.instance()!.getPlayer();
+    if ((player?.energy ?? 0) <= 0) {
+      _action = 404;
+    } else {
       _action = action;
+      player?.energy = max((player.energy ?? 0) - 5, 0);
+
+      if (_action == 2) {
+        bool ret = _random.nextBool();
+        if (ret) {
+          _action = 201;
+          Future.delayed(Duration(milliseconds: 500), () {
+            setState(() {
+              _fightVisible = true;
+            });
+          });
+        } else {
+          _action = 202;
+          player?.hungry = (player.hungry ?? 0) + 20;
+        }
+      } else if (_action == 101) {
+        player?.power = (player.power ?? 0) + 1;
+        player?.attack = (player.attack ?? 0) + 2;
+      } else if (_action == 102) {
+        player?.physic = (player.physic ?? 0) + 1;
+        player?.maxlife = (player.maxlife ?? 0) + 5;
+        player?.defence = (player.defence ?? 0) + 1;
+      } else if (_action == 103) {
+        player?.skill = (player.skill ?? 0) + 1;
+        player?.attack = (player.attack ?? 0) + 1;
+        player?.defence = (player.defence ?? 0) + 1;
+      }
+
+      Event.eventBus.fire(PlayerEvent(player, PlayerEventState.update));
+    }
+
+    setState(() {
       _count = -1;
 
       Future.delayed(Duration(milliseconds: 100), () {
@@ -63,26 +102,21 @@ class EventPanelState extends State<EventPanel> {
       });
 
     });
-    
-    if (action == 2) {
-      Future.delayed(Duration(milliseconds: 500), () {
+  }
+
+  void startDisplayAction(int action) {
+
+    _action = action;
+    setState(() {
+      _count = -1;
+
+      Future.delayed(Duration(milliseconds: 100), () {
         setState(() {
-          _fightVisible = true;
+          _count = 0;
         });
       });
-    } else if (action == 101) {
-      Player? player = PlayerMgr.instance()!.getPlayer();
-      player?.power = (player.power ?? 0) + 1;
-      Event.eventBus.fire(PlayerEvent(player, PlayerEventState.update));
-    } else if (action == 102) {
-      Player? player = PlayerMgr.instance()!.getPlayer();
-      player?.physic = (player.physic ?? 0) + 1;
-      Event.eventBus.fire(PlayerEvent(player, PlayerEventState.update));
-    } else if (action == 103) {
-      Player? player = PlayerMgr.instance()!.getPlayer();
-      player?.skill = (player.skill ?? 0) + 1;
-      Event.eventBus.fire(PlayerEvent(player, PlayerEventState.update));
-    }
+
+    });
   }
 
   List<Widget> _buildFade(List<String> listStr) {
@@ -133,19 +167,23 @@ class EventPanelState extends State<EventPanel> {
 
   Widget _buildEvent(int action) {
 
-    if (_action == 2) {
+    if (_action == 404) {
+      _listStr = ['精神不足，该休息了'];
+    } else if (_action == 201) {
       _listStr = ['遇到大魔王'];
+    } else if (_action == 202) {
+      _listStr = ['捡到剩饭，饱食度+20'];
     } else if (_action == 3) {
-      _listStr = ['休息事件111', '休息事件2222221', '休息事件333'];
+      _listStr = [''];
     } else if (_action == 4) {
       //战斗结束
       _listStr = [_fightResult?.desc ?? ''];
     } else if (action == 101) {
-      _listStr = ['力量+1'];
+      _listStr = ['力量+1，攻击力+2'];
     } else if (action == 102) {
-      _listStr = ['体魄+1'];
+      _listStr = ['体魄+1，生命值上限+5，防御力+1'];
     } else if (action == 103) {
-      _listStr = ['灵巧+1'];
+      _listStr = ['灵巧+1，攻击力+1，防御力+1'];
     }
 
     return Column(children: _buildTyper(_listStr));
@@ -163,6 +201,8 @@ class EventPanelState extends State<EventPanel> {
             _practiceVisible = true;
           });
         } else if (action == 3) {
+          startDisplayAction(action);
+          Routers.navigateTo(context, Routers.timePage);
 
         } else if (action == 100) {
           setState(() {
@@ -230,7 +270,7 @@ class EventPanelState extends State<EventPanel> {
             onFinish: (result) {
               _fightVisible = false;
               _fightResult = result;
-              startAction(4);
+              startDisplayAction(4);
             },
           ),
         ) : Gaps.empty

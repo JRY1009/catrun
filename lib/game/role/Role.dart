@@ -7,6 +7,7 @@ class Role {
   String? id;
   String? name;
   num? life;    //生命
+  num? maxlife; //最大生命
   num? attack;  //攻击
   num? defence; //防御
   num? power;   //力量
@@ -22,6 +23,7 @@ class Role {
     this.id,
     this.name,
     this.life,
+    this.maxlife,
     this.attack,
     this.defence,
     this.power,

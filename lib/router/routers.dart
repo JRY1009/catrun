@@ -19,6 +19,8 @@ class Routers {
   static String menuPage = '/menuPage';
   static String mainPage = '/mainPage';
   static String storyPage = '/storyPage';
+  static String timePage = '/timePage';
+  static String gameOver = '/gameOver';
 
 
   static void init(List<IRouter> listRouter) {

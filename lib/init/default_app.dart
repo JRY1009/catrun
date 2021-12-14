@@ -58,8 +58,8 @@ class DefaultApp {
       String channel = await ChannelUtil.getChannel();
 
       await initWithUM(
-          androidAppKey: '607552ba5844f15425d14f03',
-          iosAppKey: '6075530a5844f15425d151b2',
+          androidAppKey: '5fa62c2745b2b751a925bf49',
+          iosAppKey: '5fa62c921c520d3073a2536f',
           channel: channel
       );
 

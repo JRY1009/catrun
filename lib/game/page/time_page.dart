@@ -1,7 +1,13 @@
 
+import 'dart:math';
+
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:catrun/game/config/app_config.dart';
-import 'package:catrun/game/page/main_page.dart';
+import 'package:catrun/game/event/event.dart';
+import 'package:catrun/game/event/player_event.dart';
+import 'package:catrun/game/manager/player_mgr.dart';
+import 'package:catrun/game/manager/time_mgr.dart';
+import 'package:catrun/game/role/player.dart';
 import 'package:catrun/generated/l10n.dart';
 import 'package:catrun/res/colors.dart';
 import 'package:catrun/res/gaps.dart';
@@ -13,25 +19,32 @@ import 'package:catrun/widget/animate/scale_widget.dart';
 import 'package:catrun/widget/button/border_button.dart';
 import 'package:flutter/material.dart';
 
-class StoryPage extends StatefulWidget {
+class TimePage extends StatefulWidget {
 
-  StoryPage({
+  TimePage({
     Key? key,
   }): super(key: key);
 
   @override
-  _StoryPageState createState() => _StoryPageState();
+  _TimePageState createState() => _TimePageState();
 }
 
-class _StoryPageState extends State<StoryPage> {
+class _TimePageState extends State<TimePage> {
 
   int _count = 0;
   List<String> _listStr = [];
-  List<String> _listSelect = [];
 
   @override
   void initState() {
     super.initState();
+    TimeMgr.instance()!.nextDay();
+    Player? player = PlayerMgr.instance()!.getPlayer();
+    player?.energy = 10;
+    player?.hungry = max((player.hungry ?? 0) - 20, 0);
+    player?.life = min((player.life ?? 0) + 50, player.maxlife ?? 0);
+
+    Event.eventBus.fire(PlayerEvent(player, PlayerEventState.update));
+
     startAction();
   }
 
@@ -78,7 +91,10 @@ class _StoryPageState extends State<StoryPage> {
 
   Widget _buildStory() {
 
-    _listStr = ['故事段落故事段落故事段落故事段落1', '故事段落故事段落故事段落故事段落2222222','故事段落故事段落故事段落故事段落故事段落故事段落故事段落故事段落故事段落故事段落故事段落故事段落故事段落故事段落故事段落故事段落33333'];
+    int day = TimeMgr.instance()!.getDay();
+    Player? player = PlayerMgr.instance()!.getPlayer();
+
+    _listStr = ['第${day}天', '生命值：${player?.life}\n饱食度：${player?.hungry}\n生命值+50，饱食度-20',];
 
     return Column(children: _buildFade(_listStr));
   }
@@ -91,42 +107,14 @@ class _StoryPageState extends State<StoryPage> {
         color: Colours.transparent,
         borderColor: Colours.white,
         onPressed: () {
-          if (sMainContext == null) {
-            Routers.goBack(context);
-            Routers.navigateTo(context, Routers.mainPage);
+
+          Player? player = PlayerMgr.instance()!.getPlayer();
+          if ((player?.hungry ?? 0) <= 0) {
+            Routers.navigateTo(this.context, Routers.gameOver);
           } else {
             Routers.goBack(context);
           }
         },
-      ),
-    ) : Gaps.empty;
-  }
-
-  Widget _buildSelectButtons() {
-
-    _listSelect = ['选项1', '选项2', '选项3'];
-
-    return _count >= _listStr.length ? ScaleWidget(
-      child: Column(
-        children: _listSelect.asMap().entries.map((entry) {
-          return Container(
-            margin: EdgeInsets.only(top: 10),
-            child: BorderButton(width: 108.dp, height: 36.dp,
-              text: entry.value,
-              textStyle: TextStyles.textWhite16,
-              color: Colours.transparent,
-              borderColor: Colours.white,
-              onPressed: () {
-                if (sMainContext == null) {
-                  Routers.goBack(context);
-                  Routers.navigateTo(context, Routers.mainPage);
-                } else {
-                  Routers.goBack(context);
-                }
-              },
-            ),
-          );
-        }).toList(),
       ),
     ) : Gaps.empty;
   }
@@ -146,7 +134,7 @@ class _StoryPageState extends State<StoryPage> {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Expanded(child: _buildStory()),
-                _buildSelectButtons()
+                _buildConfirmButton()
               ],
             ),
           ),

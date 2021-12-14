@@ -21,17 +21,17 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-        "appName": MessageLookupByLibrary.simpleMessage("CatRun"),
-        "auto": MessageLookupByLibrary.simpleMessage("Auto"),
+        "appName": MessageLookupByLibrary.simpleMessage("小咪快跑"),
+        "auto": MessageLookupByLibrary.simpleMessage("系统默认"),
         "chinese": MessageLookupByLibrary.simpleMessage("简体中文"),
-        "close": MessageLookupByLibrary.simpleMessage("close"),
-        "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
+        "close": MessageLookupByLibrary.simpleMessage("关闭"),
+        "confirm": MessageLookupByLibrary.simpleMessage("确定"),
         "doubleTapExit": MessageLookupByLibrary.simpleMessage("再按一次退出游戏"),
         "english": MessageLookupByLibrary.simpleMessage("English"),
-        "language": MessageLookupByLibrary.simpleMessage("language"),
+        "language": MessageLookupByLibrary.simpleMessage("语言"),
         "master": MessageLookupByLibrary.simpleMessage("大魔王"),
         "notFoundPage": MessageLookupByLibrary.simpleMessage("页面不存在"),
-        "startGame": MessageLookupByLibrary.simpleMessage("Start Game"),
+        "startGame": MessageLookupByLibrary.simpleMessage("开始游戏"),
         "yali": MessageLookupByLibrary.simpleMessage("Yali")
       };
 }

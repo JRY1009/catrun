@@ -16,6 +16,8 @@ class TextStyles {
   static TextStyle textMain12 = TextStyle(fontSize: 12.sp, color: Colours.app_main, height: 1.0);
   static TextStyle textMain10 = TextStyle(fontSize: 10.sp, color: Colours.app_main, height: 1.0);
 
+  static TextStyle textGray600_32_w700 = TextStyle(fontSize: 32.sp, color: Colours.gray_600, fontWeight: FontWeight.w700, height: 1.0);
+
   static TextStyle textWhite16 = TextStyle(fontSize: 16.sp, color: Colours.white, height: 1.0);
   static TextStyle textWhite16_w700 = TextStyle(fontSize: 16.sp, color: Colours.white, fontWeight: FontWeight.w700, height: 1.0);
 }

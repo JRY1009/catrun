@@ -1,11 +1,13 @@
 import 'dart:async' as async;
 
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:catrun/generated/l10n.dart';
 import 'package:catrun/res/colors.dart';
 import 'package:catrun/res/gaps.dart';
 import 'package:catrun/res/styles.dart';
 import 'package:catrun/router/routers.dart';
 import 'package:catrun/utils/screen_util.dart';
+import 'package:catrun/widget/animate/color_text.dart';
 import 'package:catrun/widget/button/gradient_button.dart';
 import 'package:flame_splash_screen/flame_splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -100,13 +102,40 @@ class _MenuState extends State<MenuPage> {
   }
 
   Widget buildSplash() {
-    return FlameSplashScreen(
-      theme: FlameSplashTheme.white,
-      onFinish: (BuildContext context) {
-        setState(() {
-          showSplash = false;
-        });
-      },
+    // return FlameSplashScreen(
+    //   theme: FlameSplashTheme.white,
+    //   onFinish: (BuildContext context) {
+    //     setState(() {
+    //       showSplash = false;
+    //     });
+    //   },
+    // );
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Container(
+        alignment: Alignment.center,
+        child: AnimatedTextKit(
+          totalRepeatCount: 1,
+          animatedTexts: [
+            ColorAnimatedText(
+              S.of(context).appName,
+              textStyle: TextStyles.textGray600_32_w700,
+              speed: Duration(milliseconds: 500),
+              colors: [
+                Colours.gray_600,
+                Colours.gray_200,
+                Colours.gray_500,
+                Colours.app_main,
+              ],
+            ),
+          ],
+          onFinished: () {
+            setState(() {
+              showSplash = false;
+            });
+          },
+        ),
+      ),
     );
   }
 }

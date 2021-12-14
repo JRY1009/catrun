@@ -50,30 +50,30 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
-  /// `CatRun`
+  /// `小咪快跑`
   String get appName {
     return Intl.message(
-      'CatRun',
+      '小咪快跑',
       name: 'appName',
       desc: '',
       args: [],
     );
   }
 
-  /// `close`
+  /// `关闭`
   String get close {
     return Intl.message(
-      'close',
+      '关闭',
       name: 'close',
       desc: '',
       args: [],
     );
   }
 
-  /// `language`
+  /// `语言`
   String get language {
     return Intl.message(
-      'language',
+      '语言',
       name: 'language',
       desc: '',
       args: [],
@@ -100,10 +100,10 @@ class S {
     );
   }
 
-  /// `Auto`
+  /// `系统默认`
   String get auto {
     return Intl.message(
-      'Auto',
+      '系统默认',
       name: 'auto',
       desc: '',
       args: [],
@@ -120,20 +120,20 @@ class S {
     );
   }
 
-  /// `Start Game`
+  /// `开始游戏`
   String get startGame {
     return Intl.message(
-      'Start Game',
+      '开始游戏',
       name: 'startGame',
       desc: '',
       args: [],
     );
   }
 
-  /// `Confirm`
+  /// `确定`
   String get confirm {
     return Intl.message(
-      'Confirm',
+      '确定',
       name: 'confirm',
       desc: '',
       args: [],

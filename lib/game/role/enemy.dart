@@ -14,7 +14,8 @@ class Enemy extends Role {
       id: '1',
       name: S.current.master,
       life: 50,
-      attack: 50,
+      maxlife: 50,
+      attack: 20,
       defence: 0,
       power: 0,
       physic: 0,
@@ -31,6 +32,7 @@ class Enemy extends Role {
     id = jsonMap['id'] ?? '';
     name = jsonMap['name'] ?? '';
     life = jsonMap['life'] ?? 0;
+    maxlife = jsonMap['maxlife'] ?? 0;
     attack = jsonMap['attack'] ?? 0;
     defence = jsonMap['defence'] ?? 0;
     power = jsonMap['power'] ?? 0;
@@ -48,6 +50,7 @@ class Enemy extends Role {
     jsonMap['id'] = this.id;
     jsonMap['name'] = this.name;
     jsonMap['life'] = this.life;
+    jsonMap['maxlife'] = this.maxlife;
     jsonMap['attack'] = this.attack;
     jsonMap['defence'] = this.defence;
     jsonMap['power'] = this.power;
