@@ -169,6 +169,176 @@ class S {
       args: [],
     );
   }
+
+  /// `返回`
+  String get back {
+    return Intl.message(
+      '返回',
+      name: 'back',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `锻炼`
+  String get practice {
+    return Intl.message(
+      '锻炼',
+      name: 'practice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `外出`
+  String get goOut {
+    return Intl.message(
+      '外出',
+      name: 'goOut',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `休息`
+  String get rest {
+    return Intl.message(
+      '休息',
+      name: 'rest',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `生命值`
+  String get life {
+    return Intl.message(
+      '生命值',
+      name: 'life',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `饱食度`
+  String get hungry {
+    return Intl.message(
+      '饱食度',
+      name: 'hungry',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `精神`
+  String get energy {
+    return Intl.message(
+      '精神',
+      name: 'energy',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `攻击`
+  String get attack {
+    return Intl.message(
+      '攻击',
+      name: 'attack',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `防御`
+  String get defence {
+    return Intl.message(
+      '防御',
+      name: 'defence',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `力量`
+  String get power {
+    return Intl.message(
+      '力量',
+      name: 'power',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `体魄`
+  String get physic {
+    return Intl.message(
+      '体魄',
+      name: 'physic',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `灵巧`
+  String get skill {
+    return Intl.message(
+      '灵巧',
+      name: 'skill',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `暴击`
+  String get explosion {
+    return Intl.message(
+      '暴击',
+      name: 'explosion',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `格挡`
+  String get block {
+    return Intl.message(
+      '格挡',
+      name: 'block',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `闪避`
+  String get dodge {
+    return Intl.message(
+      '闪避',
+      name: 'dodge',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `物品`
+  String get props {
+    return Intl.message(
+      '物品',
+      name: 'props',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `逃跑`
+  String get escape {
+    return Intl.message(
+      '逃跑',
+      name: 'escape',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

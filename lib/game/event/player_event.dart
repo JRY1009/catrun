@@ -1,6 +1,7 @@
 
 
-import 'package:catrun/game/role/player.dart';
+
+import 'package:catrun/game/model/player.dart';
 
 class PlayerEvent {
   Player? player;

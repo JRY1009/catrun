@@ -1,5 +1,5 @@
 
-import 'package:catrun/game/prop/prop.dart';
+import 'package:catrun/game/model/prop.dart';
 import 'package:catrun/generated/l10n.dart';
 
 import 'Role.dart';

@@ -4,8 +4,8 @@ import 'dart:math';
 import 'package:catrun/game/event/event.dart';
 import 'package:catrun/game/event/player_event.dart';
 import 'package:catrun/game/manager/player_mgr.dart';
-import 'package:catrun/game/role/enemy.dart';
-import 'package:catrun/game/role/player.dart';
+import 'package:catrun/game/model/enemy.dart';
+import 'package:catrun/game/model/player.dart';
 
 enum FightStatus {
   win,

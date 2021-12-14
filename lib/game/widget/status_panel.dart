@@ -1,8 +1,9 @@
 import 'package:catrun/game/manager/player_mgr.dart';
 import 'package:catrun/game/manager/time_mgr.dart';
-import 'package:catrun/game/role/player.dart';
+import 'package:catrun/game/model/player.dart';
 import 'package:catrun/game/viewmodel/player_model.dart';
 import 'package:catrun/game/viewmodel/time_model.dart';
+import 'package:catrun/generated/l10n.dart';
 import 'package:catrun/mvvm/provider_widget.dart';
 import 'package:catrun/res/styles.dart';
 import 'package:catrun/utils/screen_util.dart';
@@ -78,25 +79,25 @@ class _StatusPanelState extends State<StatusPanel> {
                     Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          _buildStatus('精神', player?.energy),
-                          _buildStatus('生命', '${player?.life}/${player?.maxlife}'),
-                          _buildStatus('饱食', player?.hungry),
+                          _buildStatus(S.of(context).energy, player?.energy),
+                          _buildStatus(S.of(context).life, '${player?.life}/${player?.maxlife}'),
+                          _buildStatus(S.of(context).hungry, player?.hungry),
                         ]
                     ),
                     Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           _buildStatus('', ''),
-                          _buildStatus('攻击', player?.attack),
-                          _buildStatus('防御', player?.defence),
+                          _buildStatus(S.of(context).attack, player?.attack),
+                          _buildStatus(S.of(context).defence, player?.defence),
                         ]
                     ),
                     Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          _buildStatus('力量', player?.power),
-                          _buildStatus('体魄', player?.physic),
-                          _buildStatus('灵巧', player?.skill),
+                          _buildStatus(S.of(context).power, player?.power),
+                          _buildStatus(S.of(context).physic, player?.physic),
+                          _buildStatus(S.of(context).skill, player?.skill),
                         ]
                     )
                   ],

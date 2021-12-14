@@ -1,6 +1,6 @@
 
 import 'package:catrun/game/manager/player_mgr.dart';
-import 'package:catrun/game/role/player.dart';
+import 'package:catrun/game/model/player.dart';
 import 'package:catrun/game/widget/event_panel.dart';
 import 'package:catrun/game/widget/status_panel.dart';
 import 'package:catrun/res/gaps.dart';

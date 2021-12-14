@@ -1,6 +1,7 @@
 import 'dart:async' as async;
 
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:catrun/game/manager/action_mgr.dart';
 import 'package:catrun/generated/l10n.dart';
 import 'package:catrun/res/colors.dart';
 import 'package:catrun/res/gaps.dart';
@@ -19,7 +20,12 @@ class MenuPage extends StatefulWidget {
 
 class _MenuState extends State<MenuPage> {
   bool showSplash = true;
-  int currentPosition = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    ActionMgr.instance()!.loadActions();
+  }
 
   @override
   void dispose() {

@@ -3,11 +3,9 @@ import 'dart:math';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:catrun/game/config/app_config.dart';
-import 'package:catrun/game/event/event.dart';
-import 'package:catrun/game/event/player_event.dart';
 import 'package:catrun/game/manager/player_mgr.dart';
 import 'package:catrun/game/manager/time_mgr.dart';
-import 'package:catrun/game/role/player.dart';
+import 'package:catrun/game/model/player.dart';
 import 'package:catrun/generated/l10n.dart';
 import 'package:catrun/res/colors.dart';
 import 'package:catrun/res/gaps.dart';
@@ -38,12 +36,6 @@ class _TimePageState extends State<TimePage> {
   void initState() {
     super.initState();
     TimeMgr.instance()!.nextDay();
-    Player? player = PlayerMgr.instance()!.getPlayer();
-    player?.energy = 10;
-    player?.hungry = max((player.hungry ?? 0) - 20, 0);
-    player?.life = min((player.life ?? 0) + 50, player.maxlife ?? 0);
-
-    Event.eventBus.fire(PlayerEvent(player, PlayerEventState.update));
 
     startAction();
   }

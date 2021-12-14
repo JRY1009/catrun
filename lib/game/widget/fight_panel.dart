@@ -1,7 +1,8 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:catrun/game/config/app_config.dart';
 import 'package:catrun/game/manager/fight_mgr.dart';
-import 'package:catrun/game/role/enemy.dart';
+import 'package:catrun/game/model/enemy.dart';
+import 'package:catrun/generated/l10n.dart';
 import 'package:catrun/res/colors.dart';
 import 'package:catrun/res/gaps.dart';
 import 'package:catrun/res/styles.dart';
@@ -192,8 +193,8 @@ class _FightPanelState extends State<FightPanel> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          _buildActionButton('攻击', 1),
-          _buildActionButton('逃跑', 2),
+          _buildActionButton(S.of(context).attack, 1),
+          _buildActionButton(S.of(context).escape, 2),
         ],
       ),
     );

@@ -4,11 +4,14 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:catrun/game/config/app_config.dart';
 import 'package:catrun/game/event/event.dart';
 import 'package:catrun/game/event/player_event.dart';
+import 'package:catrun/game/manager/action_mgr.dart';
 import 'package:catrun/game/manager/fight_mgr.dart';
 import 'package:catrun/game/manager/player_mgr.dart';
-import 'package:catrun/game/role/enemy.dart';
-import 'package:catrun/game/role/player.dart';
+import 'package:catrun/game/model/enemy.dart';
+import 'package:catrun/game/model/player.dart';
+import 'package:catrun/game/model/action.dart';
 import 'package:catrun/game/widget/fight_panel.dart';
+import 'package:catrun/generated/l10n.dart';
 import 'package:catrun/res/colors.dart';
 import 'package:catrun/res/gaps.dart';
 import 'package:catrun/res/styles.dart';
@@ -18,8 +21,7 @@ import 'package:catrun/widget/animate/fade_in_text.dart';
 import 'package:catrun/widget/animate/scale_widget.dart';
 import 'package:catrun/widget/animate/type_writer_text.dart';
 import 'package:catrun/widget/button/border_button.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Action;
 
 class EventPanel extends StatefulWidget {
 
@@ -35,10 +37,9 @@ class EventPanelState extends State<EventPanel> {
 
   Random _random = Random();
   int _count = 0;
-  int _action = 0;
+  Action? _action;
   bool _enableAction = true;
 
-  List<String> _listStr = [];
 
   bool _practiceVisible = false;
   bool _fightVisible = false;
@@ -54,39 +55,30 @@ class EventPanelState extends State<EventPanel> {
     super.dispose();
   }
 
-  void startAction(int action) {
+  void startAction(Action? action) {
 
     Player? player = PlayerMgr.instance()!.getPlayer();
     if ((player?.energy ?? 0) <= 0) {
-      _action = 404;
+      _action = ActionMgr.instance()!.getAction(Action.id_act_rest_need);
     } else {
       _action = action;
       player?.energy = max((player.energy ?? 0) - 5, 0);
 
-      if (_action == 2) {
+      if (_action?.id == 2) {
         bool ret = _random.nextBool();
         if (ret) {
-          _action = 201;
+          _action!.id = 201;
           Future.delayed(Duration(milliseconds: 500), () {
             setState(() {
               _fightVisible = true;
             });
           });
         } else {
-          _action = 202;
+          _action!.id = 202;
           player?.hungry = (player.hungry ?? 0) + 20;
         }
-      } else if (_action == 101) {
-        player?.power = (player.power ?? 0) + 1;
-        player?.attack = (player.attack ?? 0) + 2;
-      } else if (_action == 102) {
-        player?.physic = (player.physic ?? 0) + 1;
-        player?.maxlife = (player.maxlife ?? 0) + 5;
-        player?.defence = (player.defence ?? 0) + 1;
-      } else if (_action == 103) {
-        player?.skill = (player.skill ?? 0) + 1;
-        player?.attack = (player.attack ?? 0) + 1;
-        player?.defence = (player.defence ?? 0) + 1;
+      } else {
+        PlayerMgr.instance()!.makeDiffs(action?.diffs ?? []);
       }
 
       Event.eventBus.fire(PlayerEvent(player, PlayerEventState.update));
@@ -104,7 +96,7 @@ class EventPanelState extends State<EventPanel> {
     });
   }
 
-  void startDisplayAction(int action) {
+  void startDisplayAction(Action? action) {
 
     _action = action;
     setState(() {
@@ -165,49 +157,34 @@ class EventPanelState extends State<EventPanel> {
     }).toList();
   }
 
-  Widget _buildEvent(int action) {
+  Widget _buildEvent() {
 
-    if (_action == 404) {
-      _listStr = ['精神不足，该休息了'];
-    } else if (_action == 201) {
-      _listStr = ['遇到大魔王'];
-    } else if (_action == 202) {
-      _listStr = ['捡到剩饭，饱食度+20'];
-    } else if (_action == 3) {
-      _listStr = [''];
-    } else if (_action == 4) {
-      //战斗结束
-      _listStr = [_fightResult?.desc ?? ''];
-    } else if (action == 101) {
-      _listStr = ['力量+1，攻击力+2'];
-    } else if (action == 102) {
-      _listStr = ['体魄+1，生命值上限+5，防御力+1'];
-    } else if (action == 103) {
-      _listStr = ['灵巧+1，攻击力+1，防御力+1'];
+    List<String> listStr = [''];
+    if (_action?.id == Action.id_act_fight_finish) {
+      listStr = [_fightResult?.desc ?? ''];
+    } else {
+      listStr = _action?.desc ?? [''];
     }
 
-    return Column(children: _buildTyper(_listStr));
+    return Column(children: _buildTyper(listStr));
   }
 
-  Widget _buildActionButton(String name, int action) {
+  Widget _buildActionButton(Action? action) {
     return BorderButton(width: 72.dp, height: 28.dp,
-      text: name,
+      text: action?.name,
       textStyle: TextStyles.textMain12,
       color: Colours.transparent,
       borderColor: Colours.app_main,
       onPressed: () {
-        if (action == 1) {
-          setState(() {
-            _practiceVisible = true;
-          });
-        } else if (action == 3) {
+        if (action?.id == Action.id_act_practice) {
+          setState(() { _practiceVisible = true; });
+        } else if (action?.id == Action.id_act_back) {
+          setState(() { _practiceVisible = false; });
+
+        } else if (action?.id == Action.id_act_rest) {
           startDisplayAction(action);
           Routers.navigateTo(context, Routers.timePage);
 
-        } else if (action == 100) {
-          setState(() {
-            _practiceVisible = false;
-          });
         } else {
           if (!_enableAction) {
             return;
@@ -228,9 +205,9 @@ class EventPanelState extends State<EventPanel> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          _buildActionButton('锻炼', 1),
-          _buildActionButton('外出', 2),
-          _buildActionButton('休息', 3),
+          _buildActionButton(ActionMgr.instance()!.getAction(Action.id_act_practice)),
+          _buildActionButton(ActionMgr.instance()!.getAction(Action.id_act_goout)),
+          _buildActionButton(ActionMgr.instance()!.getAction(Action.id_act_rest)),
         ],
       ),
     );
@@ -240,10 +217,10 @@ class EventPanelState extends State<EventPanel> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          _buildActionButton('返回', 100),
-          _buildActionButton('力量', 101),
-          _buildActionButton('体魄', 102),
-          _buildActionButton('灵巧', 103),
+          _buildActionButton(ActionMgr.instance()!.getAction(Action.id_act_back)),
+          _buildActionButton(ActionMgr.instance()!.getAction(Action.id_act_power)),
+          _buildActionButton(ActionMgr.instance()!.getAction(Action.id_act_physic)),
+          _buildActionButton(ActionMgr.instance()!.getAction(Action.id_act_skill)),
         ],
       ),
     );
@@ -256,7 +233,7 @@ class EventPanelState extends State<EventPanel> {
             padding: EdgeInsets.symmetric(horizontal: 20.dp, vertical: 20.dp),
             child: Column(
               children: [
-                Expanded(child: _buildEvent(_action)),
+                Expanded(child: _buildEvent()),
                 !_practiceVisible ? actionPanel : Gaps.empty,
                 _practiceVisible ? practicePanel : Gaps.empty
               ],
@@ -270,7 +247,7 @@ class EventPanelState extends State<EventPanel> {
             onFinish: (result) {
               _fightVisible = false;
               _fightResult = result;
-              startDisplayAction(4);
+              startDisplayAction(ActionMgr.instance()!.getAction(Action.id_act_fight_finish));
             },
           ),
         ) : Gaps.empty

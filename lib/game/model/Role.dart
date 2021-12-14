@@ -1,6 +1,5 @@
 
-
-import 'package:catrun/game/prop/prop.dart';
+import 'package:catrun/game/model/prop.dart';
 
 class Role {
 

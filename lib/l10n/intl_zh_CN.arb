@@ -10,5 +10,22 @@
   "confirm": "确定",
   "yali": "Yali",
   "master": "大魔王",
-  "doubleTapExit": "再按一次退出游戏"
+  "doubleTapExit": "再按一次退出游戏",
+  "back": "返回",
+  "practice": "锻炼",
+  "goOut": "外出",
+  "rest": "休息",
+  "life": "生命值",
+  "hungry": "饱食度",
+  "energy": "精神",
+  "attack": "攻击",
+  "defence": "防御",
+  "power": "力量",
+  "physic": "体魄",
+  "skill": "灵巧",
+  "explosion": "暴击",
+  "block": "格挡",
+  "dodge": "闪避",
+  "props": "物品",
+  "escape": "逃跑"
 }

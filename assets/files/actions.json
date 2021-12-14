@@ -1,0 +1,101 @@
+{
+	"actions": [
+		{
+			"id": 1,
+			"name": "锻炼",
+			"desc": [
+				""
+			]
+		},
+		{
+			"id": 2,
+			"name": "外出",
+			"desc": [
+				""
+			]
+		},
+		{
+			"id": 3,
+			"name": "休息",
+			"desc": [
+				""
+			]
+		},
+		{
+			"id": 100,
+			"name": "返回",
+			"desc": [
+				""
+			]
+		},
+		{
+			"id": 101,
+			"name": "力量",
+			"desc": [
+				"力量+1，攻击力+2"
+			],
+			"diffs": [
+				{
+					"diff": 1,
+					"property": "power"
+				},
+				{
+					"diff": 2,
+					"property": "attack"
+				}
+			]
+		},
+		{
+			"id": 102,
+			"name": "体魄",
+			"desc": [
+				"体魄+1，生命值上限+5，防御力+1"
+			],
+			"diffs": [
+				{
+					"diff": 5,
+					"property": "maxlife"
+				},
+				{
+					"diff": 1,
+					"property": "defence"
+				}
+			]
+		},
+		{
+			"id": 103,
+			"name": "灵巧",
+			"desc": [
+				"灵巧+1，攻击力+1，防御力+1"
+			],
+			"diffs": [
+				{
+					"diff": 1,
+					"property": "skill"
+				},
+				{
+					"diff": 1,
+					"property": "attack"
+				},
+				{
+					"diff": 1,
+					"property": "defence"
+				}
+			]
+		},
+		{
+			"id": 200,
+			"name": "战斗结束",
+			"desc": [
+				""
+			]
+		},
+		{
+			"id": 300,
+			"name": "精神不足",
+			"desc": [
+				"精神不足，该休息了"
+			]
+		}
+	]
+}

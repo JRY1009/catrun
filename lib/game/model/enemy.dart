@@ -1,36 +1,38 @@
 
-import 'package:catrun/game/prop/prop.dart';
+import 'package:catrun/game/model/prop.dart';
 import 'package:catrun/generated/l10n.dart';
 
 import 'Role.dart';
 
-class Yali extends Role {
+class Enemy extends Role {
 
   num? desc;
 
-  Yali({
+  Enemy({
     this.desc
   }) : super(
-    id: '1',
-    name: S.current.yali,
-    life: 100,
-    attack: 10,
-    defence: 0,
-    power: 0,
-    physic: 0,
-    skill: 0,
-    explosion: 0,
-    block: 0,
-    dodge: 0,
-    props: []
+      id: '1',
+      name: S.current.master,
+      life: 50,
+      maxlife: 50,
+      attack: 20,
+      defence: 0,
+      power: 0,
+      physic: 0,
+      skill: 0,
+      explosion: 0,
+      block: 0,
+      dodge: 0,
+      props: []
   ) {
 
   }
 
-  Yali.fromJson(Map<String, dynamic> jsonMap) {
+  Enemy.fromJson(Map<String, dynamic> jsonMap) {
     id = jsonMap['id'] ?? '';
     name = jsonMap['name'] ?? '';
     life = jsonMap['life'] ?? 0;
+    maxlife = jsonMap['maxlife'] ?? 0;
     attack = jsonMap['attack'] ?? 0;
     defence = jsonMap['defence'] ?? 0;
     power = jsonMap['power'] ?? 0;
@@ -48,6 +50,7 @@ class Yali extends Role {
     jsonMap['id'] = this.id;
     jsonMap['name'] = this.name;
     jsonMap['life'] = this.life;
+    jsonMap['maxlife'] = this.maxlife;
     jsonMap['attack'] = this.attack;
     jsonMap['defence'] = this.defence;
     jsonMap['power'] = this.power;
