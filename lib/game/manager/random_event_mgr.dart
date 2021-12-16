@@ -17,6 +17,8 @@ class RandomEventMgr {
   }
 
   List<RandomEvent>? events;
+  List<RandomEvent>? subEvents;
+
   Random _random = Random();
 
   Future<List<RandomEvent>?> loadRandomEvents() async{
@@ -25,6 +27,7 @@ class RandomEventMgr {
     Map<String, dynamic> dataMap = json.decode(jsonString);
 
     events = RandomEvent.fromJsonList(dataMap['random_events']);
+    subEvents = RandomEvent.fromJsonList(dataMap['sub_events']);
   }
 
   RandomEvent? getRandomEvent() {
@@ -47,6 +50,21 @@ class RandomEventMgr {
     for (int i=0; i<length; i++) {
       if (events![i].id == id) {
         return events![i];
+      }
+    }
+
+    return null;
+  }
+
+  RandomEvent? getSubEventById(num id) {
+    if (subEvents == null) {
+      return null;
+    }
+
+    int length = subEvents!.length;
+    for (int i=0; i<length; i++) {
+      if (subEvents![i].id == id) {
+        return subEvents![i];
       }
     }
 

@@ -6,9 +6,9 @@ import 'property_diff.dart';
 
 class RandomEvent {
 
-  static num id_re_property = 1;
-  static num id_re_select = 2;
-  static num id_re_fight = 3;
+  static num event_type_property = 1;
+  static num event_type_option = 2;
+  static num event_type_fight = 3;
 
   num? id;
   num? type;  //1属性事件，2选择事件，3战斗事件

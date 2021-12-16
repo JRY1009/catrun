@@ -88,11 +88,11 @@ class EventModel extends ViewStateModel {
 
         if (action?.id == Action.id_act_goout) {
           randomEvent = RandomEventMgr.instance()!.getRandomEvent();
-          if (randomEvent?.type == RandomEvent.id_re_property) {
+          if (randomEvent?.type == RandomEvent.event_type_property) {
             PlayerMgr.instance()!.makeDiffs(randomEvent?.diffs ?? []);
-          } else if (randomEvent?.type == RandomEvent.id_re_select) {
+          } else if (randomEvent?.type == RandomEvent.event_type_option) {
             _optionVisible = true;
-          } else if (randomEvent?.type == RandomEvent.id_re_fight) {
+          } else if (randomEvent?.type == RandomEvent.event_type_fight) {
             enemy = EnemyMgr.instance()!.getEnemy(randomEvent?.enemy_id ?? 0);
             Future.delayed(Duration(milliseconds: 500), () {
               fightVisible = true;
@@ -127,10 +127,11 @@ class EventModel extends ViewStateModel {
     _optionVisible = false;
     
     Player? player = PlayerMgr.instance()!.getPlayer();
-    randomEvent = RandomEventMgr.instance()!.getRandomEventById(option.id ?? 0);
-    if (randomEvent?.type == RandomEvent.id_re_property) {
+    randomEvent = RandomEventMgr.instance()!.getSubEventById(option.id ?? 0);
+    if (randomEvent?.type == RandomEvent.event_type_property) {
       PlayerMgr.instance()!.makeDiffs(randomEvent?.diffs ?? []);
-    } else if (randomEvent?.type == RandomEvent.id_re_fight) {
+
+    } else if (randomEvent?.type == RandomEvent.event_type_fight) {
       enemy = EnemyMgr.instance()!.getEnemy(randomEvent?.enemy_id ?? 0);
       Future.delayed(Duration(milliseconds: 500), () {
         fightVisible = true;

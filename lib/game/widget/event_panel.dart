@@ -1,10 +1,8 @@
-import 'dart:math';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:catrun/game/config/app_config.dart';
 import 'package:catrun/game/manager/action_mgr.dart';
 import 'package:catrun/game/model/action.dart';
-import 'package:catrun/game/model/enemy.dart';
 import 'package:catrun/game/viewmodel/event_model.dart';
 import 'package:catrun/game/widget/fight_panel.dart';
 import 'package:catrun/mvvm/provider_widget.dart';
@@ -43,37 +41,6 @@ class EventPanelState extends State<EventPanel> {
   void dispose() {
     super.dispose();
   }
-
-  // void startAction(Action? action) {
-  //
-  //   Player? player = PlayerMgr.instance()!.getPlayer();
-  //   if ((player?.energy ?? 0) <= 0) {
-  //     _action = ActionMgr.instance()!.getAction(Action.id_act_rest_need);
-  //   } else {
-  //     _action = action;
-  //     player?.energy = max((player.energy ?? 0) - 5, 0);
-  //
-  //     if (_action?.id == 2) {
-  //       bool ret = _random.nextBool();
-  //       if (ret) {
-  //         _action!.id = 201;
-  //         Future.delayed(Duration(milliseconds: 500), () {
-  //           setState(() {
-  //             _fightVisible = true;
-  //           });
-  //         });
-  //       } else {
-  //         _action!.id = 202;
-  //         player?.hungry = (player.hungry ?? 0) + 20;
-  //       }
-  //     } else {
-  //       PlayerMgr.instance()!.makeDiffs(action?.diffs ?? []);
-  //     }
-  //
-  //     Event.eventBus.fire(PlayerEvent(player, PlayerEventState.update));
-  //   }
-  //
-  // }
 
   List<Widget> _buildTyper(List<String> listStr) {
     return listStr.asMap().entries.map((entry) {

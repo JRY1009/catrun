@@ -29,6 +29,16 @@
 			"life": 150,
 			"attack": 15,
 			"defence": 0
+		},
+		{
+			"id": 2004,
+			"name": "恶犬",
+			"speak": "这是我的地盘，嗷嗷嗷~",
+			"attackText": "你对{name}发起了攻击，造成{hert}点伤害",
+			"defenceText": "{name}对你发起了攻击，造成{hert}点伤害",
+			"life": 200,
+			"attack": 20,
+			"defence": 0
 		}
 	]
 }
