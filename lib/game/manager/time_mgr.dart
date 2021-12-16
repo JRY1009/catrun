@@ -22,6 +22,10 @@ class TimeMgr {
 
   int getDay() => _day;
 
+  reset() {
+    _day = 1;
+  }
+
   nextDay() {
     _day++;
 

@@ -1,0 +1,81 @@
+{
+	"random_events": [
+		{
+			"id": 1001,
+			"type": 1,
+			"name": "1001",
+			"desc": [
+				"捡到一些剩饭，饱食度+20"
+			],
+			"diffs": [
+				{
+					"diff": 20,
+					"property": "hungry"
+				}
+			]
+		},
+		{
+			"id": 1002,
+			"type": 1,
+			"name": "1002",
+			"desc": [
+				"晒晒太阳，精神+5"
+			],
+			"diffs": [
+				{
+					"diff": 5,
+					"property": "energy"
+				}
+			]
+		},
+		{
+			"id": 1003,
+			"type": 1,
+			"name": "1003",
+			"desc": [
+				"爬到高处，灵巧+1，攻击力+1，防御力+1"
+			],
+			"diffs": [
+				{
+					"diff": 1,
+					"property": "skill"
+				},
+				{
+					"diff": 1,
+					"property": "attack"
+				},
+				{
+					"diff": 1,
+					"property": "defence"
+				}
+			]
+		},
+		{
+			"id": 1004,
+			"type": 3,
+			"name": "1004",
+			"enemy_id": 2001,
+			"desc": [
+				"遇到一只小小鸟"
+			]
+		},
+		{
+			"id": 1005,
+			"type": 3,
+			"name": "1005",
+			"enemy_id": 2002,
+			"desc": [
+				"遇到一只撒手没"
+			]
+		},
+		{
+			"id": 1006,
+			"type": 3,
+			"name": "1006",
+			"enemy_id": 2003,
+			"desc": [
+				"遇到一只鹅鹅鹅"
+			]
+		}
+	]
+}

@@ -49,7 +49,7 @@ class _FightPanelState extends State<FightPanel> {
     _fight = Fight(
       hert: 0,
       status: FightStatus.unknown,
-      desc: '遇到${widget.enemy.name}'
+      desc: '遇到${widget.enemy.name}\n${widget.enemy.speak}'
     );
     _enemyFight = Fight(
         hert: 0,
@@ -173,6 +173,7 @@ class _FightPanelState extends State<FightPanel> {
 
         _enableAction = false;
 
+        _round ++;
         if (action == 1) {
           _fight = FightMgr.instance()!.fight();
           startFight();
@@ -207,7 +208,9 @@ class _FightPanelState extends State<FightPanel> {
           children: [
             Container(
               alignment: Alignment.center,
-              child: Text('${widget.enemy.name}\nhp：${widget.enemy.life}',
+              child: Text(_round > 0 ? '${widget.enemy.name}\nhp：${widget.enemy.life}' :
+              '${widget.enemy.name}\nhp：${widget.enemy.life}\n${widget.enemy.speak}',
+                textAlign: TextAlign.center,
                 style: TextStyles.textMain16_w700,
                 strutStyle: StrutStyle(forceStrutHeight: true, height:1, leading: 0.5),
               )

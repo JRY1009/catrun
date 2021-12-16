@@ -3,7 +3,7 @@ import 'package:catrun/game/model/prop.dart';
 
 class Role {
 
-  String? id;
+  num? id;
   String? name;
   num? life;    //生命
   num? maxlife; //最大生命

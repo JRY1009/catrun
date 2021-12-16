@@ -1,18 +1,24 @@
 
 import 'package:catrun/game/model/prop.dart';
-import 'package:catrun/generated/l10n.dart';
+import 'package:catrun/utils/object_util.dart';
 
 import 'Role.dart';
 
 class Enemy extends Role {
 
-  num? desc;
+  String? speak;
+  String? attackText;
+  String? defenceText;
+  List<String>? desc;
 
   Enemy({
+    this.speak,
+    this.attackText,
+    this.defenceText,
     this.desc
   }) : super(
-      id: '1',
-      name: S.current.master,
+      id: 2000,
+      name: '0',
       life: 50,
       maxlife: 50,
       attack: 20,
@@ -29,7 +35,7 @@ class Enemy extends Role {
   }
 
   Enemy.fromJson(Map<String, dynamic> jsonMap) {
-    id = jsonMap['id'] ?? '';
+    id = jsonMap['id'] ?? 2000;
     name = jsonMap['name'] ?? '';
     life = jsonMap['life'] ?? 0;
     maxlife = jsonMap['maxlife'] ?? 0;
@@ -41,8 +47,16 @@ class Enemy extends Role {
     explosion = jsonMap['explosion'] ?? 0;
     block = jsonMap['block'] ?? 0;
     dodge = jsonMap['dodge'] ?? 0;
-    props = Prop.fromJsonList(jsonMap['props']) ?? [];
 
+    if (ObjectUtil.isNotEmpty(jsonMap['props'])) {
+      props = Prop.fromJsonList(jsonMap['props']) ?? [];
+    }
+
+    desc = jsonMap['desc']?.cast<String>() ?? [];
+
+    speak = jsonMap['speak'] ?? '';
+    attackText = jsonMap['attackText'] ?? '';
+    defenceText = jsonMap['defenceText'] ?? '';
   }
 
   Map<String, dynamic> toJson() {
@@ -60,8 +74,25 @@ class Enemy extends Role {
     jsonMap['block'] = this.block;
     jsonMap['dodge'] = this.dodge;
     jsonMap['props'] = this.props?.map((v) => v.toJson()).toList();
+    jsonMap['desc'] = this.desc;
+
+    jsonMap['speak'] = this.speak;
+    jsonMap['attackText'] = this.attackText;
+    jsonMap['defenceText'] = this.defenceText;
 
     return jsonMap;
+  }
+  
+  static List<Enemy>? fromJsonList(List<dynamic> mapList) {
+    if (ObjectUtil.isEmptyList(mapList)) {
+      return null;
+    }
+
+    List<Enemy> items = [];
+    for(Map<String, dynamic> map in mapList) {
+      items.add(Enemy.fromJson(map));
+    }
+    return items;
   }
 }
 

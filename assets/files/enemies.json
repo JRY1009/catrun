@@ -1,0 +1,34 @@
+{
+	"enemies": [
+		{
+			"id": 2001,
+			"name": "小小鸟",
+			"speak": "别跑，你头上有只虫",
+			"attackText": "你对{name}发起了攻击，造成{hert}点伤害",
+			"defenceText": "{name}对你发起了攻击，造成{hert}点伤害",
+			"life": 50,
+			"attack": 10,
+			"defence": 0
+		},
+		{
+			"id": 2002,
+			"name": "撒手没",
+			"speak": "汪汪汪！",
+			"attackText": "你对{name}发起了攻击，造成{hert}点伤害",
+			"defenceText": "{name}对你发起了攻击，造成{hert}点伤害",
+			"life": 100,
+			"attack": 20,
+			"defence": 0
+		},
+		{
+			"id": 2003,
+			"name": "鹅鹅鹅",
+			"speak": "三个成年男人也打不过我~",
+			"attackText": "你对{name}发起了攻击，造成{hert}点伤害",
+			"defenceText": "{name}对你发起了攻击，造成{hert}点伤害",
+			"life": 150,
+			"attack": 15,
+			"defence": 0
+		}
+	]
+}

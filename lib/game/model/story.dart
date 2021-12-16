@@ -2,7 +2,7 @@ import 'package:catrun/utils/object_util.dart';
 
 class Story {
 
-  String? id;
+  num? id;
   String? name;
 
   Story({
@@ -11,7 +11,7 @@ class Story {
   });
 
   Story.fromJson(Map<String, dynamic> jsonMap) {
-    id = jsonMap['id'] ?? '';
+    id = jsonMap['id'] ?? 0;
     name = jsonMap['name'] ?? '';
   }
 

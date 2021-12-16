@@ -3,7 +3,7 @@ import 'package:catrun/utils/object_util.dart';
 
 class Prop {
 
-  String? id;
+  num? id;
   String? name;
 
   Prop({
@@ -12,7 +12,7 @@ class Prop {
   });
 
   Prop.fromJson(Map<String, dynamic> jsonMap) {
-    id = jsonMap['id'] ?? '';
+    id = jsonMap['id'] ?? 0;
     name = jsonMap['name'] ?? '';
   }
 

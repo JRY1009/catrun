@@ -15,7 +15,7 @@ class Player extends Role {
     this.hungry = 100,
     this.energy = 10
   }) : super(
-      id: '1',
+      id: 1,
       name: S.current.yali,
       life: 100,
       maxlife: 100,

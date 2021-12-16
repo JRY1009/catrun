@@ -53,6 +53,10 @@
 			],
 			"diffs": [
 				{
+					"diff": 1,
+					"property": "physic"
+				},
+				{
 					"diff": 5,
 					"property": "maxlife"
 				},

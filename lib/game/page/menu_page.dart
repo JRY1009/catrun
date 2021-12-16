@@ -2,6 +2,9 @@ import 'dart:async' as async;
 
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:catrun/game/manager/action_mgr.dart';
+import 'package:catrun/game/manager/enemy_mgr.dart';
+import 'package:catrun/game/manager/random_event_mgr.dart';
+import 'package:catrun/game/manager/time_mgr.dart';
 import 'package:catrun/generated/l10n.dart';
 import 'package:catrun/res/colors.dart';
 import 'package:catrun/res/gaps.dart';
@@ -10,7 +13,6 @@ import 'package:catrun/router/routers.dart';
 import 'package:catrun/utils/screen_util.dart';
 import 'package:catrun/widget/animate/color_text.dart';
 import 'package:catrun/widget/button/gradient_button.dart';
-import 'package:flame_splash_screen/flame_splash_screen.dart';
 import 'package:flutter/material.dart';
 
 class MenuPage extends StatefulWidget {
@@ -24,7 +26,10 @@ class _MenuState extends State<MenuPage> {
   @override
   void initState() {
     super.initState();
+    TimeMgr.instance()!.reset();
     ActionMgr.instance()!.loadActions();
+    RandomEventMgr.instance()!.loadRandomEvents();
+    EnemyMgr.instance()!.loadEnemys();
   }
 
   @override
