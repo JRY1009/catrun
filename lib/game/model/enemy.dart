@@ -2,7 +2,7 @@
 import 'package:catrun/game/model/prop.dart';
 import 'package:catrun/utils/object_util.dart';
 
-import 'Role.dart';
+import 'role.dart';
 
 class Enemy extends Role {
 

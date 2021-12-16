@@ -1,5 +1,8 @@
-import 'package:catrun/game/model/property_diff.dart';
+
 import 'package:catrun/utils/object_util.dart';
+
+import 'option.dart';
+import 'property_diff.dart';
 
 class RandomEvent {
 
@@ -13,6 +16,7 @@ class RandomEvent {
   num? enemy_id;
   List<String>? desc;
   List<PropertyDiff>? diffs;
+  List<Option>? options;
 
   RandomEvent({
     this.id,
@@ -29,8 +33,13 @@ class RandomEvent {
     name = jsonMap['name'] ?? '';
     enemy_id = jsonMap['enemy_id'] ?? 2000;
     desc = jsonMap['desc']?.cast<String>() ?? [];
+
     if (ObjectUtil.isNotEmpty(jsonMap['diffs'])) {
       diffs = PropertyDiff.fromJsonList(jsonMap['diffs']) ?? [];
+    }
+
+    if (ObjectUtil.isNotEmpty(jsonMap['options'])) {
+      options = Option.fromJsonList(jsonMap['options']) ?? [];
     }
   }
 
@@ -42,6 +51,7 @@ class RandomEvent {
     jsonMap['enemy_id'] = this.enemy_id;
     jsonMap['desc'] = this.desc;
     jsonMap['diffs'] = this.diffs?.map((v) => v.toJson()).toList();
+    jsonMap['options'] = this.options?.map((v) => v.toJson()).toList();
 
     return jsonMap;
   }

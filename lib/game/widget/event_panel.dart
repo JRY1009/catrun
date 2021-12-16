@@ -119,6 +119,28 @@ class EventPanelState extends State<EventPanel> {
     );
   }
 
+  Widget _buildOptionButtons() {
+
+    return ScaleWidget(
+      child: Column(
+        children: _eventModel.randomEvent?.options?.asMap().entries.map((entry) {
+          return Container(
+            margin: EdgeInsets.only(top: 10.dp, left: 20.dp, right: 20.dp),
+            child: BorderButton(width: double.infinity, height: 36.dp,
+              text: entry.value.option,
+              textStyle: TextStyles.textMain16,
+              color: Colours.transparent,
+              borderColor: Colours.app_main,
+              onPressed: () {
+                _eventModel.startOption(entry.value);
+              },
+            ),
+          );
+        }).toList() ?? [],
+      ),
+    );
+  }
+  
   @override
   Widget build(BuildContext context) {
     return ProviderWidget<EventModel>(
@@ -158,8 +180,9 @@ class EventPanelState extends State<EventPanel> {
                     child: Column(
                       children: [
                         Expanded(child: Column(children: _buildTyper(_eventModel.getActionStr()))),
-                        !_eventModel.practiceVisible ? actionPanel : Gaps.empty,
-                        _eventModel.practiceVisible ? practicePanel : Gaps.empty
+                        _eventModel.actionVisible ? actionPanel : Gaps.empty,
+                        _eventModel.practiceVisible ? practicePanel : Gaps.empty,
+                        _eventModel.optionVisible ? _buildOptionButtons() : Gaps.empty,
                       ],
                     ),
                   )

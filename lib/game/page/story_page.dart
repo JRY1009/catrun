@@ -110,8 +110,8 @@ class _StoryPageState extends State<StoryPage> {
       child: Column(
         children: _listSelect.asMap().entries.map((entry) {
           return Container(
-            margin: EdgeInsets.only(top: 10),
-            child: BorderButton(width: 108.dp, height: 36.dp,
+            margin: EdgeInsets.only(top: 10, left: 20, right: 20),
+            child: BorderButton(width: double.infinity, height: 36.dp,
               text: entry.value,
               textStyle: TextStyles.textWhite16,
               color: Colours.transparent,

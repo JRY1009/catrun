@@ -11,6 +11,7 @@ import 'package:catrun/game/manager/player_mgr.dart';
 import 'package:catrun/game/manager/random_event_mgr.dart';
 import 'package:catrun/game/model/action.dart';
 import 'package:catrun/game/model/enemy.dart';
+import 'package:catrun/game/model/option.dart';
 import 'package:catrun/game/model/player.dart';
 import 'package:catrun/game/model/random_event.dart';
 import 'package:catrun/mvvm/view_state_model.dart';
@@ -19,6 +20,7 @@ class EventModel extends ViewStateModel {
 
   bool _enableAction = true;
   bool _practiceVisible = false;
+  bool _optionVisible = false;
   bool _fightVisible = false;
 
   Action? action;
@@ -36,6 +38,8 @@ class EventModel extends ViewStateModel {
     notifyListeners();
   }
 
+  bool get actionVisible => (!_practiceVisible && !_optionVisible);
+
   bool get practiceVisible => _practiceVisible;
 
   set practiceVisible(bool visible) {
@@ -46,6 +50,16 @@ class EventModel extends ViewStateModel {
     notifyListeners();
   }
 
+  bool get optionVisible => _optionVisible;
+
+  set optionVisible(bool visible) {
+    if (_optionVisible == visible) {
+      return;
+    }
+    _optionVisible = visible;
+    notifyListeners();
+  }
+  
   bool get fightVisible => _fightVisible;
 
   set fightVisible(bool visible) {
@@ -76,6 +90,8 @@ class EventModel extends ViewStateModel {
           randomEvent = RandomEventMgr.instance()!.getRandomEvent();
           if (randomEvent?.type == RandomEvent.id_re_property) {
             PlayerMgr.instance()!.makeDiffs(randomEvent?.diffs ?? []);
+          } else if (randomEvent?.type == RandomEvent.id_re_select) {
+            _optionVisible = true;
           } else if (randomEvent?.type == RandomEvent.id_re_fight) {
             enemy = EnemyMgr.instance()!.getEnemy(randomEvent?.enemy_id ?? 0);
             Future.delayed(Duration(milliseconds: 500), () {
@@ -92,6 +108,36 @@ class EventModel extends ViewStateModel {
     } else {
       action = act;
     }
+
+    _animCount = -1;
+    notifyListeners();
+
+    Future.delayed(Duration(milliseconds: 100), () {
+      _animCount = 0;
+      notifyListeners();
+    });
+  }
+
+  void startOption(Option option) {
+
+    if (!_enableAction) {
+      return;
+    }
+    _enableAction = false;
+    _optionVisible = false;
+    
+    Player? player = PlayerMgr.instance()!.getPlayer();
+    randomEvent = RandomEventMgr.instance()!.getRandomEventById(option.id ?? 0);
+    if (randomEvent?.type == RandomEvent.id_re_property) {
+      PlayerMgr.instance()!.makeDiffs(randomEvent?.diffs ?? []);
+    } else if (randomEvent?.type == RandomEvent.id_re_fight) {
+      enemy = EnemyMgr.instance()!.getEnemy(randomEvent?.enemy_id ?? 0);
+      Future.delayed(Duration(milliseconds: 500), () {
+        fightVisible = true;
+      });
+    }
+    
+    Event.eventBus.fire(PlayerEvent(player, PlayerEventState.update));
 
     _animCount = -1;
     notifyListeners();

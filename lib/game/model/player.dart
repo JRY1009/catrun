@@ -2,7 +2,7 @@
 import 'package:catrun/game/model/prop.dart';
 import 'package:catrun/generated/l10n.dart';
 
-import 'Role.dart';
+import 'role.dart';
 
 class Player extends Role {
 
