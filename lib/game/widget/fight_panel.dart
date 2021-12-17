@@ -108,10 +108,12 @@ class _FightPanelState extends State<FightPanel> {
               } else if (_fight.status == FightStatus.win) {
                 Future.delayed(AppConfig.fightDuration, () {
                   if (widget.onFinish != null) {
+
+                    String winText = widget.enemy.winText!.replaceAll('{name}', '${widget.enemy.name}');
                     widget.onFinish(
                         Fight(hert: 0,
-                            status: FightStatus.lose,
-                            desc: '你打败了${widget.enemy.name}')
+                            status: FightStatus.win,
+                            desc: winText)
                     );
                   }
                 });
@@ -145,10 +147,11 @@ class _FightPanelState extends State<FightPanel> {
               if (_enemyFight.status == FightStatus.lose) {
                 Future.delayed(AppConfig.fightDuration, () {
                   if (widget.onFinish != null) {
+                    String loseText = widget.enemy.loseText!.replaceAll('{name}', '${widget.enemy.name}');
                     widget.onFinish(
                         Fight(hert: 0,
                             status: FightStatus.lose,
-                            desc: '你被${widget.enemy.name}打败了')
+                            desc: loseText)
                     );
                   }
                 });

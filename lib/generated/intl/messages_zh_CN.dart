@@ -49,6 +49,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "rest": MessageLookupByLibrary.simpleMessage("休息"),
         "skill": MessageLookupByLibrary.simpleMessage("灵巧"),
         "startGame": MessageLookupByLibrary.simpleMessage("开始游戏"),
+        "use": MessageLookupByLibrary.simpleMessage("使用"),
         "yali": MessageLookupByLibrary.simpleMessage("Yali")
       };
 }

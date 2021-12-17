@@ -11,8 +11,10 @@ class Action {
   static num id_act_goout = 2;
   static num id_act_fight_finish = 200;
 
-  static num id_act_rest = 3;
-  static num id_act_rest_need = 300;
+  static num id_act_warehouse = 3;
+
+  static num id_act_rest = 4;
+  static num id_act_rest_need = 400;
 
   num? id;
   String? name;

@@ -79,6 +79,8 @@ class EventPanelState extends State<EventPanel> {
         } else if (action?.id == Action.id_act_rest) {
           _eventModel.startAction(action, burn: false);
           Routers.navigateTo(context, Routers.timePage);
+        } else if (action?.id == Action.id_act_warehouse) {
+          Routers.navigateTo(context, Routers.warehousePage);
         } else {
           _eventModel.startAction(action);
         }
@@ -120,6 +122,7 @@ class EventPanelState extends State<EventPanel> {
               children: [
                 _buildActionButton(ActionMgr.instance()!.getAction(Action.id_act_practice)),
                 _buildActionButton(ActionMgr.instance()!.getAction(Action.id_act_goout)),
+                _buildActionButton(ActionMgr.instance()!.getAction(Action.id_act_warehouse)),
                 _buildActionButton(ActionMgr.instance()!.getAction(Action.id_act_rest)),
               ],
             ),

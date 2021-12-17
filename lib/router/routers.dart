@@ -20,6 +20,7 @@ class Routers {
   static String mainPage = '/mainPage';
   static String storyPage = '/storyPage';
   static String timePage = '/timePage';
+  static String warehousePage = '/warehousePage';
   static String gameOver = '/gameOver';
 
 

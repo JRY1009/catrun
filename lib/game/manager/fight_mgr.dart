@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:catrun/game/event/event.dart';
 import 'package:catrun/game/event/player_event.dart';
 import 'package:catrun/game/manager/player_mgr.dart';
+import 'package:catrun/game/manager/prop_mgr.dart';
 import 'package:catrun/game/model/enemy.dart';
 import 'package:catrun/game/model/player.dart';
 
@@ -58,13 +59,19 @@ class FightMgr {
     Player? player = PlayerMgr.instance()!.getPlayer();
     if (player != null && _enemy != null) {
 
-      hert = max(player.attack! - _enemy!.defence!, 0);
+      hert = max(player.pattack - _enemy!.defence!, 0);
       _enemy!.life = max(_enemy!.life! - hert, 0);
 
       desc = _enemy!.attackText!.replaceAll('{name}', '${_enemy?.name}').replaceAll('{hert}', '${hert}');
       if (_enemy!.life! <= 0) {
         status = FightStatus.win;
-        desc = '${desc}，你打败了${_enemy?.name}';
+
+        String winText = _enemy!.winText!.replaceAll('{name}', '${_enemy?.name}');
+        desc = '${desc}，${winText}';
+
+        player.addProps(PropMgr.instance()!.getProps(_enemy?.props) ?? []);
+        player.makeDiffs(_enemy?.diffs ?? []);
+
       } else {
         status = FightStatus.next;
         desc = '${desc}';
@@ -89,13 +96,15 @@ class FightMgr {
     Player? player = PlayerMgr.instance()!.getPlayer();
     if (player != null && _enemy != null) {
 
-      hert = max(_enemy!.attack! - player.defence!, 0);
+      hert = max(_enemy!.attack! - player.pdefence, 0);
       player.life = max(player.life! - hert, 0);
 
       desc = _enemy!.defenceText!.replaceAll('{name}', '${_enemy?.name}').replaceAll('{hert}', '${hert}');
       if (player.life! <= 0) {
         status = FightStatus.lose;
-        desc = '${desc}，你被${_enemy?.name}打败了';
+
+        String loseText = _enemy!.loseText!.replaceAll('{name}', '${_enemy?.name}');
+        desc = '${desc}，${loseText}';
         player.life = 1;
 
       } else {

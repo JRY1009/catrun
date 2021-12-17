@@ -20,6 +20,7 @@ class TextStyles {
 
   static TextStyle textWhite16 = TextStyle(fontSize: 16.sp, color: Colours.white, height: 1.0);
   static TextStyle textWhite16_w700 = TextStyle(fontSize: 16.sp, color: Colours.white, fontWeight: FontWeight.w700, height: 1.0);
+  static TextStyle textWhite14 = TextStyle(fontSize: 14.sp, color: Colours.white, height: 1.0);
 }
 
 class BorderStyles {

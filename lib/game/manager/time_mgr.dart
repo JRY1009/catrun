@@ -32,7 +32,7 @@ class TimeMgr {
     Player? player = PlayerMgr.instance()!.getPlayer();
     player?.energy = 10;
     player?.hungry = max((player.hungry ?? 0) - 20, 0);
-    player?.life = min((player.life ?? 0) + 50, player.maxlife ?? 0);
+    player?.life = min((player.life ?? 0) + 50, player.pmaxlife);
 
     Event.eventBus.fire(PlayerEvent(player, PlayerEventState.update));
 

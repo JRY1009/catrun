@@ -80,7 +80,7 @@ class _StatusPanelState extends State<StatusPanel> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           _buildStatus(S.of(context).energy, player?.energy),
-                          _buildStatus(S.of(context).life, '${player?.life}/${player?.maxlife}'),
+                          _buildStatus(S.of(context).life, '${player?.life}/${player?.pmaxlife}'),
                           _buildStatus(S.of(context).hungry, player?.hungry),
                         ]
                     ),
@@ -88,16 +88,16 @@ class _StatusPanelState extends State<StatusPanel> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           _buildStatus('', ''),
-                          _buildStatus(S.of(context).attack, player?.attack),
-                          _buildStatus(S.of(context).defence, player?.defence),
+                          _buildStatus(S.of(context).attack, player?.pattack),
+                          _buildStatus(S.of(context).defence, player?.pdefence),
                         ]
                     ),
                     Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          _buildStatus(S.of(context).power, player?.power),
-                          _buildStatus(S.of(context).physic, player?.physic),
-                          _buildStatus(S.of(context).skill, player?.skill),
+                          _buildStatus(S.of(context).power, player?.ppower),
+                          _buildStatus(S.of(context).physic, player?.pphysic),
+                          _buildStatus(S.of(context).skill, player?.pskill),
                         ]
                     )
                   ],

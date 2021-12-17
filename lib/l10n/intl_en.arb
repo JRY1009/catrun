@@ -27,5 +27,6 @@
   "block": "格挡",
   "dodge": "闪避",
   "props": "物品",
-  "escape": "逃跑"
+  "escape": "逃跑",
+  "use": "使用"
 }

@@ -339,6 +339,16 @@ class S {
       args: [],
     );
   }
+
+  /// `使用`
+  String get use {
+    return Intl.message(
+      '使用',
+      name: 'use',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

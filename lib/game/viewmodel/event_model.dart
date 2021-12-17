@@ -89,7 +89,7 @@ class EventModel extends ViewStateModel {
         if (action?.id == Action.id_act_goout) {
           randomEvent = RandomEventMgr.instance()!.getRandomEvent();
           if (randomEvent?.type == RandomEvent.event_type_property) {
-            PlayerMgr.instance()!.makeDiffs(randomEvent?.diffs ?? []);
+            player?.makeDiffs(randomEvent?.diffs ?? []);
           } else if (randomEvent?.type == RandomEvent.event_type_option) {
             _optionVisible = true;
           } else if (randomEvent?.type == RandomEvent.event_type_fight) {
@@ -99,7 +99,7 @@ class EventModel extends ViewStateModel {
             });
           }
         } else {
-          PlayerMgr.instance()!.makeDiffs(action?.diffs ?? []);
+          player?.makeDiffs(action?.diffs ?? []);
         }
       }
 
@@ -129,7 +129,7 @@ class EventModel extends ViewStateModel {
     Player? player = PlayerMgr.instance()!.getPlayer();
     randomEvent = RandomEventMgr.instance()!.getSubEventById(option.id ?? 0);
     if (randomEvent?.type == RandomEvent.event_type_property) {
-      PlayerMgr.instance()!.makeDiffs(randomEvent?.diffs ?? []);
+      player?.makeDiffs(randomEvent?.diffs ?? []);
 
     } else if (randomEvent?.type == RandomEvent.event_type_fight) {
       enemy = EnemyMgr.instance()!.getEnemy(randomEvent?.enemy_id ?? 0);

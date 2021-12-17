@@ -1,5 +1,6 @@
 
 import 'package:catrun/game/model/prop.dart';
+import 'package:catrun/game/model/property_diff.dart';
 import 'package:catrun/utils/object_util.dart';
 
 import 'role.dart';
@@ -9,12 +10,17 @@ class Enemy extends Role {
   String? speak;
   String? attackText;
   String? defenceText;
+  String? winText;
+  String? loseText;
   List<String>? desc;
+  List<PropertyDiff>? diffs;
 
   Enemy({
     this.speak,
     this.attackText,
     this.defenceText,
+    this.winText,
+    this.loseText,
     this.desc
   }) : super(
       id: 2000,
@@ -52,11 +58,17 @@ class Enemy extends Role {
       props = Prop.fromJsonList(jsonMap['props']) ?? [];
     }
 
+    if (ObjectUtil.isNotEmpty(jsonMap['diffs'])) {
+      diffs = PropertyDiff.fromJsonList(jsonMap['diffs']) ?? [];
+    }
+
     desc = jsonMap['desc']?.cast<String>() ?? [];
 
     speak = jsonMap['speak'] ?? '';
     attackText = jsonMap['attackText'] ?? '';
     defenceText = jsonMap['defenceText'] ?? '';
+    winText = jsonMap['winText'] ?? '';
+    loseText = jsonMap['loseText'] ?? '';
   }
 
   Map<String, dynamic> toJson() {
@@ -74,11 +86,14 @@ class Enemy extends Role {
     jsonMap['block'] = this.block;
     jsonMap['dodge'] = this.dodge;
     jsonMap['props'] = this.props?.map((v) => v.toJson()).toList();
+    jsonMap['diffs'] = this.diffs?.map((v) => v.toJson()).toList();
     jsonMap['desc'] = this.desc;
 
     jsonMap['speak'] = this.speak;
     jsonMap['attackText'] = this.attackText;
     jsonMap['defenceText'] = this.defenceText;
+    jsonMap['winText'] = this.winText;
+    jsonMap['loseText'] = this.loseText;
 
     return jsonMap;
   }

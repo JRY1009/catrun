@@ -6,9 +6,31 @@
 			"speak": "别跑，你头上有只虫",
 			"attackText": "你对{name}发起了攻击，造成{hert}点伤害",
 			"defenceText": "{name}对你发起了攻击，造成{hert}点伤害",
+			"winText": "你打败了{name}，灵巧+1，攻击力+1，防御力+1，获得 轻巧的羽毛*1",
+			"loseText": "你被{name}打败了",
 			"life": 50,
 			"attack": 10,
-			"defence": 0
+			"defence": 0,
+			"diffs": [
+				{
+					"diff": 1,
+					"property": "skill"
+				},
+				{
+					"diff": 1,
+					"property": "attack"
+				},
+				{
+					"diff": 1,
+					"property": "defence"
+				}
+			],
+			"props": [
+				{
+					"id": 3003,
+					"name": "轻巧的羽毛"
+				}
+			]
 		},
 		{
 			"id": 2002,
@@ -16,9 +38,27 @@
 			"speak": "汪汪汪！",
 			"attackText": "你对{name}发起了攻击，造成{hert}点伤害",
 			"defenceText": "{name}对你发起了攻击，造成{hert}点伤害",
+			"winText": "你打败了{name}，力量+1，攻击力+2，获得 火腿肠*1",
+			"loseText": "你被{name}打败了",
 			"life": 100,
 			"attack": 20,
-			"defence": 0
+			"defence": 0,
+			"diffs": [
+				{
+					"diff": 1,
+					"property": "power"
+				},
+				{
+					"diff": 2,
+					"property": "attack"
+				}
+			],
+			"props": [
+				{
+					"id": 3001,
+					"name": "火腿肠"
+				}
+			]
 		},
 		{
 			"id": 2003,
@@ -26,9 +66,31 @@
 			"speak": "三个成年男人也打不过我~",
 			"attackText": "你对{name}发起了攻击，造成{hert}点伤害",
 			"defenceText": "{name}对你发起了攻击，造成{hert}点伤害",
+			"winText": "你打败了{name}，灵巧+1，攻击力+1，防御力+1，获得 轻巧的羽毛*1",
+			"loseText": "你被{name}打败了",
 			"life": 150,
 			"attack": 15,
-			"defence": 0
+			"defence": 0,
+			"diffs": [
+				{
+					"diff": 1,
+					"property": "skill"
+				},
+				{
+					"diff": 1,
+					"property": "attack"
+				},
+				{
+					"diff": 1,
+					"property": "defence"
+				}
+			],
+			"props": [
+				{
+					"id": 3003,
+					"name": "轻巧的羽毛"
+				}
+			]
 		},
 		{
 			"id": 2004,
@@ -36,9 +98,27 @@
 			"speak": "这是我的地盘，嗷嗷嗷~",
 			"attackText": "你对{name}发起了攻击，造成{hert}点伤害",
 			"defenceText": "{name}对你发起了攻击，造成{hert}点伤害",
+			"winText": "你打败了{name}，力量+1，攻击力+2，获得 火腿肠*1",
+			"loseText": "你被{name}打败了",
 			"life": 200,
 			"attack": 20,
-			"defence": 0
+			"defence": 0,
+			"diffs": [
+				{
+					"diff": 1,
+					"property": "power"
+				},
+				{
+					"diff": 2,
+					"property": "attack"
+				}
+			],
+			"props": [
+				{
+					"id": 3001,
+					"name": "火腿肠"
+				}
+			]
 		}
 	]
 }

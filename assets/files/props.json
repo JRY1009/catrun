@@ -1,0 +1,31 @@
+{
+	"props": [
+		{
+			"id": 3001,
+			"type": 1,
+			"name": "火腿肠",
+			"diffs": [
+				{
+					"diff": 20,
+					"property": "hungry"
+				}
+			]
+		},
+		{
+			"id": 3002,
+			"type": 1,
+			"name": "干粮",
+			"diffs": [
+				{
+					"diff": 10,
+					"property": "hungry"
+				}
+			]
+		},
+		{
+			"id": 3003,
+			"type": 2,
+			"name": "轻巧的羽毛"
+		}
+	]
+}
