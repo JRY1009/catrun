@@ -1,4 +1,6 @@
 
+import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:catrun/game/config/app_config.dart';
 import 'package:catrun/game/event/event.dart';
 import 'package:catrun/game/event/player_event.dart';
 import 'package:catrun/game/manager/player_mgr.dart';
@@ -7,6 +9,7 @@ import 'package:catrun/game/viewmodel/player_model.dart';
 import 'package:catrun/generated/l10n.dart';
 import 'package:catrun/mvvm/provider_widget.dart';
 import 'package:catrun/res/colors.dart';
+import 'package:catrun/res/gaps.dart';
 import 'package:catrun/res/styles.dart';
 import 'package:catrun/router/routers.dart';
 import 'package:catrun/utils/screen_util.dart';
@@ -25,6 +28,8 @@ class WareHousePage extends StatefulWidget {
 
 class _WareHousePageState extends State<WareHousePage> {
 
+  int _count = 0;
+  String tips = '';
   late PlayerModel _playerModel;
 
   @override
@@ -38,6 +43,42 @@ class _WareHousePageState extends State<WareHousePage> {
   @override
   void dispose() {
     super.dispose();
+  }
+
+  void startAction() {
+
+    setState(() {
+      _count = -1;
+
+      Future.delayed(Duration(milliseconds: 100), () {
+        setState(() {
+          _count = 0;
+        });
+      });
+
+    });
+  }
+
+  Widget _buildFade() {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 5.dp),
+      alignment: Alignment.center,
+      child: AnimatedTextKit(
+        totalRepeatCount: 1,
+        displayFullTextOnTap: true,
+        pause: AppConfig.textPauseDuration,
+        animatedTexts: [
+          FadeAnimatedText(tips,
+              duration: const Duration(milliseconds: 1000),
+              textStyle: TextStyles.textWhite16_w700),
+        ],
+        onFinished: () {
+          setState(() {
+            _count ++;
+          });
+        },
+      ),
+    );
   }
 
   Widget _buildBackButton() {
@@ -72,6 +113,10 @@ class _WareHousePageState extends State<WareHousePage> {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
+                        Container(
+                          height: 30.dp,
+                          child: _count >= 0 ? _buildFade() : Gaps.empty,
+                        ),
                         Expanded(
                           child: length <= 0 ? Center(
                             child: Text('啥也没有', style: TextStyles.textWhite16),
@@ -93,7 +138,10 @@ class _WareHousePageState extends State<WareHousePage> {
                                       color: Colours.transparent,
                                       borderColor: Colours.white,
                                       onPressed: player.props![i].type == 1 ? () {
+                                        tips = player.props![i].desc!;
                                         player.useProps(player.props![i].id!);
+
+                                        startAction();
                                         Event.eventBus.fire(PlayerEvent(player, PlayerEventState.update));
                                       } : null,
                                     )

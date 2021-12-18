@@ -8,6 +8,7 @@ import 'package:catrun/game/manager/action_mgr.dart';
 import 'package:catrun/game/manager/enemy_mgr.dart';
 import 'package:catrun/game/manager/fight_mgr.dart';
 import 'package:catrun/game/manager/player_mgr.dart';
+import 'package:catrun/game/manager/prop_mgr.dart';
 import 'package:catrun/game/manager/random_event_mgr.dart';
 import 'package:catrun/game/model/action.dart';
 import 'package:catrun/game/model/enemy.dart';
@@ -97,6 +98,8 @@ class EventModel extends ViewStateModel {
             Future.delayed(Duration(milliseconds: 500), () {
               fightVisible = true;
             });
+          } else if (randomEvent?.type == RandomEvent.event_type_pick) {
+            player?.addProps(PropMgr.instance()!.getProps(randomEvent?.props) ?? []);
           }
         } else {
           player?.makeDiffs(action?.diffs ?? []);
@@ -136,6 +139,8 @@ class EventModel extends ViewStateModel {
       Future.delayed(Duration(milliseconds: 500), () {
         fightVisible = true;
       });
+    } else if (randomEvent?.type == RandomEvent.event_type_pick) {
+      player?.addProps(PropMgr.instance()!.getProps(randomEvent?.props) ?? []);
     }
     
     Event.eventBus.fire(PlayerEvent(player, PlayerEventState.update));

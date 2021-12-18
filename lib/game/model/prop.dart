@@ -8,6 +8,7 @@ class Prop {
   num? type;  //1消耗品 2非消耗品
   num? count;
   String? name;
+  String? desc;
   List<PropertyDiff>? diffs;
 
   num getPropDiff(String property) {
@@ -30,6 +31,7 @@ class Prop {
     this.id,
     this.type,
     this.name,
+    this.desc,
     this.count,
     this.diffs
   });
@@ -39,6 +41,7 @@ class Prop {
     type = jsonMap['type'] ?? 1;
     count = jsonMap['count'] ?? 1;
     name = jsonMap['name'] ?? '';
+    desc = jsonMap['desc'] ?? '';
     if (ObjectUtil.isNotEmpty(jsonMap['diffs'])) {
       diffs = PropertyDiff.fromJsonList(jsonMap['diffs']) ?? [];
     }
@@ -50,6 +53,7 @@ class Prop {
     jsonMap['type'] = this.type;
     jsonMap['count'] = this.count;
     jsonMap['name'] = this.name;
+    jsonMap['desc'] = this.desc;
     jsonMap['diffs'] = this.diffs?.map((v) => v.toJson()).toList();
 
     return jsonMap;
