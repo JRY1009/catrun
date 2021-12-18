@@ -4,8 +4,10 @@ import 'dart:math';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:catrun/game/config/app_config.dart';
 import 'package:catrun/game/manager/player_mgr.dart';
+import 'package:catrun/game/manager/story_mgr.dart';
 import 'package:catrun/game/manager/time_mgr.dart';
 import 'package:catrun/game/model/player.dart';
+import 'package:catrun/game/model/story.dart';
 import 'package:catrun/generated/l10n.dart';
 import 'package:catrun/res/colors.dart';
 import 'package:catrun/res/gaps.dart';
@@ -63,7 +65,7 @@ class _TimePageState extends State<TimePage> {
     return listStr.asMap().entries.map((entry) {
       return _count >= entry.key ? Container(
         padding: EdgeInsets.symmetric(vertical: 5.dp),
-        alignment: Alignment.center,
+        alignment: entry.key == 0 ? Alignment.center : Alignment.centerLeft,
         child: AnimatedTextKit(
           totalRepeatCount: 1,
           displayFullTextOnTap: true,
@@ -101,8 +103,13 @@ class _TimePageState extends State<TimePage> {
         onPressed: () {
 
           Player? player = PlayerMgr.instance()!.getPlayer();
+          int day = TimeMgr.instance()!.getDay();
+          Story? story = StoryMgr.instance()!.getStory(day);
           if ((player?.hungry ?? 0) <= 0) {
             Routers.navigateTo(this.context, Routers.gameOver);
+          } else if (story != null) {
+            Routers.goBack(context);
+            Routers.navigateTo(this.context, Routers.storyPage);
           } else {
             Routers.goBack(context);
           }

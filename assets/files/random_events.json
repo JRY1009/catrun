@@ -30,7 +30,7 @@
 			"id": 1003,
 			"type": 1,
 			"desc": [
-				"爬到高处，灵巧+1，攻击力+1，防御力+1"
+				"飞檐走壁，灵巧+1，攻击力+1，防御力+1"
 			],
 			"diffs": [
 				{
@@ -164,6 +164,44 @@
 				{
 					"diff": 2,
 					"property": "energy"
+				}
+			]
+		},
+		{
+			"id": 1904,
+			"type": 1,
+			"desc": [
+				"飞檐走壁，灵巧+1，攻击力+1，防御力+1"
+			],
+			"diffs": [
+				{
+					"diff": 1,
+					"property": "skill"
+				},
+				{
+					"diff": 1,
+					"property": "attack"
+				},
+				{
+					"diff": 1,
+					"property": "defence"
+				}
+			]
+		},
+		{
+			"id": 1905,
+			"type": 1,
+			"desc": [
+				"蹂躏猫抓板，力量+1，攻击力+2"
+			],
+			"diffs": [
+				{
+					"diff": 1,
+					"property": "power"
+				},
+				{
+					"diff": 2,
+					"property": "attack"
 				}
 			]
 		}

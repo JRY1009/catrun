@@ -35,6 +35,7 @@ class EventPanelState extends State<EventPanel> {
     super.initState();
 
     _eventModel = EventModel();
+    _eventModel.listenEvent();
   }
 
   @override

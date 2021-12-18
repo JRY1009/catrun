@@ -1,8 +1,10 @@
 
+import 'dart:async';
 import 'dart:math';
 
 import 'package:catrun/game/config/app_config.dart';
 import 'package:catrun/game/event/event.dart';
+import 'package:catrun/game/event/option_event.dart';
 import 'package:catrun/game/event/player_event.dart';
 import 'package:catrun/game/manager/action_mgr.dart';
 import 'package:catrun/game/manager/enemy_mgr.dart';
@@ -16,6 +18,7 @@ import 'package:catrun/game/model/option.dart';
 import 'package:catrun/game/model/player.dart';
 import 'package:catrun/game/model/random_event.dart';
 import 'package:catrun/mvvm/view_state_model.dart';
+import 'package:flutter/material.dart' hide Action;
 
 class EventModel extends ViewStateModel {
 
@@ -30,7 +33,18 @@ class EventModel extends ViewStateModel {
   Fight? fightResult;
   int _animCount = 0;
 
+  StreamSubscription? optionSubscription;
+
   EventModel();
+
+  void listenEvent() {
+
+    optionSubscription?.cancel();
+    optionSubscription = Event.eventBus.on<OptionEvent>().listen((event) {
+      action = Action(id: Action.id_act_goout);
+      startOption(event.option);
+    });
+  }
 
   int get animCount => _animCount;
 
@@ -172,6 +186,7 @@ class EventModel extends ViewStateModel {
 
   @override
   void dispose() {
+    optionSubscription?.cancel();
     super.dispose();
   }
 }

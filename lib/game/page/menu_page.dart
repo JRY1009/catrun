@@ -3,9 +3,12 @@ import 'dart:async' as async;
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:catrun/game/manager/action_mgr.dart';
 import 'package:catrun/game/manager/enemy_mgr.dart';
+import 'package:catrun/game/manager/player_mgr.dart';
 import 'package:catrun/game/manager/prop_mgr.dart';
 import 'package:catrun/game/manager/random_event_mgr.dart';
+import 'package:catrun/game/manager/story_mgr.dart';
 import 'package:catrun/game/manager/time_mgr.dart';
+import 'package:catrun/game/model/player.dart';
 import 'package:catrun/generated/l10n.dart';
 import 'package:catrun/res/colors.dart';
 import 'package:catrun/res/gaps.dart';
@@ -28,6 +31,7 @@ class _MenuState extends State<MenuPage> {
   void initState() {
     super.initState();
     TimeMgr.instance()!.reset();
+    StoryMgr.instance()!.loadStorys();
     ActionMgr.instance()!.loadActions();
     RandomEventMgr.instance()!.loadRandomEvents();
     EnemyMgr.instance()!.loadEnemys();
@@ -69,6 +73,7 @@ class _MenuState extends State<MenuPage> {
                   Colours.app_main
                 ],
                 onPressed: () {
+                  PlayerMgr.instance()!.setPlayer(Player());
                   Routers.navigateTo(context, Routers.storyPage);
                 },
             )

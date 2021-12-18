@@ -1,6 +1,15 @@
 
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:catrun/game/config/app_config.dart';
+import 'package:catrun/game/event/event.dart';
+import 'package:catrun/game/event/option_event.dart';
+import 'package:catrun/game/event/player_event.dart';
+import 'package:catrun/game/manager/player_mgr.dart';
+import 'package:catrun/game/manager/prop_mgr.dart';
+import 'package:catrun/game/manager/story_mgr.dart';
+import 'package:catrun/game/manager/time_mgr.dart';
+import 'package:catrun/game/model/player.dart';
+import 'package:catrun/game/model/story.dart';
 import 'package:catrun/game/page/main_page.dart';
 import 'package:catrun/generated/l10n.dart';
 import 'package:catrun/res/colors.dart';
@@ -26,12 +35,16 @@ class StoryPage extends StatefulWidget {
 class _StoryPageState extends State<StoryPage> {
 
   int _count = 0;
-  List<String> _listStr = [];
-  List<String> _listSelect = [];
+
+  Story? _story;
 
   @override
   void initState() {
     super.initState();
+
+    int day = TimeMgr.instance()!.getDay();
+    _story = StoryMgr.instance()!.getStory(day);
+
     startAction();
   }
 
@@ -64,7 +77,7 @@ class _StoryPageState extends State<StoryPage> {
           displayFullTextOnTap: true,
           pause: AppConfig.textPauseDuration,
           animatedTexts: [
-            FadeInAnimatedText(entry.value, textStyle: TextStyles.textWhite16_w700),
+            FadeInAnimatedText(entry.value, textAlign: TextAlign.center, textStyle: TextStyles.textWhite16_w700),
           ],
           onFinished: () {
             setState(() {
@@ -76,21 +89,19 @@ class _StoryPageState extends State<StoryPage> {
     }).toList();
   }
 
-  Widget _buildStory() {
-
-    _listStr = ['故事段落故事段落故事段落故事段落1', '故事段落故事段落故事段落故事段落2222222','故事段落故事段落故事段落故事段落故事段落故事段落故事段落故事段落故事段落故事段落故事段落故事段落故事段落故事段落故事段落故事段落33333'];
-
-    return Column(children: _buildFade(_listStr));
-  }
-
   Widget _buildConfirmButton() {
-    return _count >= _listStr.length ? ScaleWidget(
+    return _count >= (_story?.desc?.length ?? 0) ? ScaleWidget(
       child: BorderButton(width: 108.dp, height: 36.dp,
         text: S.of(context).confirm,
         textStyle: TextStyles.textWhite16,
         color: Colours.transparent,
         borderColor: Colours.white,
         onPressed: () {
+          Player? player = PlayerMgr.instance()!.getPlayer();
+          player?.addProps(PropMgr.instance()!.getProps(_story?.props) ?? []);
+          player?.makeDiffs(_story?.diffs ?? []);
+          Event.eventBus.fire(PlayerEvent(null, PlayerEventState.update));
+
           if (sMainContext == null) {
             Routers.goBack(context);
             Routers.navigateTo(context, Routers.mainPage);
@@ -104,19 +115,20 @@ class _StoryPageState extends State<StoryPage> {
 
   Widget _buildSelectButtons() {
 
-    _listSelect = ['选项1', '选项2', '选项3'];
-
-    return _count >= _listStr.length ? ScaleWidget(
+    return _count >= (_story?.options?.length ?? 0) ? ScaleWidget(
       child: Column(
-        children: _listSelect.asMap().entries.map((entry) {
+        children: _story?.options?.asMap().entries.map((entry) {
           return Container(
             margin: EdgeInsets.only(top: 10, left: 20, right: 20),
             child: BorderButton(width: double.infinity, height: 36.dp,
-              text: entry.value,
+              text: entry.value.option,
               textStyle: TextStyles.textWhite16,
               color: Colours.transparent,
               borderColor: Colours.white,
               onPressed: () {
+
+                Event.eventBus.fire(OptionEvent(entry.value, OptionEventState.action));
+
                 if (sMainContext == null) {
                   Routers.goBack(context);
                   Routers.navigateTo(context, Routers.mainPage);
@@ -126,7 +138,7 @@ class _StoryPageState extends State<StoryPage> {
               },
             ),
           );
-        }).toList(),
+        }).toList() ?? [],
       ),
     ) : Gaps.empty;
   }
@@ -145,8 +157,8 @@ class _StoryPageState extends State<StoryPage> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                Expanded(child: _buildStory()),
-                _buildSelectButtons()
+                Expanded(child: Column(children: _buildFade(_story?.desc ?? []))),
+                _story?.type == 2 ? _buildSelectButtons() : _buildConfirmButton()
               ],
             ),
           ),
