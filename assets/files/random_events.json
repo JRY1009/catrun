@@ -192,6 +192,27 @@
 			"id": 1905,
 			"type": 1,
 			"desc": [
+				"找小猫玩耍，体魄+1，生命值上限+5，防御力+1"
+			],
+			"diffs": [
+				{
+					"diff": 1,
+					"property": "physic"
+				},
+				{
+					"diff": 5,
+					"property": "maxlife"
+				},
+				{
+					"diff": 1,
+					"property": "defence"
+				}
+			]
+		},
+		{
+			"id": 1906,
+			"type": 1,
+			"desc": [
 				"蹂躏猫抓板，力量+1，攻击力+2"
 			],
 			"diffs": [

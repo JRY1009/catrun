@@ -16,6 +16,7 @@ import 'package:catrun/res/styles.dart';
 import 'package:catrun/router/routers.dart';
 import 'package:catrun/utils/screen_util.dart';
 import 'package:catrun/widget/animate/color_text.dart';
+import 'package:catrun/widget/animate/fade_in_text.dart';
 import 'package:catrun/widget/button/gradient_button.dart';
 import 'package:flutter/material.dart';
 
@@ -135,17 +136,9 @@ class _MenuState extends State<MenuPage> {
         child: AnimatedTextKit(
           totalRepeatCount: 1,
           animatedTexts: [
-            ColorAnimatedText(
-              S.of(context).appName,
-              textStyle: TextStyles.textGray600_32_w700,
-              speed: Duration(milliseconds: 500),
-              colors: [
-                Colours.gray_600,
-                Colours.gray_200,
-                Colours.gray_500,
-                Colours.app_main,
-              ],
-            ),
+            FadeInAnimatedText(S.of(context).appName,
+                duration: Duration(milliseconds: 2000),
+                textStyle: TextStyles.textMain32_w700)
           ],
           onFinished: () {
             setState(() {

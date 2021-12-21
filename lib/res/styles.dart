@@ -7,6 +7,7 @@ class TextStyles {
   static const String familyRuizi = 'Ruizi';
   static const String familyBlackItalic = 'BlackItalic';
 
+  static TextStyle textMain32_w700 = TextStyle(fontSize: 32.sp, color: Colours.app_main, fontWeight: FontWeight.w700, height: 1.0);
   static TextStyle textMain24_w700 = TextStyle(fontSize: 24.sp, color: Colours.app_main, fontWeight: FontWeight.w700, height: 1.0);
   static TextStyle textMain16 = TextStyle(fontSize: 16.sp, color: Colours.app_main, height: 1.0);
   static TextStyle textMain16_w700 = TextStyle(fontSize: 16.sp, color: Colours.app_main, fontWeight: FontWeight.w700, height: 1.0);
