@@ -5,8 +5,11 @@ import 'package:catrun/game/viewmodel/player_model.dart';
 import 'package:catrun/game/viewmodel/time_model.dart';
 import 'package:catrun/generated/l10n.dart';
 import 'package:catrun/mvvm/provider_widget.dart';
+import 'package:catrun/res/colors.dart';
+import 'package:catrun/res/gaps.dart';
 import 'package:catrun/res/styles.dart';
 import 'package:catrun/utils/screen_util.dart';
+import 'package:catrun/widget/button/border_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -25,7 +28,7 @@ class _StatusPanelState extends State<StatusPanel> {
     super.initState();
 
     _playerModel = PlayerModel();
-    _playerModel.listenEvent(context);
+    _playerModel.listenEvent();
 
     _timeModel = TimeModel();
     _timeModel.listenEvent();
@@ -70,27 +73,31 @@ class _StatusPanelState extends State<StatusPanel> {
               children: [
                 Container(
                     padding: EdgeInsets.symmetric(vertical: 10.dp),
-                    child: Text('第${day}天', style: TextStyles.textMain16_w700)
+                    child: Text('第${day}天 • ${_playerModel.isHome ? S.of(context).home : S.of(context).outside}', style: TextStyles.textMain16_w700)
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          _buildStatus(S.of(context).energy, player?.energy),
-                          _buildStatus(S.of(context).life, '${player?.life}/${player?.pmaxlife}'),
-                          _buildStatus(S.of(context).hungry, player?.hungry),
-                        ]
+                    Expanded(flex: 2,
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            _buildStatus(S.of(context).energy, player?.energy),
+                            _buildStatus(S.of(context).life, '${player?.life}/${player?.pmaxlife}'),
+                            _buildStatus(S.of(context).hungry, player?.hungry),
+                          ]
+                      ),
                     ),
-                    Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          _buildStatus('', ''),
-                          _buildStatus(S.of(context).attack, player?.pattack),
-                          _buildStatus(S.of(context).defence, player?.pdefence),
-                        ]
+                    Expanded(flex: 2,
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            _buildStatus(S.of(context).health, player?.health),
+                            _buildStatus(S.of(context).attack, player?.pattack),
+                            _buildStatus(S.of(context).defence, player?.pdefence),
+                          ]
+                      ),
                     ),
                     Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -101,7 +108,7 @@ class _StatusPanelState extends State<StatusPanel> {
                         ]
                     )
                   ],
-                ),
+                )
               ],
             ),
           );

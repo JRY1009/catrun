@@ -12,6 +12,7 @@ class BorderButton extends StatefulWidget {
   final TextStyle? textStyle;
   final double? width;
   final double? height;
+  final double? radius;
   final Function()? onPressed;
 
   BorderButton({
@@ -22,6 +23,7 @@ class BorderButton extends StatefulWidget {
     this.textStyle,
     this.width,
     this.height,
+    this.radius,
     this.onPressed,
   }) : super(key: key);
 
@@ -38,11 +40,11 @@ class _BorderButtonState extends State<BorderButton> {
       height: widget.height,
       decoration: BoxDecoration(
         border: Border.all(color: widget.borderColor, width: 1.dp),
-        borderRadius: BorderRadius.circular(10.dp),   //圆角
+        borderRadius: BorderRadius.circular(widget.radius ?? 10.dp),   //圆角
       ),
       child: FlatButton(
         padding: EdgeInsets.zero,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10.dp))),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(widget.radius ?? 10.dp))),
         color: widget.color,
         disabledColor: Colours.button_disabled,
         child: Text(

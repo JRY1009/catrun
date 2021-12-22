@@ -2,7 +2,9 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:catrun/game/config/app_config.dart';
 import 'package:catrun/game/manager/action_mgr.dart';
+import 'package:catrun/game/manager/player_mgr.dart';
 import 'package:catrun/game/model/action.dart';
+import 'package:catrun/game/model/player.dart';
 import 'package:catrun/game/viewmodel/event_model.dart';
 import 'package:catrun/game/widget/fight_panel.dart';
 import 'package:catrun/mvvm/provider_widget.dart';
@@ -15,6 +17,8 @@ import 'package:catrun/widget/animate/scale_widget.dart';
 import 'package:catrun/widget/animate/type_writer_text.dart';
 import 'package:catrun/widget/button/border_button.dart';
 import 'package:flutter/material.dart' hide Action;
+
+import 'carry_panel.dart';
 
 class EventPanel extends StatefulWidget {
 
@@ -76,12 +80,25 @@ class EventPanelState extends State<EventPanel> {
         if (action?.id == Action.id_act_practice) {
           _eventModel.panelState = PanelState.practice;
         } else if (action?.id == Action.id_act_back) {
-          _eventModel.panelState = PanelState.normal;
+          _eventModel.panelState = PanelState.home;
+
+        } else if (action?.id == Action.id_act_goout) {
+          bool ret = _eventModel.startAction(action);
+          if (ret) {
+            _eventModel.panelState = PanelState.outside;
+          }
+
+        } else if (action?.id == Action.id_act_outside_gohome) {
+          _eventModel.panelState = PanelState.home;
+          _eventModel.startAction(action);
+
         } else if (action?.id == Action.id_act_rest) {
           _eventModel.startAction(action, burn: false);
           Routers.navigateTo(context, Routers.timePage);
+
         } else if (action?.id == Action.id_act_warehouse) {
           Routers.navigateTo(context, Routers.warehousePage);
+
         } else {
           _eventModel.startAction(action);
         }
@@ -110,7 +127,24 @@ class EventPanelState extends State<EventPanel> {
       ),
     );
   }
-  
+
+  void _onEat() {
+    Player? player = PlayerMgr.instance()!.getPlayer();
+    _eventModel.startAction(Action(
+        id: Action.id_act_eat,
+        desc: ['你吃掉了 ${player?.carriedProp?.name ?? ''}，${player?.carriedProp?.desc ?? ''}']
+    ), burn: false);
+  }
+
+  void _onDiscard() {
+    Player? player = PlayerMgr.instance()!.getPlayer();
+    _eventModel.startAction(Action(
+        id: Action.id_act_discard,
+        desc: _eventModel.isHomeState ?
+        ['你把 ${player?.carriedProp?.name ?? ''} 放回了仓库'] : ['你把 ${player?.carriedProp?.name ?? ''} 丢掉了']
+    ), burn: false);
+  }
+
   @override
   Widget build(BuildContext context) {
     return ProviderWidget<EventModel>(
@@ -142,37 +176,79 @@ class EventPanelState extends State<EventPanel> {
             ),
           );
 
-          return Stack(
-            fit: StackFit.expand,
-            children: [
-              !_eventModel.isFightState ? ScaleWidget(
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 20.dp, vertical: 20.dp),
-                    child: Column(
-                      children: [
-                        Expanded(child: Column(children: _buildTyper(_eventModel.getActionStr()))),
-                        _eventModel.isNormalState ? actionPanel : Gaps.empty,
-                        _eventModel.isPracticeState ? practicePanel : Gaps.empty,
-                        _eventModel.isOptionState ? _buildOptionButtons() : Gaps.empty,
-                      ],
-                    ),
-                  )
-              ) : Gaps.empty,
-
-              _eventModel.isFightState ? ScaleWidget(
-                child: FightPanel(
-                  enemy: _eventModel.enemy!,
-                  onFinish: (result) {
-                    _eventModel.panelState = PanelState.normal;
-                    _eventModel.fightResult = result;
-                    _eventModel.startAction(ActionMgr.instance()!.getAction(Action.id_act_fight_finish), burn: false);
-                  },
+          Widget outsidePanel = ScaleWidget(
+            child: Column(
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    _buildActionButton(ActionMgr.instance()!.getAction(Action.id_act_outside_gohome)),
+                    _buildActionButton(ActionMgr.instance()!.getAction(Action.id_act_outside_stroll)),
+                    _buildActionButton(ActionMgr.instance()!.getAction(Action.id_act_outside_recycle)),
+                    _buildActionButton(ActionMgr.instance()!.getAction(Action.id_act_outside_711)),
+                  ],
                 ),
-              ) : Gaps.empty
+                Gaps.vGap20,
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    _buildActionButton(ActionMgr.instance()!.getAction(Action.id_act_outside_market)),
+                    _buildActionButton(ActionMgr.instance()!.getAction(Action.id_act_outside_station)),
+                    _buildActionButton(ActionMgr.instance()!.getAction(Action.id_act_outside_hospital)),
+                    Container(width: 72.dp, height: 28.dp),
+                  ],
+                ),
+              ],
+            ),
+          );
 
+          return Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.dp, vertical: 5.dp),
+                child: CarryPanel(
+                  dark: false,
+                  onEat: _onEat,
+                  onDiscard: _onDiscard,
+                ),
+              ),
+              Expanded(
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    !_eventModel.isFightState ? ScaleWidget(
+                        child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 20.dp, vertical: 20.dp),
+                          child: Column(
+                            children: [
+                              Expanded(child: Column(children: _buildTyper(_eventModel.getActionStr()))),
+                              _eventModel.isHomeState ? actionPanel : Gaps.empty,
+                              _eventModel.isPracticeState ? practicePanel : Gaps.empty,
+                              _eventModel.isOutsideState ? outsidePanel : Gaps.empty,
+                              _eventModel.isOptionState ? _buildOptionButtons() : Gaps.empty,
+                            ],
+                          ),
+                        )
+                    ) : Gaps.empty,
+
+                    _eventModel.isFightState ? ScaleWidget(
+                      child: FightPanel(
+                        enemy: _eventModel.enemy!,
+                        onFinish: (result) {
+                          _eventModel.panelState = _eventModel.lastState;
+                          _eventModel.fightResult = result;
+                          _eventModel.startAction(ActionMgr.instance()!.getAction(Action.id_act_fight_finish), burn: false);
+                        },
+                      ),
+                    ) : Gaps.empty
+
+                  ],
+                ),
+              ),
             ],
           );
         });
-
   }
 }

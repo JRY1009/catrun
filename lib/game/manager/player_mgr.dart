@@ -2,7 +2,6 @@
 import 'dart:convert';
 
 import 'package:catrun/game/model/player.dart';
-import 'package:catrun/game/model/property_diff.dart';
 import 'package:catrun/utils/object_util.dart';
 import 'package:catrun/utils/sp_util.dart';
 

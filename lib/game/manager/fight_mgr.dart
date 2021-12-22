@@ -14,12 +14,12 @@ enum FightStatus {
   next,
   escape,
   escape_failed,
-  unknown
+  normal
 }
 
 class Fight {
 
-  FightStatus status = FightStatus.unknown;
+  FightStatus status = FightStatus.normal;
   num hert = 0;
   String desc = '';
 
@@ -52,7 +52,7 @@ class FightMgr {
   }
 
   Fight fight() {
-    FightStatus status = FightStatus.unknown;
+    FightStatus status = FightStatus.normal;
     num hert = 0;
     String desc = '';
 
@@ -89,7 +89,7 @@ class FightMgr {
 
   Fight enemyFight() {
 
-    FightStatus status = FightStatus.unknown;
+    FightStatus status = FightStatus.normal;
     num hert = 0;
     String desc = '';
 
@@ -123,7 +123,7 @@ class FightMgr {
   }
 
   Fight escape() {
-    FightStatus status = FightStatus.unknown;
+    FightStatus status = FightStatus.normal;
     num hert = 0;
     String desc = '';
 

@@ -6,6 +6,7 @@ import 'package:catrun/game/event/player_event.dart';
 import 'package:catrun/game/manager/player_mgr.dart';
 import 'package:catrun/game/model/player.dart';
 import 'package:catrun/game/viewmodel/player_model.dart';
+import 'package:catrun/game/widget/carry_panel.dart';
 import 'package:catrun/generated/l10n.dart';
 import 'package:catrun/mvvm/provider_widget.dart';
 import 'package:catrun/res/colors.dart';
@@ -37,7 +38,7 @@ class _WareHousePageState extends State<WareHousePage> {
     super.initState();
 
     _playerModel = PlayerModel();
-    _playerModel.listenEvent(context);
+    _playerModel.listenEvent();
   }
 
   @override
@@ -109,13 +110,23 @@ class _WareHousePageState extends State<WareHousePage> {
                 int length = player?.props?.length ?? 0;
                 return SafeArea(
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 20.dp, vertical: 20.dp),
+                    padding: EdgeInsets.symmetric(horizontal: 10.dp, vertical: 10.dp),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                         Container(
                           height: 30.dp,
                           child: _count >= 0 ? _buildFade() : Gaps.empty,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 5.dp),
+                          child: CarryPanel(
+                            dark: true,
+                            onEat: () {
+                              tips = player?.carriedProp?.desc ?? '';
+                              startAction();
+                            },
+                          ),
                         ),
                         Expanded(
                           child: length <= 0 ? Center(
@@ -125,15 +136,14 @@ class _WareHousePageState extends State<WareHousePage> {
                             shrinkWrap: true,
                             itemBuilder: (context, i) {
                               return Container(
-                                height: 30.dp,
-                                margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5.dp),
+                                margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5.dp),
                                 child: Row(
                                   children: [
                                     Text(player!.props![i].name!, style: TextStyles.textWhite14),
                                     Text('  x${player.props![i].count!}', style: TextStyles.textWhite14),
                                     Expanded(child: Container()),
-                                    BorderButton(width: 84.dp, height: 28.dp,
-                                      text: S.of(context).use,
+                                    BorderButton(width: 72.dp, height: 28.dp,
+                                      text: S.of(context).eat,
                                       textStyle: TextStyles.textWhite14,
                                       color: Colours.transparent,
                                       borderColor: Colours.white,
@@ -144,7 +154,18 @@ class _WareHousePageState extends State<WareHousePage> {
                                         startAction();
                                         Event.eventBus.fire(PlayerEvent(player, PlayerEventState.update));
                                       } : null,
-                                    )
+                                    ),
+                                    Gaps.hGap10,
+                                    BorderButton(width: 72.dp, height: 28.dp,
+                                      text: S.of(context).carry,
+                                      textStyle: TextStyles.textWhite14,
+                                      color: Colours.transparent,
+                                      borderColor: Colours.white,
+                                      onPressed: () {
+                                        player.carryProp(player.props![i].id!);
+                                        Event.eventBus.fire(PlayerEvent(player, PlayerEventState.update));
+                                      },
+                                    ),
                                   ],
                                 ),
                               );

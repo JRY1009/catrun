@@ -48,12 +48,12 @@ class _FightPanelState extends State<FightPanel> {
     FightMgr.instance()!.setEnemy(widget.enemy);
     _fight = Fight(
       hert: 0,
-      status: FightStatus.unknown,
+      status: FightStatus.normal,
       desc: '遇到${widget.enemy.name}\n${widget.enemy.speak}'
     );
     _enemyFight = Fight(
         hert: 0,
-        status: FightStatus.unknown,
+        status: FightStatus.normal,
         desc: ''
     );
   }

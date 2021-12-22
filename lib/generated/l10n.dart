@@ -240,6 +240,16 @@ class S {
     );
   }
 
+  /// `健康`
+  String get health {
+    return Intl.message(
+      '健康',
+      name: 'health',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `攻击`
   String get attack {
     return Intl.message(
@@ -345,6 +355,76 @@ class S {
     return Intl.message(
       '使用',
       name: 'use',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `吃掉`
+  String get eat {
+    return Intl.message(
+      '吃掉',
+      name: 'eat',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `丢弃`
+  String get discard {
+    return Intl.message(
+      '丢弃',
+      name: 'discard',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `放回仓库`
+  String get putback {
+    return Intl.message(
+      '放回仓库',
+      name: 'putback',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `携带`
+  String get carry {
+    return Intl.message(
+      '携带',
+      name: 'carry',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `携带物品`
+  String get carryProp {
+    return Intl.message(
+      '携带物品',
+      name: 'carryProp',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `家`
+  String get home {
+    return Intl.message(
+      '家',
+      name: 'home',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `外出`
+  String get outside {
+    return Intl.message(
+      '外出',
+      name: 'outside',
       desc: '',
       args: [],
     );

@@ -4,6 +4,7 @@ import 'dart:math';
 
 import 'package:catrun/game/config/app_config.dart';
 import 'package:catrun/game/event/event.dart';
+import 'package:catrun/game/event/location_event.dart';
 import 'package:catrun/game/event/option_event.dart';
 import 'package:catrun/game/event/player_event.dart';
 import 'package:catrun/game/manager/action_mgr.dart';
@@ -20,7 +21,7 @@ import 'package:catrun/game/model/revent.dart';
 import 'package:catrun/mvvm/view_state_model.dart';
 
 enum PanelState {
-  normal,
+  home,
   outside,
   practice,
   option,
@@ -30,7 +31,8 @@ enum PanelState {
 class EventModel extends ViewStateModel {
 
   bool _enableAction = true;
-  PanelState _panelState = PanelState.normal;
+  PanelState _panelState = PanelState.home;
+  PanelState _lastState = PanelState.home;
 
   Action? action;
   REvent? revent;
@@ -46,20 +48,28 @@ class EventModel extends ViewStateModel {
 
     optionSubscription?.cancel();
     optionSubscription = Event.eventBus.on<OptionEvent>().listen((event) {
-      action = Action(id: Action.id_act_goout);
+      action = Action(id: Action.id_act_option);
       startOption(event.option);
     });
   }
 
+  PanelState get lastState => _lastState;
   PanelState get panelState => _panelState;
-  bool get isNormalState => _panelState == PanelState.normal;
+  bool get isHomeState => _panelState == PanelState.home;
   bool get isOutsideState => _panelState == PanelState.outside;
   bool get isPracticeState => _panelState == PanelState.practice;
   bool get isOptionState => _panelState == PanelState.option;
   bool get isFightState => _panelState == PanelState.fight;
 
   set panelState(PanelState state) {
+    _lastState = state == PanelState.home ? state : _panelState;
     _panelState = state;
+
+    if (state == PanelState.home) {
+      Event.eventBus.fire(LocationEvent(LocationState.home));
+    } else if (state == PanelState.outside) {
+      Event.eventBus.fire(LocationEvent(LocationState.outside));
+    }
     notifyListeners();
   }
 
@@ -70,28 +80,38 @@ class EventModel extends ViewStateModel {
     notifyListeners();
   }
 
-  void startAction(Action? act, {bool burn = true}) {
+  bool startAction(Action? act, {bool burn = true}) {
 
+    bool ret = true;
     if (burn) {
       if (!_enableAction) {
-        return;
+        return false;
       }
       _enableAction = false;
 
       Player? player = PlayerMgr.instance()!.getPlayer();
       if ((player?.energy ?? 0) <= 0) {
         action = ActionMgr.instance()!.getAction(Action.id_act_rest_need);
+        ret = false;
+
+      } else if (((player?.energy ?? 0) <= AppConfig.burnEnergy) && isOutsideState) {
+        action = ActionMgr.instance()!.getAction(Action.id_act_gohome_need);
+        ret = false;
+
+      } else if (((player?.energy ?? 0) <= AppConfig.burnEnergy) && isOutsideState) {
+        action = ActionMgr.instance()!.getAction(Action.id_act_goout_banned);
+        ret = false;
 
       } else {
         action = act;
         player?.energy = max((player.energy ?? 0) - AppConfig.burnEnergy, 0);
 
-        if (action?.id == Action.id_act_goout) {
+        if (action?.id == Action.id_act_outside_stroll) {
           revent = REventMgr.instance()!.getRandomEvent();
           if (revent?.type == REvent.event_type_property) {
             player?.makeDiffs(revent?.diffs ?? []);
           } else if (revent?.type == REvent.event_type_option) {
-            _panelState = PanelState.option;
+            panelState = PanelState.option;
           } else if (revent?.type == REvent.event_type_fight) {
             enemy = EnemyMgr.instance()!.getEnemy(revent?.enemy_id ?? 0);
             Future.delayed(Duration(milliseconds: 500), () {
@@ -118,6 +138,8 @@ class EventModel extends ViewStateModel {
       _animCount = 0;
       notifyListeners();
     });
+
+    return ret;
   }
 
   void startOption(Option option) {
@@ -126,7 +148,7 @@ class EventModel extends ViewStateModel {
       return;
     }
     _enableAction = false;
-    _panelState = PanelState.normal;
+    _panelState = _lastState;
     
     Player? player = PlayerMgr.instance()!.getPlayer();
     revent = REventMgr.instance()!.getOptionEventById(option.id ?? 0);
@@ -161,8 +183,11 @@ class EventModel extends ViewStateModel {
     List<String> listStr = [''];
     if (action?.id == Action.id_act_fight_finish) {
       listStr = [fightResult?.desc ?? ''];
-    } else if (action?.id == Action.id_act_goout) {
+
+    } else if (action?.id == Action.id_act_option ||
+        action?.id == Action.id_act_outside_stroll) {
       listStr = revent?.desc ?? [''];
+
     } else {
       listStr = action?.desc ?? [''];
     }

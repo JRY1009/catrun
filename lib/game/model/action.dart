@@ -10,11 +10,24 @@ class Action {
 
   static num id_act_goout = 2;
   static num id_act_fight_finish = 200;
+  static num id_act_outside_gohome = 201;
+  static num id_act_outside_stroll = 202;
+  static num id_act_outside_recycle = 203;
+  static num id_act_outside_711 = 204;
+  static num id_act_outside_market = 205;
+  static num id_act_outside_station = 206;
+  static num id_act_outside_hospital = 207;
 
   static num id_act_warehouse = 3;
+  static num id_act_eat = 300;
+  static num id_act_discard = 301;
 
   static num id_act_rest = 4;
   static num id_act_rest_need = 400;
+  static num id_act_gohome_need = 401;
+  static num id_act_goout_banned = 402;
+
+  static num id_act_option = 5;
 
   num? id;
   String? name;

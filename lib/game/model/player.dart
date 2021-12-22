@@ -1,4 +1,5 @@
 
+import 'package:catrun/game/manager/prop_mgr.dart';
 import 'package:catrun/game/model/prop.dart';
 import 'package:catrun/game/model/property_diff.dart';
 import 'package:catrun/generated/l10n.dart';
@@ -9,6 +10,8 @@ class Player extends Role {
 
   num? hungry;
   num? energy;
+  num? health;
+  Prop? carriedProp;
 
   num get pmaxlife => ((maxlife ?? 0) + getPropDiff('maxlife'));
   num get pattack => ((attack ?? 0) + getPropDiff('attack'));
@@ -22,7 +25,9 @@ class Player extends Role {
 
   Player({
     this.hungry = 100,
-    this.energy = 10
+    this.energy = 10,
+    this.health = 50,
+    this.carriedProp
   }) : super(
       id: 1,
       name: S.current.yali,
@@ -109,6 +114,41 @@ class Player extends Role {
       makeDiffs(p.diffs ?? []);
       props?.remove(p);
     }
+  }
+
+  void useCarriedProp() {
+    if (carriedProp == null) {
+      return;
+    }
+
+    makeDiffs(carriedProp!.diffs ?? []);
+    carriedProp = null;
+  }
+
+  void carryProp(num id, {bool discard = false}) {
+    Prop? p = getProp(id);
+    if (p == null) {
+      return;
+    }
+
+    if (carriedProp != null && !discard) {
+      addProps([carriedProp!]);
+    }
+
+    carriedProp = PropMgr.instance()!.getProp(id, 1);
+
+    if (p.count! > 1) {
+      p.count = p.count! - 1;
+    } else {
+      props?.remove(p);
+    }
+  }
+
+  void discardProp({bool discard = false}) {
+    if (carriedProp != null && !discard) {
+      addProps([carriedProp!]);
+    }
+    carriedProp = null;
   }
 
   void makeDiff(PropertyDiff diff) {

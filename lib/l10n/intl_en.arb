@@ -18,6 +18,7 @@
   "life": "生命值",
   "hungry": "饱食度",
   "energy": "精神",
+  "health": "健康",
   "attack": "攻击",
   "defence": "防御",
   "power": "力量",
@@ -28,5 +29,12 @@
   "dodge": "闪避",
   "props": "物品",
   "escape": "逃跑",
-  "use": "使用"
+  "use": "使用",
+  "eat": "吃掉",
+  "discard": "丢弃",
+  "putback": "放回仓库",
+  "carry": "携带",
+  "carryProp": "携带物品",
+  "home": "家",
+  "outside": "外出"
 }
