@@ -5,7 +5,7 @@ import 'package:catrun/game/manager/action_mgr.dart';
 import 'package:catrun/game/manager/enemy_mgr.dart';
 import 'package:catrun/game/manager/player_mgr.dart';
 import 'package:catrun/game/manager/prop_mgr.dart';
-import 'package:catrun/game/manager/random_event_mgr.dart';
+import 'package:catrun/game/manager/revent_mgr.dart';
 import 'package:catrun/game/manager/story_mgr.dart';
 import 'package:catrun/game/manager/time_mgr.dart';
 import 'package:catrun/game/model/player.dart';
@@ -15,7 +15,6 @@ import 'package:catrun/res/gaps.dart';
 import 'package:catrun/res/styles.dart';
 import 'package:catrun/router/routers.dart';
 import 'package:catrun/utils/screen_util.dart';
-import 'package:catrun/widget/animate/color_text.dart';
 import 'package:catrun/widget/animate/fade_in_text.dart';
 import 'package:catrun/widget/button/gradient_button.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +33,7 @@ class _MenuState extends State<MenuPage> {
     TimeMgr.instance()!.reset();
     StoryMgr.instance()!.loadStorys();
     ActionMgr.instance()!.loadActions();
-    RandomEventMgr.instance()!.loadRandomEvents();
+    REventMgr.instance()!.loadREvents();
     EnemyMgr.instance()!.loadEnemys();
     PropMgr.instance()!.loadProps();
   }

@@ -5,7 +5,7 @@ import 'package:catrun/utils/object_util.dart';
 import 'option.dart';
 import 'property_diff.dart';
 
-class RandomEvent {
+class REvent {
 
   static num event_type_property = 1;
   static num event_type_option = 2;
@@ -21,7 +21,7 @@ class RandomEvent {
   List<Option>? options;
   List<Prop>? props;
 
-  RandomEvent({
+  REvent({
     this.id,
     this.type,
     this.name,
@@ -30,7 +30,7 @@ class RandomEvent {
     this.diffs,
   });
 
-  RandomEvent.fromJson(Map<String, dynamic> jsonMap) {
+  REvent.fromJson(Map<String, dynamic> jsonMap) {
     id = jsonMap['id'] ?? 0;
     type = jsonMap['type'] ?? 1;
     name = jsonMap['name'] ?? '';
@@ -64,14 +64,14 @@ class RandomEvent {
     return jsonMap;
   }
 
-  static List<RandomEvent>? fromJsonList(List<dynamic> mapList) {
+  static List<REvent>? fromJsonList(List<dynamic> mapList) {
     if (ObjectUtil.isEmptyList(mapList)) {
       return null;
     }
 
-    List<RandomEvent> items = [];
+    List<REvent> items = [];
     for(Map<String, dynamic> map in mapList) {
-      items.add(RandomEvent.fromJson(map));
+      items.add(REvent.fromJson(map));
     }
     return items;
   }

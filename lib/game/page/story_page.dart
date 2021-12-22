@@ -115,7 +115,7 @@ class _StoryPageState extends State<StoryPage> {
 
   Widget _buildSelectButtons() {
 
-    return _count >= (_story?.options?.length ?? 0) ? ScaleWidget(
+    return _count >= (_story?.desc?.length ?? 0) ? ScaleWidget(
       child: Column(
         children: _story?.options?.asMap().entries.map((entry) {
           return Container(

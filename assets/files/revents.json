@@ -1,5 +1,5 @@
 {
-	"random_events": [
+	"revents": [
 		{
 			"id": 1001,
 			"type": 1,
@@ -132,7 +132,7 @@
 			]
 		}
 	],
-	"sub_events": [
+	"option_events": [
 		{
 			"id": 1901,
 			"type": 3,

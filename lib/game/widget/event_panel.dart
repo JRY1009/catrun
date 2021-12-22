@@ -74,9 +74,9 @@ class EventPanelState extends State<EventPanel> {
       borderColor: Colours.app_main,
       onPressed: () {
         if (action?.id == Action.id_act_practice) {
-          _eventModel.practiceVisible = true;
+          _eventModel.panelState = PanelState.practice;
         } else if (action?.id == Action.id_act_back) {
-          _eventModel.practiceVisible = false;
+          _eventModel.panelState = PanelState.normal;
         } else if (action?.id == Action.id_act_rest) {
           _eventModel.startAction(action, burn: false);
           Routers.navigateTo(context, Routers.timePage);
@@ -93,7 +93,7 @@ class EventPanelState extends State<EventPanel> {
 
     return ScaleWidget(
       child: Column(
-        children: _eventModel.randomEvent?.options?.asMap().entries.map((entry) {
+        children: _eventModel.revent?.options?.asMap().entries.map((entry) {
           return Container(
             margin: EdgeInsets.only(top: 10.dp, left: 20.dp, right: 20.dp),
             child: BorderButton(width: double.infinity, height: 36.dp,
@@ -145,25 +145,25 @@ class EventPanelState extends State<EventPanel> {
           return Stack(
             fit: StackFit.expand,
             children: [
-              !_eventModel.fightVisible ? ScaleWidget(
+              !_eventModel.isFightState ? ScaleWidget(
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 20.dp, vertical: 20.dp),
                     child: Column(
                       children: [
                         Expanded(child: Column(children: _buildTyper(_eventModel.getActionStr()))),
-                        _eventModel.actionVisible ? actionPanel : Gaps.empty,
-                        _eventModel.practiceVisible ? practicePanel : Gaps.empty,
-                        _eventModel.optionVisible ? _buildOptionButtons() : Gaps.empty,
+                        _eventModel.isNormalState ? actionPanel : Gaps.empty,
+                        _eventModel.isPracticeState ? practicePanel : Gaps.empty,
+                        _eventModel.isOptionState ? _buildOptionButtons() : Gaps.empty,
                       ],
                     ),
                   )
               ) : Gaps.empty,
 
-              _eventModel.fightVisible ? ScaleWidget(
+              _eventModel.isFightState ? ScaleWidget(
                 child: FightPanel(
                   enemy: _eventModel.enemy!,
                   onFinish: (result) {
-                    _eventModel.fightVisible = false;
+                    _eventModel.panelState = PanelState.normal;
                     _eventModel.fightResult = result;
                     _eventModel.startAction(ActionMgr.instance()!.getAction(Action.id_act_fight_finish), burn: false);
                   },
