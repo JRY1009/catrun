@@ -21,6 +21,7 @@ class Action {
   static num id_act_warehouse = 3;
   static num id_act_eat = 300;
   static num id_act_discard = 301;
+  static num id_act_carry = 302;
 
   static num id_act_rest = 4;
   static num id_act_rest_need = 400;

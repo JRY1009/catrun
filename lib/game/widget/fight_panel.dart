@@ -6,6 +6,7 @@ import 'package:catrun/generated/l10n.dart';
 import 'package:catrun/res/colors.dart';
 import 'package:catrun/res/gaps.dart';
 import 'package:catrun/res/styles.dart';
+import 'package:catrun/utils/object_util.dart';
 import 'package:catrun/utils/screen_util.dart';
 import 'package:catrun/widget/animate/scale_text.dart';
 import 'package:catrun/widget/animate/type_writer_text.dart';
@@ -94,7 +95,7 @@ class _FightPanelState extends State<FightPanel> {
             displayFullTextOnTap: true,
             pause: AppConfig.textPauseDuration,
             animatedTexts: [
-              TypeWriterAnimatedText(_fight.desc, textStyle: TextStyles.textMain16_w700),
+              TypeWriterAnimatedText(_fight.desc, textAlign: TextAlign.center, textStyle: TextStyles.textMain16_w700),
             ],
             onFinished: () {
               if (_fight.status == FightStatus.next ||
@@ -113,7 +114,9 @@ class _FightPanelState extends State<FightPanel> {
                     widget.onFinish(
                         Fight(hert: 0,
                             status: FightStatus.win,
-                            desc: winText)
+                            desc: winText,
+                            props: _fight.props
+                        )
                     );
                   }
                 });
@@ -140,7 +143,7 @@ class _FightPanelState extends State<FightPanel> {
             displayFullTextOnTap: true,
             pause: AppConfig.textPauseDuration,
             animatedTexts: [
-              ScaleInAnimatedText(_enemyFight.desc, textStyle: TextStyles.textMain16_w700),
+              ScaleInAnimatedText(_enemyFight.desc, textAlign: TextAlign.center, textStyle: TextStyles.textMain16_w700),
             ],
             onFinished: () {
               _enableAction = true;

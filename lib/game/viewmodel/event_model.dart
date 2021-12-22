@@ -17,6 +17,7 @@ import 'package:catrun/game/model/action.dart';
 import 'package:catrun/game/model/enemy.dart';
 import 'package:catrun/game/model/option.dart';
 import 'package:catrun/game/model/player.dart';
+import 'package:catrun/game/model/prop.dart';
 import 'package:catrun/game/model/revent.dart';
 import 'package:catrun/mvvm/view_state_model.dart';
 
@@ -26,6 +27,7 @@ enum PanelState {
   practice,
   option,
   fight,
+  propOption,
 }
 
 class EventModel extends ViewStateModel {
@@ -38,6 +40,7 @@ class EventModel extends ViewStateModel {
   REvent? revent;
   Enemy? enemy;
   Fight? fightResult;
+  Prop? optionProp;
   int _animCount = 0;
 
   StreamSubscription? optionSubscription;
@@ -60,6 +63,7 @@ class EventModel extends ViewStateModel {
   bool get isPracticeState => _panelState == PanelState.practice;
   bool get isOptionState => _panelState == PanelState.option;
   bool get isFightState => _panelState == PanelState.fight;
+  bool get isPropOptionState => _panelState == PanelState.propOption;
 
   set panelState(PanelState state) {
     _lastState = state == PanelState.home ? state : _panelState;
@@ -98,7 +102,7 @@ class EventModel extends ViewStateModel {
         action = ActionMgr.instance()!.getAction(Action.id_act_gohome_need);
         ret = false;
 
-      } else if (((player?.energy ?? 0) <= AppConfig.burnEnergy) && isOutsideState) {
+      } else if (((player?.energy ?? 0) <= AppConfig.burnEnergy) && isHomeState && act?.id == Action.id_act_goout) {
         action = ActionMgr.instance()!.getAction(Action.id_act_goout_banned);
         ret = false;
 
@@ -118,7 +122,8 @@ class EventModel extends ViewStateModel {
               panelState = PanelState.fight;
             });
           } else if (revent?.type == REvent.event_type_pick) {
-            player?.addProps(PropMgr.instance()!.getProps(revent?.props) ?? []);
+            optionProp = revent?.props?[0];
+            panelState = PanelState.propOption;
           }
         } else {
           player?.makeDiffs(action?.diffs ?? []);
@@ -161,7 +166,8 @@ class EventModel extends ViewStateModel {
         panelState = PanelState.fight;
       });
     } else if (revent?.type == REvent.event_type_pick) {
-      player?.addProps(PropMgr.instance()!.getProps(revent?.props) ?? []);
+      optionProp = revent?.props?[0];
+      panelState = PanelState.propOption;
     }
     
     Event.eventBus.fire(PlayerEvent(player, PlayerEventState.update));

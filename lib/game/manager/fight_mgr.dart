@@ -7,6 +7,7 @@ import 'package:catrun/game/manager/player_mgr.dart';
 import 'package:catrun/game/manager/prop_mgr.dart';
 import 'package:catrun/game/model/enemy.dart';
 import 'package:catrun/game/model/player.dart';
+import 'package:catrun/game/model/prop.dart';
 
 enum FightStatus {
   win,
@@ -22,11 +23,13 @@ class Fight {
   FightStatus status = FightStatus.normal;
   num hert = 0;
   String desc = '';
+  List<Prop>? props;
 
   Fight({
     required this.status,
     required this.hert,
-    required this.desc
+    required this.desc,
+    this.props
   });
 }
 
@@ -55,6 +58,7 @@ class FightMgr {
     FightStatus status = FightStatus.normal;
     num hert = 0;
     String desc = '';
+    List<Prop>? props;
 
     Player? player = PlayerMgr.instance()!.getPlayer();
     if (player != null && _enemy != null) {
@@ -69,7 +73,8 @@ class FightMgr {
         String winText = _enemy!.winText!.replaceAll('{name}', '${_enemy?.name}');
         desc = '${desc}，${winText}';
 
-        player.addProps(PropMgr.instance()!.getProps(_enemy?.props) ?? []);
+        props = PropMgr.instance()!.getProps(_enemy?.props) ?? [];
+        //player.addProps(PropMgr.instance()!.getProps(_enemy?.props) ?? []);
         player.makeDiffs(_enemy?.diffs ?? []);
 
       } else {
@@ -83,7 +88,8 @@ class FightMgr {
     return Fight(
       hert: hert,
       status: status,
-      desc: desc
+      desc: desc,
+      props: props
     );
   }
 

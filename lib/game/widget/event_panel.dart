@@ -3,15 +3,19 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:catrun/game/config/app_config.dart';
 import 'package:catrun/game/manager/action_mgr.dart';
 import 'package:catrun/game/manager/player_mgr.dart';
+import 'package:catrun/game/manager/prop_mgr.dart';
 import 'package:catrun/game/model/action.dart';
 import 'package:catrun/game/model/player.dart';
+import 'package:catrun/game/model/prop.dart';
 import 'package:catrun/game/viewmodel/event_model.dart';
 import 'package:catrun/game/widget/fight_panel.dart';
+import 'package:catrun/generated/l10n.dart';
 import 'package:catrun/mvvm/provider_widget.dart';
 import 'package:catrun/res/colors.dart';
 import 'package:catrun/res/gaps.dart';
 import 'package:catrun/res/styles.dart';
 import 'package:catrun/router/routers.dart';
+import 'package:catrun/utils/object_util.dart';
 import 'package:catrun/utils/screen_util.dart';
 import 'package:catrun/widget/animate/scale_widget.dart';
 import 'package:catrun/widget/animate/type_writer_text.dart';
@@ -57,7 +61,7 @@ class EventPanelState extends State<EventPanel> {
           displayFullTextOnTap: true,
           pause: AppConfig.textPauseDuration,
           animatedTexts: [
-            TypeWriterAnimatedText(entry.value, textStyle: TextStyles.textMain16_w700),
+            TypeWriterAnimatedText(entry.value, textAlign: TextAlign.center, textStyle: TextStyles.textMain16_w700),
           ],
           onFinished: () {
             _eventModel.animCount ++;
@@ -107,7 +111,6 @@ class EventPanelState extends State<EventPanel> {
   }
 
   Widget _buildOptionButtons() {
-
     return ScaleWidget(
       child: Column(
         children: _eventModel.revent?.options?.asMap().entries.map((entry) {
@@ -124,6 +127,74 @@ class EventPanelState extends State<EventPanel> {
             ),
           );
         }).toList() ?? [],
+      ),
+    );
+  }
+
+
+  Widget _propOptionButtons() {
+    return ScaleWidget(
+      child: Column(
+        children: [
+          Container(
+            margin: EdgeInsets.only(top: 10.dp, left: 20.dp, right: 20.dp),
+            alignment: Alignment.centerLeft,
+            child: Text('提示：携带新的物品时将自动丢掉旧的物品', style: TextStyles.textMain12)
+          ),
+          Container(
+            margin: EdgeInsets.only(top: 10.dp, left: 20.dp, right: 20.dp),
+            child: BorderButton(width: double.infinity, height: 36.dp,
+              text: S.of(context).carry,
+              textStyle: TextStyles.textMain16,
+              color: Colours.transparent,
+              borderColor: Colours.app_main,
+              onPressed: () {
+                Player? player = PlayerMgr.instance()!.getPlayer();
+                player?.carriedProp = PropMgr.instance()!.getProp(_eventModel.optionProp?.id ?? 0, 1);
+                _eventModel.panelState = _eventModel.lastState;
+                _eventModel.startAction(Action(
+                    id: Action.id_act_carry,
+                    desc: ['你携带了 ${_eventModel.optionProp?.name ?? ''}']
+                ), burn: false);
+              },
+            ),
+          ),
+          _eventModel.optionProp?.type == 1 ? Container(
+            margin: EdgeInsets.only(top: 10.dp, left: 20.dp, right: 20.dp),
+            child: BorderButton(width: double.infinity, height: 36.dp,
+              text: S.of(context).eat,
+              textStyle: TextStyles.textMain16,
+              color: Colours.transparent,
+              borderColor: Colours.app_main,
+              onPressed: () {
+                Player? player = PlayerMgr.instance()!.getPlayer();
+                Prop? prop = PropMgr.instance()!.getProp(_eventModel.optionProp?.id ?? 0, 1);
+                player?.makeDiffs(prop?.diffs ?? []);
+                _eventModel.panelState = _eventModel.lastState;
+                _eventModel.startAction(Action(
+                    id: Action.id_act_eat,
+                    desc: ['你吃掉了 ${_eventModel.optionProp?.name ?? ''}，${_eventModel.optionProp?.desc}']
+                ), burn: false);
+              },
+            ),
+          ) : Gaps.empty,
+          Container(
+            margin: EdgeInsets.only(top: 10.dp, left: 20.dp, right: 20.dp),
+            child: BorderButton(width: double.infinity, height: 36.dp,
+              text: S.of(context).discard,
+              textStyle: TextStyles.textMain16,
+              color: Colours.transparent,
+              borderColor: Colours.app_main,
+              onPressed: () {
+                _eventModel.panelState = _eventModel.lastState;
+                _eventModel.startAction(Action(
+                    id: Action.id_act_eat,
+                    desc: ['你把 ${_eventModel.optionProp?.name ?? ''} 丢掉了']
+                ), burn: false);
+              },
+            ),
+          )
+        ],
       ),
     );
   }
@@ -228,6 +299,7 @@ class EventPanelState extends State<EventPanel> {
                               _eventModel.isPracticeState ? practicePanel : Gaps.empty,
                               _eventModel.isOutsideState ? outsidePanel : Gaps.empty,
                               _eventModel.isOptionState ? _buildOptionButtons() : Gaps.empty,
+                              _eventModel.isPropOptionState ? _propOptionButtons() : Gaps.empty,
                             ],
                           ),
                         )
@@ -239,7 +311,13 @@ class EventPanelState extends State<EventPanel> {
                         onFinish: (result) {
                           _eventModel.panelState = _eventModel.lastState;
                           _eventModel.fightResult = result;
-                          _eventModel.startAction(ActionMgr.instance()!.getAction(Action.id_act_fight_finish), burn: false);
+                          if (ObjectUtil.isEmpty(result.props)) {
+                            _eventModel.startAction(ActionMgr.instance()!.getAction(Action.id_act_fight_finish), burn: false);
+                          } else {
+                            _eventModel.startAction(ActionMgr.instance()!.getAction(Action.id_act_fight_finish), burn: false);
+                            _eventModel.optionProp = result.props![0];
+                            _eventModel.panelState = PanelState.propOption;
+                          }
                         },
                       ),
                     ) : Gaps.empty
