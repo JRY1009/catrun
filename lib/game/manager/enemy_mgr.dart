@@ -9,9 +9,7 @@ class EnemyMgr {
   static EnemyMgr? _instance;
 
   static EnemyMgr? instance() {
-    if (_instance == null) {
-      _instance = new EnemyMgr();
-    }
+    _instance ??=  EnemyMgr();
     return _instance;
   }
 

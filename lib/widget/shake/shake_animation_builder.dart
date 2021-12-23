@@ -46,7 +46,7 @@ class ShakeAnimationBuilder extends StatelessWidget {
     return AnimatedBuilder(
       animation: animation!,
       builder: (BuildContext context, Widget? child) {
-        return new Transform(
+        return Transform(
 
             ///构建Matrix4
             transform: buildMatrix4(),

@@ -17,9 +17,9 @@ class Option {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> jsonMap = new Map<String, dynamic>();
-    jsonMap['id'] = this.id;
-    jsonMap['option'] = this.option;
+    final Map<String, dynamic> jsonMap = {};
+    jsonMap['id'] = id;
+    jsonMap['option'] = option;
 
     return jsonMap;
   }

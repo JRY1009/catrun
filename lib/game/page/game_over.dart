@@ -1,7 +1,6 @@
 
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:catrun/game/config/app_config.dart';
-import 'package:catrun/game/page/main_page.dart';
 import 'package:catrun/generated/l10n.dart';
 import 'package:catrun/res/colors.dart';
 import 'package:catrun/res/gaps.dart';
@@ -15,7 +14,7 @@ import 'package:flutter/material.dart';
 
 class GameOver extends StatefulWidget {
 
-  GameOver({
+  const GameOver({
     Key? key,
   }): super(key: key);
 
@@ -44,7 +43,7 @@ class _GameOverState extends State<GameOver> {
     setState(() {
       _count = -1;
 
-      Future.delayed(Duration(milliseconds: 100), () {
+      Future.delayed(const Duration(milliseconds: 100), () {
         setState(() {
           _count = 0;
         });

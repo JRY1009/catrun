@@ -9,9 +9,7 @@ class PropMgr {
   static PropMgr? _instance;
 
   static PropMgr? instance() {
-    if (_instance == null) {
-      _instance = new PropMgr();
-    }
+    _instance ??= PropMgr();
     return _instance;
   }
 

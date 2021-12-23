@@ -99,7 +99,7 @@ class _FightPanelState extends State<FightPanel> {
             ],
             onFinished: () {
               if (_fight.status == FightStatus.next ||
-                  _fight.status == FightStatus.escape_failed) {
+                  _fight.status == FightStatus.escapeFailed) {
                 Future.delayed(AppConfig.fightDuration, () {
                   _enemyFight = FightMgr.instance()!.enemyFight();
                   startFight(enemy: true);

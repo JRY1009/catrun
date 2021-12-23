@@ -10,16 +10,14 @@ class REventMgr {
   static REventMgr? _instance;
 
   static REventMgr? instance() {
-    if (_instance == null) {
-      _instance = new REventMgr();
-    }
+    _instance ??= REventMgr();
     return _instance;
   }
 
   List<REvent>? events;
   List<REvent>? optionEvents;
 
-  Random _random = Random();
+  final Random _random = Random();
 
   Future<List<REvent>?> loadREvents() async{
     String jsonString = await rootBundle.loadString('assets/files/revents.json');

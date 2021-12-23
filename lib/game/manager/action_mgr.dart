@@ -9,9 +9,7 @@ class ActionMgr {
   static ActionMgr? _instance;
 
   static ActionMgr? instance() {
-    if (_instance == null) {
-      _instance = new ActionMgr();
-    }
+    _instance ??= ActionMgr();
     return _instance;
   }
 

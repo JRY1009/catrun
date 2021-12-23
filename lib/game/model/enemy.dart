@@ -36,9 +36,7 @@ class Enemy extends Role {
       block: 0,
       dodge: 0,
       props: []
-  ) {
-
-  }
+  );
 
   Enemy.fromJson(Map<String, dynamic> jsonMap) {
     id = jsonMap['id'] ?? 2000;
@@ -62,7 +60,7 @@ class Enemy extends Role {
       diffs = PropertyDiff.fromJsonList(jsonMap['diffs']) ?? [];
     }
 
-    desc = jsonMap['desc']?.cast<String>() ?? [];
+    desc = jsonMap['desc']?.cast<String>() ?? [''];
 
     speak = jsonMap['speak'] ?? '';
     attackText = jsonMap['attackText'] ?? '';
@@ -72,28 +70,28 @@ class Enemy extends Role {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> jsonMap = new Map<String, dynamic>();
-    jsonMap['id'] = this.id;
-    jsonMap['name'] = this.name;
-    jsonMap['life'] = this.life;
-    jsonMap['maxlife'] = this.maxlife;
-    jsonMap['attack'] = this.attack;
-    jsonMap['defence'] = this.defence;
-    jsonMap['power'] = this.power;
-    jsonMap['physic'] = this.physic;
-    jsonMap['skill'] = this.skill;
-    jsonMap['explosion'] = this.explosion;
-    jsonMap['block'] = this.block;
-    jsonMap['dodge'] = this.dodge;
-    jsonMap['props'] = this.props?.map((v) => v.toJson()).toList();
-    jsonMap['diffs'] = this.diffs?.map((v) => v.toJson()).toList();
-    jsonMap['desc'] = this.desc;
+    final Map<String, dynamic> jsonMap = {};
+    jsonMap['id'] = id;
+    jsonMap['name'] = name;
+    jsonMap['life'] = life;
+    jsonMap['maxlife'] = maxlife;
+    jsonMap['attack'] = attack;
+    jsonMap['defence'] = defence;
+    jsonMap['power'] = power;
+    jsonMap['physic'] = physic;
+    jsonMap['skill'] = skill;
+    jsonMap['explosion'] = explosion;
+    jsonMap['block'] = block;
+    jsonMap['dodge'] = dodge;
+    jsonMap['props'] = props?.map((v) => v.toJson()).toList();
+    jsonMap['diffs'] = diffs?.map((v) => v.toJson()).toList();
+    jsonMap['desc'] = desc;
 
-    jsonMap['speak'] = this.speak;
-    jsonMap['attackText'] = this.attackText;
-    jsonMap['defenceText'] = this.defenceText;
-    jsonMap['winText'] = this.winText;
-    jsonMap['loseText'] = this.loseText;
+    jsonMap['speak'] = speak;
+    jsonMap['attackText'] = attackText;
+    jsonMap['defenceText'] = defenceText;
+    jsonMap['winText'] = winText;
+    jsonMap['loseText'] = loseText;
 
     return jsonMap;
   }

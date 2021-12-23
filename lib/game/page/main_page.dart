@@ -8,6 +8,11 @@ import 'package:flutter/material.dart';
 BuildContext? sMainContext;
 
 class MainPage extends StatefulWidget {
+
+  const MainPage({
+    Key? key,
+  }): super(key: key);
+
   @override
   _MainState createState() => _MainState();
 }

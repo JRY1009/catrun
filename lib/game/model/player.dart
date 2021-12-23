@@ -42,9 +42,7 @@ class Player extends Role {
       block: 0,
       dodge: 0,
       props: []
-  ) {
-
-  }
+  );
 
   num getPropDiff(String property) {
     if (props == null) {
@@ -63,9 +61,7 @@ class Player extends Role {
   }
 
   void addProps(List<Prop> propList) {
-    if (props == null) {
-      props = [];
-    }
+    props ??= [];
 
     int length = propList.length;
     for (int i=0; i<length; i++) {
@@ -80,8 +76,11 @@ class Player extends Role {
     props!.sort((a, b) {
       num al = a.id!;
       num bl = b.id!;
-      if (al > bl) return 1;
-      else if (al < bl) return -1;
+      if (al > bl) {
+        return 1;
+      } else if (al < bl) {
+        return -1;
+      }
       return 0;
     });
   }
@@ -205,23 +204,23 @@ class Player extends Role {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> jsonMap = new Map<String, dynamic>();
-    jsonMap['id'] = this.id;
-    jsonMap['name'] = this.name;
-    jsonMap['life'] = this.life;
-    jsonMap['maxlife'] = this.maxlife;
-    jsonMap['attack'] = this.attack;
-    jsonMap['defence'] = this.defence;
-    jsonMap['power'] = this.power;
-    jsonMap['physic'] = this.physic;
-    jsonMap['skill'] = this.skill;
-    jsonMap['explosion'] = this.explosion;
-    jsonMap['block'] = this.block;
-    jsonMap['dodge'] = this.dodge;
-    jsonMap['props'] = this.props?.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> jsonMap = {};
+    jsonMap['id'] = id;
+    jsonMap['name'] = name;
+    jsonMap['life'] = life;
+    jsonMap['maxlife'] = maxlife;
+    jsonMap['attack'] = attack;
+    jsonMap['defence'] = defence;
+    jsonMap['power'] = power;
+    jsonMap['physic'] = physic;
+    jsonMap['skill'] = skill;
+    jsonMap['explosion'] = explosion;
+    jsonMap['block'] = block;
+    jsonMap['dodge'] = dodge;
+    jsonMap['props'] = props?.map((v) => v.toJson()).toList();
 
-    jsonMap['hungry'] = this.hungry;
-    jsonMap['energy'] = this.energy;
+    jsonMap['hungry'] = hungry;
+    jsonMap['energy'] = energy;
     return jsonMap;
   }
 
@@ -245,22 +244,22 @@ class Player extends Role {
   }
 
   Map<String, dynamic> toLocalJson() {
-    final Map<String, dynamic> jsonMap = new Map<String, dynamic>();
-    jsonMap['id'] = this.id;
-    jsonMap['name'] = this.name;
-    jsonMap['life'] = this.life;
-    jsonMap['attack'] = this.attack;
-    jsonMap['defence'] = this.defence;
-    jsonMap['power'] = this.power;
-    jsonMap['physic'] = this.physic;
-    jsonMap['skill'] = this.skill;
-    jsonMap['explosion'] = this.explosion;
-    jsonMap['block'] = this.block;
-    jsonMap['dodge'] = this.dodge;
-    jsonMap['props'] = this.props?.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> jsonMap = {};
+    jsonMap['id'] = id;
+    jsonMap['name'] = name;
+    jsonMap['life'] = life;
+    jsonMap['attack'] = attack;
+    jsonMap['defence'] = defence;
+    jsonMap['power'] = power;
+    jsonMap['physic'] = physic;
+    jsonMap['skill'] = skill;
+    jsonMap['explosion'] = explosion;
+    jsonMap['block'] = block;
+    jsonMap['dodge'] = dodge;
+    jsonMap['props'] = props?.map((v) => v.toJson()).toList();
 
-    jsonMap['hungry'] = this.hungry;
-    jsonMap['energy'] = this.energy;
+    jsonMap['hungry'] = hungry;
+    jsonMap['energy'] = energy;
     return jsonMap;
   }
 

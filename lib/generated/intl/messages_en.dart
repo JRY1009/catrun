@@ -19,6 +19,14 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
+  static String m0(param) => "你携带了 ${param}";
+
+  static String m1(param) => "你把 ${param} 丢掉了";
+
+  static String m2(param, param2) => "你吃掉了 ${param}，${param2}";
+
+  static String m3(param) => "你把 ${param} 放回了仓库";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "appName": MessageLookupByLibrary.simpleMessage("小咪快跑"),
@@ -28,14 +36,19 @@ class MessageLookup extends MessageLookupByLibrary {
         "block": MessageLookupByLibrary.simpleMessage("格挡"),
         "carry": MessageLookupByLibrary.simpleMessage("携带"),
         "carryProp": MessageLookupByLibrary.simpleMessage("携带物品"),
+        "carryPropTips":
+            MessageLookupByLibrary.simpleMessage("提示：携带新的物品时将自动丢掉旧的物品"),
+        "carrySth": m0,
         "chinese": MessageLookupByLibrary.simpleMessage("简体中文"),
         "close": MessageLookupByLibrary.simpleMessage("关闭"),
         "confirm": MessageLookupByLibrary.simpleMessage("确定"),
         "defence": MessageLookupByLibrary.simpleMessage("防御"),
         "discard": MessageLookupByLibrary.simpleMessage("丢弃"),
+        "discardSth": m1,
         "dodge": MessageLookupByLibrary.simpleMessage("闪避"),
         "doubleTapExit": MessageLookupByLibrary.simpleMessage("再按一次退出游戏"),
         "eat": MessageLookupByLibrary.simpleMessage("吃掉"),
+        "eatSth": m2,
         "energy": MessageLookupByLibrary.simpleMessage("精神"),
         "english": MessageLookupByLibrary.simpleMessage("English"),
         "escape": MessageLookupByLibrary.simpleMessage("逃跑"),
@@ -54,6 +67,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "practice": MessageLookupByLibrary.simpleMessage("锻炼"),
         "props": MessageLookupByLibrary.simpleMessage("物品"),
         "putback": MessageLookupByLibrary.simpleMessage("放回仓库"),
+        "putbackSth": m3,
         "rest": MessageLookupByLibrary.simpleMessage("休息"),
         "skill": MessageLookupByLibrary.simpleMessage("灵巧"),
         "startGame": MessageLookupByLibrary.simpleMessage("开始游戏"),

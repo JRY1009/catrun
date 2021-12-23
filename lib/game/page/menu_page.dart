@@ -1,4 +1,3 @@
-import 'dart:async' as async;
 
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:catrun/game/manager/action_mgr.dart';
@@ -20,6 +19,11 @@ import 'package:catrun/widget/button/gradient_button.dart';
 import 'package:flutter/material.dart';
 
 class MenuPage extends StatefulWidget {
+
+  const MenuPage({
+    Key? key,
+  }): super(key: key);
+
   @override
   _MenuState createState() => _MenuState();
 }
@@ -68,7 +72,7 @@ class _MenuState extends State<MenuPage> {
                 height: 48.dp,
                 text: S.of(context).startGame,
                 textStyle: TextStyles.textWhite16,
-                colors: <Color>[   //背景渐变
+                colors: const [   //背景渐变
                   Colours.app_main,
                   Colours.app_main
                 ],

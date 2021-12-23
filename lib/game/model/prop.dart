@@ -48,13 +48,13 @@ class Prop {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> jsonMap = new Map<String, dynamic>();
-    jsonMap['id'] = this.id;
-    jsonMap['type'] = this.type;
-    jsonMap['count'] = this.count;
-    jsonMap['name'] = this.name;
-    jsonMap['desc'] = this.desc;
-    jsonMap['diffs'] = this.diffs?.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> jsonMap = {};
+    jsonMap['id'] = id;
+    jsonMap['type'] = type;
+    jsonMap['count'] = count;
+    jsonMap['name'] = name;
+    jsonMap['desc'] = desc;
+    jsonMap['diffs'] = diffs?.map((v) => v.toJson()).toList();
 
     return jsonMap;
   }

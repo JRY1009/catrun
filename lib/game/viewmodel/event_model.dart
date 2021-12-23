@@ -11,7 +11,6 @@ import 'package:catrun/game/manager/action_mgr.dart';
 import 'package:catrun/game/manager/enemy_mgr.dart';
 import 'package:catrun/game/manager/fight_mgr.dart';
 import 'package:catrun/game/manager/player_mgr.dart';
-import 'package:catrun/game/manager/prop_mgr.dart';
 import 'package:catrun/game/manager/revent_mgr.dart';
 import 'package:catrun/game/model/action.dart';
 import 'package:catrun/game/model/enemy.dart';

@@ -35,6 +35,11 @@
   "putback": "放回仓库",
   "carry": "携带",
   "carryProp": "携带物品",
+  "carryPropTips": "提示：携带新的物品时将自动丢掉旧的物品",
+  "carrySth": "你携带了 {param}",
+  "eatSth": "你吃掉了 {param}，{param2}",
+  "discardSth": "你把 {param} 丢掉了",
+  "putbackSth": "你把 {param} 放回了仓库",
   "home": "家",
   "outside": "外出"
 }

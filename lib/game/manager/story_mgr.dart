@@ -9,9 +9,7 @@ class StoryMgr {
   static StoryMgr? _instance;
 
   static StoryMgr? instance() {
-    if (_instance == null) {
-      _instance = new StoryMgr();
-    }
+    _instance ??= StoryMgr();
     return _instance;
   }
 

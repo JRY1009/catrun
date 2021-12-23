@@ -13,9 +13,7 @@ class TimeMgr {
   static TimeMgr? _instance;
 
   static TimeMgr? instance() {
-    if (_instance == null) {
-      _instance = new TimeMgr();
-    }
+    _instance ??= TimeMgr();
     return _instance;
   }
 

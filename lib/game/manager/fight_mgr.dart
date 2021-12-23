@@ -14,7 +14,7 @@ enum FightStatus {
   lose,
   next,
   escape,
-  escape_failed,
+  escapeFailed,
   normal
 }
 
@@ -38,9 +38,7 @@ class FightMgr {
   static FightMgr? _instance;
 
   static FightMgr? instance() {
-    if (_instance == null) {
-      _instance = new FightMgr();
-    }
+    _instance ??= FightMgr();
     return _instance;
   }
 
@@ -48,7 +46,7 @@ class FightMgr {
 
   Enemy? getEnemy() => _enemy;
 
-  Random _random = Random();
+  final Random _random = Random();
 
   setEnemy(Enemy? enemy) {
     _enemy = enemy;
@@ -66,12 +64,12 @@ class FightMgr {
       hert = max(player.pattack - _enemy!.defence!, 0);
       _enemy!.life = max(_enemy!.life! - hert, 0);
 
-      desc = _enemy!.attackText!.replaceAll('{name}', '${_enemy?.name}').replaceAll('{hert}', '${hert}');
+      desc = _enemy!.attackText!.replaceAll('{name}', '${_enemy?.name}').replaceAll('{hert}', '$hert');
       if (_enemy!.life! <= 0) {
         status = FightStatus.win;
 
         String winText = _enemy!.winText!.replaceAll('{name}', '${_enemy?.name}');
-        desc = '${desc}，${winText}';
+        desc = '$desc，$winText';
 
         props = PropMgr.instance()!.getProps(_enemy?.props) ?? [];
         //player.addProps(PropMgr.instance()!.getProps(_enemy?.props) ?? []);
@@ -79,7 +77,6 @@ class FightMgr {
 
       } else {
         status = FightStatus.next;
-        desc = '${desc}';
       }
 
       Event.eventBus.fire(PlayerEvent(player, PlayerEventState.update));
@@ -105,17 +102,16 @@ class FightMgr {
       hert = max(_enemy!.attack! - player.pdefence, 0);
       player.life = max(player.life! - hert, 0);
 
-      desc = _enemy!.defenceText!.replaceAll('{name}', '${_enemy?.name}').replaceAll('{hert}', '${hert}');
+      desc = _enemy!.defenceText!.replaceAll('{name}', '${_enemy?.name}').replaceAll('{hert}', '$hert');
       if (player.life! <= 0) {
         status = FightStatus.lose;
 
         String loseText = _enemy!.loseText!.replaceAll('{name}', '${_enemy?.name}');
-        desc = '${desc}，${loseText}';
+        desc = '$desc，$loseText';
         player.life = 1;
 
       } else {
         status = FightStatus.next;
-        desc = '${desc}';
       }
 
       Event.eventBus.fire(PlayerEvent(player, PlayerEventState.update));
@@ -141,7 +137,7 @@ class FightMgr {
         status = FightStatus.escape;
         desc = '逃跑成功';
       } else {
-        status = FightStatus.escape_failed;
+        status = FightStatus.escapeFailed;
         desc = '逃跑失败';
       }
 

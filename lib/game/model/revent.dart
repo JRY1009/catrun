@@ -35,7 +35,7 @@ class REvent {
     type = jsonMap['type'] ?? 1;
     name = jsonMap['name'] ?? '';
     enemy_id = jsonMap['enemy_id'] ?? 2000;
-    desc = jsonMap['desc']?.cast<String>() ?? [];
+    desc = jsonMap['desc']?.cast<String>() ?? [''];
 
     if (ObjectUtil.isNotEmpty(jsonMap['diffs'])) {
       diffs = PropertyDiff.fromJsonList(jsonMap['diffs']) ?? [];
@@ -51,15 +51,15 @@ class REvent {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> jsonMap = new Map<String, dynamic>();
-    jsonMap['id'] = this.id;
-    jsonMap['type'] = this.type;
-    jsonMap['name'] = this.name;
-    jsonMap['enemy_id'] = this.enemy_id;
-    jsonMap['desc'] = this.desc;
-    jsonMap['diffs'] = this.diffs?.map((v) => v.toJson()).toList();
-    jsonMap['options'] = this.options?.map((v) => v.toJson()).toList();
-    jsonMap['props'] = this.props?.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> jsonMap = {};
+    jsonMap['id'] = id;
+    jsonMap['type'] = type;
+    jsonMap['name'] = name;
+    jsonMap['enemy_id'] = enemy_id;
+    jsonMap['desc'] = desc;
+    jsonMap['diffs'] = diffs?.map((v) => v.toJson()).toList();
+    jsonMap['options'] = options?.map((v) => v.toJson()).toList();
+    jsonMap['props'] = props?.map((v) => v.toJson()).toList();
 
     return jsonMap;
   }

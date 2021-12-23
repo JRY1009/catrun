@@ -10,9 +10,7 @@ class PlayerMgr {
   static PlayerMgr? _instance;
 
   static PlayerMgr? instance() {
-    if (_instance == null) {
-      _instance = new PlayerMgr();
-    }
+    _instance ??= PlayerMgr();
     return _instance;
   }
 
@@ -38,10 +36,6 @@ class PlayerMgr {
     }
 
     Map<String, dynamic> jsonMap = json.decode(jsonString);
-    if (jsonMap == null) {
-      return null;
-    } else {
-      return Player.fromLocalJson(jsonMap);
-    }
+    return Player.fromLocalJson(jsonMap);
   }
 }

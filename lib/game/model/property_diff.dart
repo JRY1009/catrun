@@ -16,9 +16,9 @@ class PropertyDiff {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> jsonMap = new Map<String, dynamic>();
-    jsonMap['diff'] = this.diff;
-    jsonMap['property'] = this.property;
+    final Map<String, dynamic> jsonMap = {};
+    jsonMap['diff'] = diff;
+    jsonMap['property'] = property;
 
     return jsonMap;
   }

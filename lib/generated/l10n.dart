@@ -410,6 +410,56 @@ class S {
     );
   }
 
+  /// `提示：携带新的物品时将自动丢掉旧的物品`
+  String get carryPropTips {
+    return Intl.message(
+      '提示：携带新的物品时将自动丢掉旧的物品',
+      name: 'carryPropTips',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `你携带了 {param}`
+  String carrySth(Object param) {
+    return Intl.message(
+      '你携带了 $param',
+      name: 'carrySth',
+      desc: '',
+      args: [param],
+    );
+  }
+
+  /// `你吃掉了 {param}，{param2}`
+  String eatSth(Object param, Object param2) {
+    return Intl.message(
+      '你吃掉了 $param，$param2',
+      name: 'eatSth',
+      desc: '',
+      args: [param, param2],
+    );
+  }
+
+  /// `你把 {param} 丢掉了`
+  String discardSth(Object param) {
+    return Intl.message(
+      '你把 $param 丢掉了',
+      name: 'discardSth',
+      desc: '',
+      args: [param],
+    );
+  }
+
+  /// `你把 {param} 放回了仓库`
+  String putbackSth(Object param) {
+    return Intl.message(
+      '你把 $param 放回了仓库',
+      name: 'putbackSth',
+      desc: '',
+      args: [param],
+    );
+  }
+
   /// `家`
   String get home {
     return Intl.message(

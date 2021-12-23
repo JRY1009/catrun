@@ -26,7 +26,7 @@ import 'carry_panel.dart';
 
 class EventPanel extends StatefulWidget {
 
-  EventPanel({
+  const EventPanel({
     Key? key,
   }): super(key: key);
 
@@ -139,7 +139,7 @@ class EventPanelState extends State<EventPanel> {
           Container(
             margin: EdgeInsets.only(top: 10.dp, left: 20.dp, right: 20.dp),
             alignment: Alignment.centerLeft,
-            child: Text('提示：携带新的物品时将自动丢掉旧的物品', style: TextStyles.textMain12)
+            child: Text(S.of(context).carryPropTips, style: TextStyles.textMain12)
           ),
           Container(
             margin: EdgeInsets.only(top: 10.dp, left: 20.dp, right: 20.dp),
@@ -154,7 +154,7 @@ class EventPanelState extends State<EventPanel> {
                 _eventModel.panelState = _eventModel.lastState;
                 _eventModel.startAction(Action(
                     id: Action.id_act_carry,
-                    desc: ['你携带了 ${_eventModel.optionProp?.name ?? ''}']
+                    desc: [S.of(context).carrySth(_eventModel.optionProp?.name ?? '')]
                 ), burn: false);
               },
             ),
@@ -173,7 +173,7 @@ class EventPanelState extends State<EventPanel> {
                 _eventModel.panelState = _eventModel.lastState;
                 _eventModel.startAction(Action(
                     id: Action.id_act_eat,
-                    desc: ['你吃掉了 ${_eventModel.optionProp?.name ?? ''}，${_eventModel.optionProp?.desc}']
+                    desc: [S.of(context).eatSth(_eventModel.optionProp?.name ?? '', _eventModel.optionProp?.desc ?? '')]
                 ), burn: false);
               },
             ),
@@ -189,7 +189,7 @@ class EventPanelState extends State<EventPanel> {
                 _eventModel.panelState = _eventModel.lastState;
                 _eventModel.startAction(Action(
                     id: Action.id_act_eat,
-                    desc: ['你把 ${_eventModel.optionProp?.name ?? ''} 丢掉了']
+                    desc: [S.of(context).discardSth(_eventModel.optionProp?.name ?? '')]
                 ), burn: false);
               },
             ),
@@ -199,20 +199,21 @@ class EventPanelState extends State<EventPanel> {
     );
   }
 
-  void _onEat() {
+  void _eat() {
     Player? player = PlayerMgr.instance()!.getPlayer();
     _eventModel.startAction(Action(
         id: Action.id_act_eat,
-        desc: ['你吃掉了 ${player?.carriedProp?.name ?? ''}，${player?.carriedProp?.desc ?? ''}']
+        desc: [S.of(context).eatSth(player?.carriedProp?.name ?? '', player?.carriedProp?.desc ?? '')]
     ), burn: false);
   }
 
-  void _onDiscard() {
+  void _discard() {
     Player? player = PlayerMgr.instance()!.getPlayer();
     _eventModel.startAction(Action(
         id: Action.id_act_discard,
         desc: _eventModel.isHomeState ?
-        ['你把 ${player?.carriedProp?.name ?? ''} 放回了仓库'] : ['你把 ${player?.carriedProp?.name ?? ''} 丢掉了']
+        [S.of(context).putbackSth(player?.carriedProp?.name ?? '')] :
+        [S.of(context).discardSth(player?.carriedProp?.name ?? '')]
     ), burn: false);
   }
 
@@ -260,7 +261,7 @@ class EventPanelState extends State<EventPanel> {
                     _buildActionButton(ActionMgr.instance()!.getAction(Action.id_act_outside_711)),
                   ],
                 ),
-                Gaps.vGap20,
+                Gaps.vGap10,
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -281,8 +282,8 @@ class EventPanelState extends State<EventPanel> {
                 padding: EdgeInsets.symmetric(horizontal: 20.dp, vertical: 5.dp),
                 child: CarryPanel(
                   dark: false,
-                  onEat: _onEat,
-                  onDiscard: _onDiscard,
+                  onEat: _eat,
+                  onDiscard: _discard,
                 ),
               ),
               Expanded(
