@@ -18,7 +18,10 @@ import 'package:catrun/game/model/option.dart';
 import 'package:catrun/game/model/player.dart';
 import 'package:catrun/game/model/prop.dart';
 import 'package:catrun/game/model/revent.dart';
+import 'package:catrun/generated/l10n.dart';
 import 'package:catrun/mvvm/view_state_model.dart';
+import 'package:catrun/router/routers.dart';
+import 'package:flutter/material.dart' hide Action;
 
 enum PanelState {
   home,
@@ -50,7 +53,7 @@ class EventModel extends ViewStateModel {
 
     optionSubscription?.cancel();
     optionSubscription = Event.eventBus.on<OptionEvent>().listen((event) {
-      action = Action(id: Action.id_act_option);
+      action = Action(id: Action.action_option);
       startOption(event.option);
     });
   }
@@ -69,9 +72,9 @@ class EventModel extends ViewStateModel {
     _panelState = state;
 
     if (state == PanelState.home) {
-      Event.eventBus.fire(LocationEvent(LocationState.home));
+      PlayerMgr.instance()!.setLocationState(LocationState.home);
     } else if (state == PanelState.outside) {
-      Event.eventBus.fire(LocationEvent(LocationState.outside));
+      PlayerMgr.instance()!.setLocationState(LocationState.outside);
     }
     notifyListeners();
   }
@@ -83,10 +86,38 @@ class EventModel extends ViewStateModel {
     notifyListeners();
   }
 
-  bool startAction(Action? act, {bool burn = true}) {
+  void doAction(BuildContext context, Action? action) {
+
+    if (action?.id == Action.action_practice) {
+      panelState = PanelState.practice;
+    } else if (action?.id == Action.action_back) {
+      panelState = PanelState.home;
+
+    } else if (action?.id == Action.action_goout) {
+      if (startAction(action)) {
+        panelState = PanelState.outside;
+      }
+
+    } else if (action?.id == Action.action_outside_gohome) {
+      panelState = PanelState.home;
+      startAction(action);
+
+    } else if (action?.id == Action.action_rest) {
+      startAction(action, burnEnergy: false);
+      Routers.navigateTo(context, Routers.timePage);
+
+    } else if (action?.id == Action.action_warehouse) {
+      Routers.navigateTo(context, Routers.warehousePage);
+
+    } else {
+      startAction(action);
+    }
+  }
+
+  bool startAction(Action? act, {bool burnEnergy = true}) {
 
     bool ret = true;
-    if (burn) {
+    if (burnEnergy) {
       if (!_enableAction) {
         return false;
       }
@@ -94,36 +125,33 @@ class EventModel extends ViewStateModel {
 
       Player? player = PlayerMgr.instance()!.getPlayer();
       if ((player?.energy ?? 0) <= 0) {
-        action = ActionMgr.instance()!.getAction(Action.id_act_rest_need);
+        action = ActionMgr.instance()!.getAction(Action.action_rest_need);
         ret = false;
 
       } else if (((player?.energy ?? 0) <= AppConfig.burnEnergy) && isOutsideState) {
-        action = ActionMgr.instance()!.getAction(Action.id_act_gohome_need);
+        action = ActionMgr.instance()!.getAction(Action.action_gohome_need);
         ret = false;
 
-      } else if (((player?.energy ?? 0) <= AppConfig.burnEnergy) && isHomeState && act?.id == Action.id_act_goout) {
-        action = ActionMgr.instance()!.getAction(Action.id_act_goout_banned);
+      } else if (((player?.energy ?? 0) <= AppConfig.burnEnergy) && isHomeState && act?.id == Action.action_goout) {
+        action = ActionMgr.instance()!.getAction(Action.action_goout_banned);
         ret = false;
 
       } else {
         action = act;
         player?.energy = max((player.energy ?? 0) - AppConfig.burnEnergy, 0);
 
-        if (action?.id == Action.id_act_outside_stroll) {
-          revent = REventMgr.instance()!.getRandomEvent();
-          if (revent?.type == REvent.event_type_property) {
-            player?.makeDiffs(revent?.diffs ?? []);
-          } else if (revent?.type == REvent.event_type_option) {
-            panelState = PanelState.option;
-          } else if (revent?.type == REvent.event_type_fight) {
-            enemy = EnemyMgr.instance()!.getEnemy(revent?.enemy_id ?? 0);
-            Future.delayed(Duration(milliseconds: 500), () {
-              panelState = PanelState.fight;
-            });
-          } else if (revent?.type == REvent.event_type_pick) {
-            optionProp = revent?.props?[0];
-            panelState = PanelState.propOption;
-          }
+        if (Action.isOutsideAction(action?.id ?? 0)) {
+          OutsideLocation outside = Action.switch2Location(action?.id ?? 0);
+          PlayerMgr.instance()!.setOutsideLocation(outside);
+
+          REvent? event = REventMgr.instance()!.getRandomEvent();
+          event?.desc = [S.current.come2Spl('${action?.name}'), ...event.desc??[]];
+          _handleEvent(event);
+
+        } else if (Action.isOutsideSubAction(action?.id ?? 0)) {
+          REvent? event = REventMgr.instance()!.getRandomEvent();
+          _handleEvent(event);
+
         } else {
           player?.makeDiffs(action?.diffs ?? []);
         }
@@ -153,23 +181,8 @@ class EventModel extends ViewStateModel {
     }
     _enableAction = false;
     _panelState = _lastState;
-    
-    Player? player = PlayerMgr.instance()!.getPlayer();
-    revent = REventMgr.instance()!.getOptionEventById(option.id ?? 0);
-    if (revent?.type == REvent.event_type_property) {
-      player?.makeDiffs(revent?.diffs ?? []);
 
-    } else if (revent?.type == REvent.event_type_fight) {
-      enemy = EnemyMgr.instance()!.getEnemy(revent?.enemy_id ?? 0);
-      Future.delayed(Duration(milliseconds: 500), () {
-        panelState = PanelState.fight;
-      });
-    } else if (revent?.type == REvent.event_type_pick) {
-      optionProp = revent?.props?[0];
-      panelState = PanelState.propOption;
-    }
-    
-    Event.eventBus.fire(PlayerEvent(player, PlayerEventState.update));
+    _handleEvent(REventMgr.instance()!.getOptionEventById(option.id ?? 0));
 
     _animCount = -1;
     notifyListeners();
@@ -180,17 +193,41 @@ class EventModel extends ViewStateModel {
     });
   }
 
+  void _handleEvent(REvent? event) {
+    revent = event;
+    Player? player = PlayerMgr.instance()!.getPlayer();
+
+    if (revent?.type == REvent.event_type_property) {
+      player?.makeDiffs(revent?.diffs ?? []);
+
+    } else if (revent?.type == REvent.event_type_option) {
+      panelState = PanelState.option;
+
+    } else if (revent?.type == REvent.event_type_fight) {
+      enemy = EnemyMgr.instance()!.getEnemy(revent?.enemy_id ?? 0);
+      Future.delayed(Duration(milliseconds: 500), () {
+        panelState = PanelState.fight;
+      });
+    } else if (revent?.type == REvent.event_type_pick) {
+      optionProp = revent?.props?[0];
+      panelState = PanelState.propOption;
+    }
+
+    Event.eventBus.fire(PlayerEvent(player, PlayerEventState.update));
+  }
+
   void finishAction() {
     _enableAction = true;
   }
 
   List<String> getActionStr() {
     List<String> listStr = [''];
-    if (action?.id == Action.id_act_fight_finish) {
+    if (action?.id == Action.action_fight_finish) {
       listStr = [fightResult?.desc ?? ''];
 
-    } else if (action?.id == Action.id_act_option ||
-        action?.id == Action.id_act_outside_stroll) {
+    } else if (action?.id == Action.action_option ||
+        Action.isOutsideAction(action?.id ?? 0) ||
+        Action.isOutsideSubAction(action?.id ?? 0)) {
       listStr = revent?.desc ?? [''];
 
     } else {

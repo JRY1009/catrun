@@ -36,7 +36,8 @@ class REventMgr {
     int length = events!.length;
     int r = _random.nextInt(length);
 
-    return events![r];
+    REvent event = REvent.fromJson(events![r].toJson());
+    return event;
   }
 
   REvent? getRandomEventById(num id) {
@@ -47,7 +48,8 @@ class REventMgr {
     int length = events!.length;
     for (int i=0; i<length; i++) {
       if (events![i].id == id) {
-        return events![i];
+        REvent event = REvent.fromJson(events![i].toJson());
+        return event;
       }
     }
 
@@ -62,7 +64,8 @@ class REventMgr {
     int length = optionEvents!.length;
     for (int i=0; i<length; i++) {
       if (optionEvents![i].id == id) {
-        return optionEvents![i];
+        REvent event = REvent.fromJson(optionEvents![i].toJson());
+        return event;
       }
     }
 

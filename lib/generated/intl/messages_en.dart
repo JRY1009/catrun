@@ -21,11 +21,13 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m0(param) => "你携带了 ${param}";
 
-  static String m1(param) => "你把 ${param} 丢掉了";
+  static String m1(param) => "你来到了 ${param}";
 
-  static String m2(param, param2) => "你吃掉了 ${param}，${param2}";
+  static String m2(param) => "你把 ${param} 丢掉了";
 
-  static String m3(param) => "你把 ${param} 放回了仓库";
+  static String m3(param, param2) => "你吃掉了 ${param}，${param2}";
+
+  static String m4(param) => "你把 ${param} 放回了仓库";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -41,14 +43,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "carrySth": m0,
         "chinese": MessageLookupByLibrary.simpleMessage("简体中文"),
         "close": MessageLookupByLibrary.simpleMessage("关闭"),
+        "come2Spl": m1,
         "confirm": MessageLookupByLibrary.simpleMessage("确定"),
         "defence": MessageLookupByLibrary.simpleMessage("防御"),
         "discard": MessageLookupByLibrary.simpleMessage("丢弃"),
-        "discardSth": m1,
+        "discardSth": m2,
         "dodge": MessageLookupByLibrary.simpleMessage("闪避"),
         "doubleTapExit": MessageLookupByLibrary.simpleMessage("再按一次退出游戏"),
         "eat": MessageLookupByLibrary.simpleMessage("吃掉"),
-        "eatSth": m2,
+        "eatSth": m3,
         "energy": MessageLookupByLibrary.simpleMessage("精神"),
         "english": MessageLookupByLibrary.simpleMessage("English"),
         "escape": MessageLookupByLibrary.simpleMessage("逃跑"),
@@ -67,7 +70,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "practice": MessageLookupByLibrary.simpleMessage("锻炼"),
         "props": MessageLookupByLibrary.simpleMessage("物品"),
         "putback": MessageLookupByLibrary.simpleMessage("放回仓库"),
-        "putbackSth": m3,
+        "putbackSth": m4,
         "rest": MessageLookupByLibrary.simpleMessage("休息"),
         "skill": MessageLookupByLibrary.simpleMessage("灵巧"),
         "startGame": MessageLookupByLibrary.simpleMessage("开始游戏"),

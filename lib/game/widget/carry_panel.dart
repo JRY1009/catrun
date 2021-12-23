@@ -18,7 +18,7 @@ class CarryPanel extends StatefulWidget {
   final Function()? onEat;
   final Function()? onDiscard;
 
-  CarryPanel({
+  const CarryPanel({
     Key? key,
     this.dark = false,
     this.onEat,

@@ -40,6 +40,7 @@
   "eatSth": "你吃掉了 {param}，{param2}",
   "discardSth": "你把 {param} 丢掉了",
   "putbackSth": "你把 {param} 放回了仓库",
+  "come2Spl": "你来到了 {param}",
   "home": "家",
   "outside": "外出"
 }

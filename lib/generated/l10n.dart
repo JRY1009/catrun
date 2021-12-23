@@ -460,6 +460,16 @@ class S {
     );
   }
 
+  /// `你来到了 {param}`
+  String come2Spl(Object param) {
+    return Intl.message(
+      '你来到了 $param',
+      name: 'come2Spl',
+      desc: '',
+      args: [param],
+    );
+  }
+
   /// `家`
   String get home {
     return Intl.message(

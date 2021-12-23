@@ -5,11 +5,9 @@ import 'package:catrun/game/viewmodel/player_model.dart';
 import 'package:catrun/game/viewmodel/time_model.dart';
 import 'package:catrun/generated/l10n.dart';
 import 'package:catrun/mvvm/provider_widget.dart';
-import 'package:catrun/res/colors.dart';
-import 'package:catrun/res/gaps.dart';
 import 'package:catrun/res/styles.dart';
+import 'package:catrun/utils/object_util.dart';
 import 'package:catrun/utils/screen_util.dart';
-import 'package:catrun/widget/button/border_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -66,6 +64,10 @@ class _StatusPanelState extends State<StatusPanel> {
 
           int day = TimeMgr.instance()!.getDay();
           Player? player = PlayerMgr.instance()!.getPlayer();
+          String location = _playerModel.getLocationStr();
+          if (ObjectUtil.isNotEmpty(location)) {
+            location = ' • ' + location;
+          }
 
           return Container(
             padding: EdgeInsets.symmetric(horizontal: 20.dp),
@@ -73,7 +75,10 @@ class _StatusPanelState extends State<StatusPanel> {
               children: [
                 Container(
                     padding: EdgeInsets.symmetric(vertical: 10.dp),
-                    child: Text('第${day}天 • ${_playerModel.isHome ? S.of(context).home : S.of(context).outside}', style: TextStyles.textMain16_w700)
+                    child: Text(
+                        '第${day}天 • ${_playerModel.isHome ? S.of(context).home : S.of(context).outside}$location',
+                        style: TextStyles.textMain16_w700
+                    )
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
