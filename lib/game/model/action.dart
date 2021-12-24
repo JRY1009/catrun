@@ -20,12 +20,19 @@ class Action {
   static const num action_outside_hospital = 207;
   static const num action_outside_stroll = 208;
 
-  static const num action_garden_stroll = 2020;
-  static const num action_recycle_stroll = 2030;
-  static const num action_shop_stroll = 2040;
-  static const num action_market_stroll = 2050;
-  static const num action_station_stroll = 2060;
-  static const num action_hospital_stroll = 2070;
+  static const num action_garden_stroll = 2000;
+  static const num action_recycle_stroll = 2001;
+  static const num action_shop_stroll = 2002;
+  static const num action_market_stroll = 2003;
+  static const num action_station_stroll = 2004;
+  static const num action_hospital_stroll = 2005;
+
+  static const num action_garden_npc = 2020;
+  static const num action_recycle_npc = 2021;
+  static const num action_shop_npc = 2022;
+  static const num action_market_npc = 2023;
+  static const num action_station_npc = 2024;
+  static const num action_hospital_npc = 2025;
 
   static const num action_warehouse = 3;
   static const num action_eat = 300;
@@ -47,6 +54,10 @@ class Action {
 
   static bool isOutsideSubAction(num id) {
     return id >= action_garden_stroll && id <= action_hospital_stroll;
+  }
+
+  static bool isOutsideNpcAction(num id) {
+    return id >= action_garden_npc && id <= action_hospital_npc;
   }
 
   static OutsideLocation switch2Location(num id) {

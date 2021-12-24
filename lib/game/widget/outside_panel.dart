@@ -48,7 +48,7 @@ class _OutsidePanelState extends State<OutsidePanel> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               _buildLocationButton(context, ActionMgr.instance()!.getAction(Action.action_garden_stroll)),
-              Container(width: 72.dp, height: 28.dp),
+              _buildLocationButton(context, ActionMgr.instance()!.getAction(Action.action_garden_npc)),
               Container(width: 72.dp, height: 28.dp),
               Container(width: 72.dp, height: 28.dp),
             ],
@@ -59,7 +59,7 @@ class _OutsidePanelState extends State<OutsidePanel> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           _buildLocationButton(context, ActionMgr.instance()!.getAction(Action.action_recycle_stroll)),
-          Container(width: 72.dp, height: 28.dp),
+          _buildLocationButton(context, ActionMgr.instance()!.getAction(Action.action_recycle_npc)),
           Container(width: 72.dp, height: 28.dp),
           Container(width: 72.dp, height: 28.dp),
         ],
@@ -70,7 +70,7 @@ class _OutsidePanelState extends State<OutsidePanel> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           _buildLocationButton(context, ActionMgr.instance()!.getAction(Action.action_shop_stroll)),
-          Container(width: 72.dp, height: 28.dp),
+          _buildLocationButton(context, ActionMgr.instance()!.getAction(Action.action_shop_npc)),
           Container(width: 72.dp, height: 28.dp),
           Container(width: 72.dp, height: 28.dp),
         ],
@@ -81,7 +81,7 @@ class _OutsidePanelState extends State<OutsidePanel> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           _buildLocationButton(context, ActionMgr.instance()!.getAction(Action.action_market_stroll)),
-          Container(width: 72.dp, height: 28.dp),
+          _buildLocationButton(context, ActionMgr.instance()!.getAction(Action.action_market_npc)),
           Container(width: 72.dp, height: 28.dp),
           Container(width: 72.dp, height: 28.dp),
         ],
@@ -92,7 +92,7 @@ class _OutsidePanelState extends State<OutsidePanel> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           _buildLocationButton(context, ActionMgr.instance()!.getAction(Action.action_station_stroll)),
-          Container(width: 72.dp, height: 28.dp),
+          _buildLocationButton(context, ActionMgr.instance()!.getAction(Action.action_station_npc)),
           Container(width: 72.dp, height: 28.dp),
           Container(width: 72.dp, height: 28.dp),
         ],
@@ -103,7 +103,7 @@ class _OutsidePanelState extends State<OutsidePanel> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           _buildLocationButton(context, ActionMgr.instance()!.getAction(Action.action_hospital_stroll)),
-          Container(width: 72.dp, height: 28.dp),
+          _buildLocationButton(context, ActionMgr.instance()!.getAction(Action.action_hospital_npc)),
           Container(width: 72.dp, height: 28.dp),
           Container(width: 72.dp, height: 28.dp),
         ],
