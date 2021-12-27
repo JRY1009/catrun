@@ -5,7 +5,7 @@ import 'option.dart';
 import 'prop.dart';
 import 'property_diff.dart';
 
-class Story {
+class Diary {
 
   num? id;
   num? type;  //1确定事件，2选择事件，3战斗事件
@@ -16,7 +16,7 @@ class Story {
   List<Option>? options;
   List<Prop>? props;
 
-  Story({
+  Diary({
     this.id,
     this.type,
     this.enemy_id,
@@ -24,7 +24,7 @@ class Story {
     this.diffs,
   });
 
-  Story.fromJson(Map<String, dynamic> jsonMap) {
+  Diary.fromJson(Map<String, dynamic> jsonMap) {
     id = jsonMap['id'] ?? 0;
     type = jsonMap['type'] ?? 1;
     enemy_id = jsonMap['enemy_id'] ?? 0;
@@ -59,14 +59,14 @@ class Story {
     return jsonMap;
   }
 
-  static List<Story>? fromJsonList(List<dynamic> mapList) {
+  static List<Diary>? fromJsonList(List<dynamic> mapList) {
     if (ObjectUtil.isEmptyList(mapList)) {
       return null;
     }
 
-    List<Story> items = [];
+    List<Diary> items = [];
     for(Map<String, dynamic> map in mapList) {
-      items.add(Story.fromJson(map));
+      items.add(Diary.fromJson(map));
     }
     return items;
   }

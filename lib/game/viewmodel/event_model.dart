@@ -35,6 +35,7 @@ enum PanelState {
 class EventModel extends ViewStateModel {
 
   bool _enableAction = true;
+  bool _postEvent = false;
   PanelState _panelState = PanelState.home;
   PanelState _lastState = PanelState.home;
 
@@ -146,11 +147,11 @@ class EventModel extends ViewStateModel {
 
           REvent? event = REventMgr.instance()!.getRandomEvent();
           event?.desc = [S.current.come2Spl('${action?.name}'), ...event.desc??[]];
-          _handleEvent(event);
+          postEvent(event);
 
         } else if (Action.isOutsideSubAction(action?.id ?? 0)) {
           REvent? event = REventMgr.instance()!.getRandomEvent();
-          _handleEvent(event);
+          postEvent(event);
 
         } else {
           player?.makeDiffs(action?.diffs ?? []);
@@ -182,7 +183,7 @@ class EventModel extends ViewStateModel {
     _enableAction = false;
     _panelState = _lastState;
 
-    _handleEvent(REventMgr.instance()!.getOptionEventById(option.id ?? 0));
+    postEvent(REventMgr.instance()!.getOptionEventById(option.id ?? 0));
 
     _animCount = -1;
     notifyListeners();
@@ -193,27 +194,34 @@ class EventModel extends ViewStateModel {
     });
   }
 
-  void _handleEvent(REvent? event) {
+  void postEvent(REvent? event) {
     revent = event;
-    Player? player = PlayerMgr.instance()!.getPlayer();
+    _postEvent = true;
+  }
 
-    if (revent?.type == REvent.event_type_property) {
-      player?.makeDiffs(revent?.diffs ?? []);
+  void handleEvent() {
+    if (_postEvent) {
+      _postEvent = false;
+      Player? player = PlayerMgr.instance()!.getPlayer();
 
-    } else if (revent?.type == REvent.event_type_option) {
-      panelState = PanelState.option;
+      if (revent?.type == REvent.event_type_property) {
+        player?.makeDiffs(revent?.diffs ?? []);
 
-    } else if (revent?.type == REvent.event_type_fight) {
-      enemy = EnemyMgr.instance()!.getEnemy(revent?.enemy_id ?? 0);
-      Future.delayed(Duration(milliseconds: 500), () {
-        panelState = PanelState.fight;
-      });
-    } else if (revent?.type == REvent.event_type_pick) {
-      optionProp = revent?.props?[0];
-      panelState = PanelState.propOption;
+      } else if (revent?.type == REvent.event_type_option) {
+        panelState = PanelState.option;
+
+      } else if (revent?.type == REvent.event_type_fight) {
+        enemy = EnemyMgr.instance()!.getEnemy(revent?.enemy_id ?? 0);
+        Future.delayed(Duration(milliseconds: 400), () {
+          panelState = PanelState.fight;
+        });
+      } else if (revent?.type == REvent.event_type_pick) {
+        optionProp = revent?.props?[0];
+        panelState = PanelState.propOption;
+      }
+
+      Event.eventBus.fire(PlayerEvent(player, PlayerEventState.update));
     }
-
-    Event.eventBus.fire(PlayerEvent(player, PlayerEventState.update));
   }
 
   void finishAction() {

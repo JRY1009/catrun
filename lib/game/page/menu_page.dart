@@ -1,11 +1,11 @@
 
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:catrun/game/manager/action_mgr.dart';
+import 'package:catrun/game/manager/diary_mgr.dart';
 import 'package:catrun/game/manager/enemy_mgr.dart';
 import 'package:catrun/game/manager/player_mgr.dart';
 import 'package:catrun/game/manager/prop_mgr.dart';
 import 'package:catrun/game/manager/revent_mgr.dart';
-import 'package:catrun/game/manager/story_mgr.dart';
 import 'package:catrun/game/manager/time_mgr.dart';
 import 'package:catrun/game/model/player.dart';
 import 'package:catrun/generated/l10n.dart';
@@ -35,7 +35,7 @@ class _MenuState extends State<MenuPage> {
   void initState() {
     super.initState();
     TimeMgr.instance()!.reset();
-    StoryMgr.instance()!.loadStorys();
+    DiaryMgr.instance()!.loadDiaries();
     ActionMgr.instance()!.loadActions();
     REventMgr.instance()!.loadREvents();
     EnemyMgr.instance()!.loadEnemys();
@@ -78,7 +78,7 @@ class _MenuState extends State<MenuPage> {
                 ],
                 onPressed: () {
                   PlayerMgr.instance()!.setPlayer(Player());
-                  Routers.navigateTo(context, Routers.storyPage);
+                  Routers.navigateTo(context, Routers.diaryPage);
                 },
             )
           ],

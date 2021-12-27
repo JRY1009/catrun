@@ -3,11 +3,11 @@ import 'dart:math';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:catrun/game/config/app_config.dart';
+import 'package:catrun/game/manager/diary_mgr.dart';
 import 'package:catrun/game/manager/player_mgr.dart';
-import 'package:catrun/game/manager/story_mgr.dart';
 import 'package:catrun/game/manager/time_mgr.dart';
+import 'package:catrun/game/model/diary.dart';
 import 'package:catrun/game/model/player.dart';
-import 'package:catrun/game/model/story.dart';
 import 'package:catrun/generated/l10n.dart';
 import 'package:catrun/res/colors.dart';
 import 'package:catrun/res/gaps.dart';
@@ -83,7 +83,7 @@ class _TimePageState extends State<TimePage> {
     }).toList();
   }
 
-  Widget _buildStory() {
+  Widget _buildDiary() {
 
     int day = TimeMgr.instance()!.getDay();
     Player? player = PlayerMgr.instance()!.getPlayer();
@@ -104,12 +104,12 @@ class _TimePageState extends State<TimePage> {
 
           Player? player = PlayerMgr.instance()!.getPlayer();
           int day = TimeMgr.instance()!.getDay();
-          Story? story = StoryMgr.instance()!.getStory(day);
+          Diary? diary = DiaryMgr.instance()!.getDiary(day);
           if ((player?.hungry ?? 0) <= 0) {
             Routers.navigateTo(this.context, Routers.gameOver);
-          } else if (story != null) {
+          } else if (diary != null) {
             Routers.goBack(context);
-            Routers.navigateTo(this.context, Routers.storyPage);
+            Routers.navigateTo(this.context, Routers.diaryPage);
           } else {
             Routers.goBack(context);
           }
@@ -132,7 +132,7 @@ class _TimePageState extends State<TimePage> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                Expanded(child: _buildStory()),
+                Expanded(child: _buildDiary()),
                 _buildConfirmButton()
               ],
             ),

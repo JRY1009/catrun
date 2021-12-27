@@ -4,12 +4,12 @@ import 'package:catrun/game/config/app_config.dart';
 import 'package:catrun/game/event/event.dart';
 import 'package:catrun/game/event/option_event.dart';
 import 'package:catrun/game/event/player_event.dart';
+import 'package:catrun/game/manager/diary_mgr.dart';
 import 'package:catrun/game/manager/player_mgr.dart';
 import 'package:catrun/game/manager/prop_mgr.dart';
-import 'package:catrun/game/manager/story_mgr.dart';
 import 'package:catrun/game/manager/time_mgr.dart';
+import 'package:catrun/game/model/diary.dart';
 import 'package:catrun/game/model/player.dart';
-import 'package:catrun/game/model/story.dart';
 import 'package:catrun/game/page/main_page.dart';
 import 'package:catrun/generated/l10n.dart';
 import 'package:catrun/res/colors.dart';
@@ -22,28 +22,28 @@ import 'package:catrun/widget/animate/scale_widget.dart';
 import 'package:catrun/widget/button/border_button.dart';
 import 'package:flutter/material.dart';
 
-class StoryPage extends StatefulWidget {
+class DiaryPage extends StatefulWidget {
 
-  StoryPage({
+  DiaryPage({
     Key? key,
   }): super(key: key);
 
   @override
-  _StoryPageState createState() => _StoryPageState();
+  _DiaryPageState createState() => _DiaryPageState();
 }
 
-class _StoryPageState extends State<StoryPage> {
+class _DiaryPageState extends State<DiaryPage> {
 
   int _count = 0;
 
-  Story? _story;
+  Diary? _diary;
 
   @override
   void initState() {
     super.initState();
 
     int day = TimeMgr.instance()!.getDay();
-    _story = StoryMgr.instance()!.getStory(day);
+    _diary = DiaryMgr.instance()!.getDiary(day);
 
     startAction();
   }
@@ -90,7 +90,7 @@ class _StoryPageState extends State<StoryPage> {
   }
 
   Widget _buildConfirmButton() {
-    return _count >= (_story?.desc?.length ?? 0) ? ScaleWidget(
+    return _count >= (_diary?.desc?.length ?? 0) ? ScaleWidget(
       child: BorderButton(width: 108.dp, height: 36.dp,
         text: S.of(context).confirm,
         textStyle: TextStyles.textWhite16,
@@ -98,8 +98,8 @@ class _StoryPageState extends State<StoryPage> {
         borderColor: Colours.white,
         onPressed: () {
           Player? player = PlayerMgr.instance()!.getPlayer();
-          player?.addProps(PropMgr.instance()!.getProps(_story?.props) ?? []);
-          player?.makeDiffs(_story?.diffs ?? []);
+          player?.addProps(PropMgr.instance()!.getProps(_diary?.props) ?? []);
+          player?.makeDiffs(_diary?.diffs ?? []);
           Event.eventBus.fire(PlayerEvent(null, PlayerEventState.update));
 
           if (sMainContext == null) {
@@ -115,9 +115,9 @@ class _StoryPageState extends State<StoryPage> {
 
   Widget _buildSelectButtons() {
 
-    return _count >= (_story?.desc?.length ?? 0) ? ScaleWidget(
+    return _count >= (_diary?.desc?.length ?? 0) ? ScaleWidget(
       child: Column(
-        children: _story?.options?.asMap().entries.map((entry) {
+        children: _diary?.options?.asMap().entries.map((entry) {
           return Container(
             margin: EdgeInsets.only(top: 10, left: 20, right: 20),
             child: BorderButton(width: double.infinity, height: 36.dp,
@@ -157,8 +157,8 @@ class _StoryPageState extends State<StoryPage> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                Expanded(child: Column(children: _buildFade(_story?.desc ?? []))),
-                _story?.type == 2 ? _buildSelectButtons() : _buildConfirmButton()
+                Expanded(child: Column(children: _buildFade(_diary?.desc ?? []))),
+                _diary?.type == 2 ? _buildSelectButtons() : _buildConfirmButton()
               ],
             ),
           ),

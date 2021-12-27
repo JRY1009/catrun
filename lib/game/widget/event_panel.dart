@@ -65,6 +65,10 @@ class EventPanelState extends State<EventPanel> {
           ],
           onFinished: () {
             _eventModel.animCount ++;
+            if (_eventModel.animCount >= listStr.length - 1) {
+              _eventModel.handleEvent();
+            }
+
             if (_eventModel.animCount >= listStr.length) {
               _eventModel.finishAction();
             }
