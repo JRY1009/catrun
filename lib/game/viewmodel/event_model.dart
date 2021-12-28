@@ -181,8 +181,14 @@ class EventModel extends ViewStateModel {
   }
 
   void doMeet(BuildContext context, Action? action) {
+    if (!_enableAction) {
+      return;
+    }
+    
     npc = NpcMgr.instance()!.getNpc(action?.id ?? 0);
     panelState = PanelState.meet;
+
+    startAction(action);
   }
 
   void startOption(Option option) {

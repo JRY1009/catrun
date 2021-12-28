@@ -123,7 +123,7 @@ class _WareHousePageState extends State<WareHousePage> {
                           child: CarryPanel(
                             dark: true,
                             onEat: () {
-                              tips = player?.carriedProp?.desc ?? '';
+                              tips = player?.carried_prop?.desc ?? '';
                               startAction();
                             },
                           ),

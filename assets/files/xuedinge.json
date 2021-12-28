@@ -9,7 +9,7 @@
 		"meets": [
 			{
 				"id": 1,
-				"next_id": 101,
+				"talk_id": 101,
 				"talks": [
 					{
 						"id": 101,
@@ -43,18 +43,58 @@
 			},
 			{
 				"id": 2,
-				"next_id": 101,
+				"talk_id": 101,
+				"prop_require": {
+					"id": 3001,
+					"name": "火腿肠"
+				},
 				"talks": [
 					{
 						"id": 101,
 						"talk": [
-							"小子又来了",
-							"火腿肠带来了吗？"
+							"小子怎么又来了",
+							"赶紧滚"
+						],
+						"talk_options": [
+							{
+								"next_id": 102,
+								"option": "聊天"
+							},
+							{
+								"next_id": 103,
+								"none_id": 102,
+								"option": "赠送",
+								"check_require": true
+							},
+							{
+								"next_id": 0,
+								"option": "离开",
+								"next_meet_id": 2
+							}
+						]
+					},
+					{
+						"id": 102,
+						"talk": [
+							"去去去，别跟我套近乎，我又不认识你"
 						],
 						"talk_options": [
 							{
 								"next_id": 0,
-								"option": "没有",
+								"option": "哦",
+								"next_meet_id": 2
+							}
+						]
+					},
+					{
+						"id": 103,
+						"talk": [
+							"嗯，不错嘛，有什么需要我帮忙的吗"
+						],
+						"talk_options": [
+							{
+								"next_id": 0,
+								"option": "嗯",
 								"next_meet_id": 2
 							}
 						]

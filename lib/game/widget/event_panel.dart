@@ -115,7 +115,7 @@ class EventPanelState extends State<EventPanel> {
     Player? player = PlayerMgr.instance()!.getPlayer();
     _eventModel.startAction(Action(
         id: Action.action_eat,
-        desc: [S.of(context).eatSth(player?.carriedProp?.name ?? '', player?.carriedProp?.desc ?? '')]
+        desc: [S.of(context).eatSth(player?.carried_prop?.name ?? '', player?.carried_prop?.desc ?? '')]
     ), burnEnergy: false);
   }
 
@@ -124,8 +124,8 @@ class EventPanelState extends State<EventPanel> {
     _eventModel.startAction(Action(
         id: Action.action_discard,
         desc: _eventModel.isHomeState ?
-        [S.of(context).putbackSth(player?.carriedProp?.name ?? '')] :
-        [S.of(context).discardSth(player?.carriedProp?.name ?? '')]
+        [S.of(context).putbackSth(player?.carried_prop?.name ?? '')] :
+        [S.of(context).discardSth(player?.carried_prop?.name ?? '')]
     ), burnEnergy: false);
   }
 

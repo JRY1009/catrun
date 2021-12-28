@@ -3,6 +3,7 @@ import 'package:catrun/game/manager/prop_mgr.dart';
 import 'package:catrun/game/model/prop.dart';
 import 'package:catrun/game/model/property_diff.dart';
 import 'package:catrun/generated/l10n.dart';
+import 'package:catrun/utils/object_util.dart';
 
 import 'role.dart';
 
@@ -11,7 +12,7 @@ class Player extends Role {
   num? hungry;
   num? energy;
   num? health;
-  Prop? carriedProp;
+  Prop? carried_prop;
 
   num get pmaxlife => ((maxlife ?? 0) + getPropDiff('maxlife'));
   num get pattack => ((attack ?? 0) + getPropDiff('attack'));
@@ -27,7 +28,7 @@ class Player extends Role {
     this.hungry = 100,
     this.energy = 10,
     this.health = 50,
-    this.carriedProp
+    this.carried_prop
   }) : super(
       id: 1,
       name: S.current.yali,
@@ -116,12 +117,12 @@ class Player extends Role {
   }
 
   void useCarriedProp() {
-    if (carriedProp == null) {
+    if (carried_prop == null) {
       return;
     }
 
-    makeDiffs(carriedProp!.diffs ?? []);
-    carriedProp = null;
+    makeDiffs(carried_prop!.diffs ?? []);
+    carried_prop = null;
   }
 
   void carryProp(num id, {bool discard = false}) {
@@ -130,11 +131,11 @@ class Player extends Role {
       return;
     }
 
-    if (carriedProp != null && !discard) {
-      addProps([carriedProp!]);
+    if (carried_prop != null && !discard) {
+      addProps([carried_prop!]);
     }
 
-    carriedProp = PropMgr.instance()!.getProp(id, 1);
+    carried_prop = PropMgr.instance()!.getProp(id, 1);
 
     if (p.count! > 1) {
       p.count = p.count! - 1;
@@ -144,10 +145,10 @@ class Player extends Role {
   }
 
   void discardProp({bool discard = false}) {
-    if (carriedProp != null && !discard) {
-      addProps([carriedProp!]);
+    if (carried_prop != null && !discard) {
+      addProps([carried_prop!]);
     }
-    carriedProp = null;
+    carried_prop = null;
   }
 
   void makeDiff(PropertyDiff diff) {
@@ -201,6 +202,10 @@ class Player extends Role {
 
     hungry = jsonMap['hungry'] ?? 0;
     energy = jsonMap['energy'] ?? 0;
+
+    if (ObjectUtil.isNotEmpty(jsonMap['carried_prop'])) {
+      carried_prop = Prop.fromJson(jsonMap['carried_prop']);
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -221,6 +226,7 @@ class Player extends Role {
 
     jsonMap['hungry'] = hungry;
     jsonMap['energy'] = energy;
+    jsonMap['carried_prop'] = carried_prop?.toJson();
     return jsonMap;
   }
 
@@ -241,6 +247,10 @@ class Player extends Role {
 
     hungry = jsonMap['hungry'] ?? 0;
     energy = jsonMap['energy'] ?? 0;
+
+    if (ObjectUtil.isNotEmpty(jsonMap['carried_prop'])) {
+      carried_prop = Prop.fromJson(jsonMap['carried_prop']);
+    }
   }
 
   Map<String, dynamic> toLocalJson() {
@@ -260,6 +270,7 @@ class Player extends Role {
 
     jsonMap['hungry'] = hungry;
     jsonMap['energy'] = energy;
+    jsonMap['carried_prop'] = carried_prop?.toJson();
     return jsonMap;
   }
 

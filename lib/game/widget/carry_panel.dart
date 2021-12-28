@@ -63,9 +63,9 @@ class _CarryPanelState extends State<CarryPanel> {
                 child: Row(
                   children: [
                     Text('${S.of(context).carryProp}：', style: widget.dark ? TextStyles.textWhite14 : TextStyles.textMain14),
-                    Text('${player?.carriedProp?.name ?? '暂无'}  ', style: widget.dark ? TextStyles.textWhite14 : TextStyles.textMain14),
+                    Text('${player?.carried_prop?.name ?? '暂无'}  ', style: widget.dark ? TextStyles.textWhite14 : TextStyles.textMain14),
                     Expanded(child: Container()),
-                    player?.carriedProp?.type == 1 ? BorderButton(width: 64.dp, height: 24.dp, radius: 5.dp,
+                    player?.carried_prop?.type == 1 ? BorderButton(width: 64.dp, height: 24.dp, radius: 5.dp,
                       text: S.of(context).eat,
                       textStyle: widget.dark ? TextStyles.textWhite12 : TextStyles.textMain12,
                       color: Colours.transparent,
@@ -79,7 +79,7 @@ class _CarryPanelState extends State<CarryPanel> {
                       },
                     ) : Gaps.empty,
                     Gaps.hGap10,
-                    player?.carriedProp != null ? BorderButton(width: 64.dp, height: 24.dp, radius: 5.dp,
+                    player?.carried_prop != null ? BorderButton(width: 64.dp, height: 24.dp, radius: 5.dp,
                       text: _playerModel.isHome ? S.of(context).putback : S.of(context).discard,
                       textStyle: widget.dark ? TextStyles.textWhite12 : TextStyles.textMain12,
                       color: Colours.transparent,

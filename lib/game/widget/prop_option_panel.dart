@@ -64,7 +64,7 @@ class _PropOptionPanelState extends State<PropOptionPanel> {
               borderColor: Colours.app_main,
               onPressed: () {
                 Player? player = PlayerMgr.instance()!.getPlayer();
-                player?.carriedProp = PropMgr.instance()!.getProp(_eventModel.optionProp?.id ?? 0, 1);
+                player?.carried_prop = PropMgr.instance()!.getProp(_eventModel.optionProp?.id ?? 0, 1);
                 _eventModel.panelState = _eventModel.lastState;
                 _eventModel.startAction(Action(
                     id: Action.action_option_carry,

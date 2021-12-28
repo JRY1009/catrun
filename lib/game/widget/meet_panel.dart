@@ -1,10 +1,9 @@
 
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:catrun/game/config/app_config.dart';
-import 'package:catrun/game/manager/npc_mgr.dart';
-import 'package:catrun/game/model/meet.dart';
 import 'package:catrun/game/model/npc.dart';
-import 'package:catrun/game/model/talk.dart';
+import 'package:catrun/game/viewmodel/meet_model.dart';
+import 'package:catrun/mvvm/provider_widget.dart';
 import 'package:catrun/res/colors.dart';
 import 'package:catrun/res/gaps.dart';
 import 'package:catrun/res/styles.dart';
@@ -31,19 +30,18 @@ class MeetPanel extends StatefulWidget {
 
 class _MeetPanelState extends State<MeetPanel> {
 
-  int _count = 0;
-
-  Meet? _meet;
-  Talk? _talk;
+  late MeetModel _meetModel;
 
   @override
   void initState() {
     super.initState();
 
-    _meet = widget.npc.getMeetById(widget.npc.next_id ?? 0);
-    _talk = _meet?.getTalkById(_meet?.next_id ?? 0);
+    _meetModel = MeetModel();
+    _meetModel.npc = widget.npc;
+    _meetModel.meet = widget.npc.getMeetById(widget.npc.next_id ?? 0);
+    _meetModel.talk = _meetModel.meet?.getTalkById(_meetModel.meet?.talk_id ?? 0);
 
-    startAction();
+    _meetModel.startAction();
   }
 
   @override
@@ -51,22 +49,9 @@ class _MeetPanelState extends State<MeetPanel> {
     super.dispose();
   }
 
-  void startAction() {
-
-    setState(() {
-      _count = -1;
-
-      Future.delayed(Duration(milliseconds: 100), () {
-        setState(() {
-          _count = 0;
-        });
-      });
-    });
-  }
-
   List<Widget> _buildFade(List<String> listStr) {
     return listStr.asMap().entries.map((entry) {
-      return _count >= entry.key ? Container(
+      return _meetModel.animCount >= entry.key ? Container(
         padding: EdgeInsets.symmetric(vertical: 5.dp),
         alignment: Alignment.center,
         child: AnimatedTextKit(
@@ -77,9 +62,10 @@ class _MeetPanelState extends State<MeetPanel> {
             TypeWriterAnimatedText(entry.value, textAlign: TextAlign.center, textStyle: TextStyles.textMain16_w700),
           ],
           onFinished: () {
-            setState(() {
-              _count ++;
-            });
+            _meetModel.animCount ++;
+            if (_meetModel.animCount >= listStr.length) {
+              _meetModel.finishAction();
+            }
           },
         ),
       ) : Gaps.empty;
@@ -88,9 +74,9 @@ class _MeetPanelState extends State<MeetPanel> {
 
   Widget _buildSelectButtons() {
 
-    return _count >= (_talk?.talk?.length ?? 0) ? ScaleWidget(
+    return _meetModel.animCount >= (_meetModel.talk?.talk?.length ?? 0) ? ScaleWidget(
       child: Column(
-        children: _talk?.talk_options?.asMap().entries.map((entry) {
+        children: _meetModel.talk?.talk_options?.asMap().entries.map((entry) {
           return Container(
             margin: EdgeInsets.only(top: 10.dp, left: 20.dp, right: 20.dp),
             child: BorderButton(width: double.infinity, height: 36.dp,
@@ -102,9 +88,9 @@ class _MeetPanelState extends State<MeetPanel> {
                 if (entry.value.next_id == 0) {
                   widget.npc.next_id = entry.value.next_meet_id;
                   widget.onFinish();
+
                 } else {
-                  _talk = _meet?.getTalkById(entry.value.next_id ?? 0);
-                  startAction();
+                  _meetModel.doAction(entry.value);
                 }
               },
             ),
@@ -116,16 +102,22 @@ class _MeetPanelState extends State<MeetPanel> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        padding: EdgeInsets.symmetric(horizontal: 20.dp, vertical: 20.dp),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Expanded(child: Column(children: _buildFade(_talk?.talk ?? []))),
-            _buildSelectButtons()
-          ],
-        ),
-      );
+    return ProviderWidget<MeetModel>(
+        model: _meetModel,
+        builder: (context, model, child) {
+          return Container(
+            padding: EdgeInsets.symmetric(horizontal: 20.dp, vertical: 20.dp),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Expanded(child: Column(children: _buildFade(_meetModel.getActionStr()))),
+                _buildSelectButtons()
+              ],
+            ),
+          );
+        }
+    );
+
   }
 
 }
