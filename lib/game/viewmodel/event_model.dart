@@ -10,10 +10,12 @@ import 'package:catrun/game/event/player_event.dart';
 import 'package:catrun/game/manager/action_mgr.dart';
 import 'package:catrun/game/manager/enemy_mgr.dart';
 import 'package:catrun/game/manager/fight_mgr.dart';
+import 'package:catrun/game/manager/npc_mgr.dart';
 import 'package:catrun/game/manager/player_mgr.dart';
 import 'package:catrun/game/manager/revent_mgr.dart';
 import 'package:catrun/game/model/action.dart';
 import 'package:catrun/game/model/enemy.dart';
+import 'package:catrun/game/model/npc.dart';
 import 'package:catrun/game/model/option.dart';
 import 'package:catrun/game/model/player.dart';
 import 'package:catrun/game/model/prop.dart';
@@ -30,6 +32,7 @@ enum PanelState {
   option,
   fight,
   propOption,
+  meet,
 }
 
 class EventModel extends ViewStateModel {
@@ -44,6 +47,7 @@ class EventModel extends ViewStateModel {
   Enemy? enemy;
   Fight? fightResult;
   Prop? optionProp;
+  Npc? npc;
   int _animCount = 0;
 
   StreamSubscription? optionSubscription;
@@ -67,6 +71,7 @@ class EventModel extends ViewStateModel {
   bool get isOptionState => _panelState == PanelState.option;
   bool get isFightState => _panelState == PanelState.fight;
   bool get isPropOptionState => _panelState == PanelState.propOption;
+  bool get isMeetState => _panelState == PanelState.meet;
 
   set panelState(PanelState state) {
     _lastState = state == PanelState.home ? state : _panelState;
@@ -173,6 +178,11 @@ class EventModel extends ViewStateModel {
     });
 
     return ret;
+  }
+
+  void doMeet(BuildContext context, Action? action) {
+    npc = NpcMgr.instance()!.getNpc(action?.id ?? 0);
+    panelState = PanelState.meet;
   }
 
   void startOption(Option option) {

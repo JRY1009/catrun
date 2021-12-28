@@ -11,7 +11,6 @@ import 'package:catrun/mvvm/provider_widget.dart';
 import 'package:catrun/res/colors.dart';
 import 'package:catrun/res/gaps.dart';
 import 'package:catrun/res/styles.dart';
-import 'package:catrun/router/routers.dart';
 import 'package:catrun/utils/object_util.dart';
 import 'package:catrun/utils/screen_util.dart';
 import 'package:catrun/widget/animate/scale_widget.dart';
@@ -21,6 +20,7 @@ import 'package:flutter/material.dart' hide Action;
 
 import 'carry_panel.dart';
 import 'fight_panel.dart';
+import 'meet_panel.dart';
 import 'prop_option_panel.dart';
 import 'outside_panel.dart';
 
@@ -174,7 +174,7 @@ class EventPanelState extends State<EventPanel> {
                 child: Stack(
                   fit: StackFit.expand,
                   children: [
-                    !_eventModel.isFightState ? ScaleWidget(
+                    (!_eventModel.isFightState && !_eventModel.isMeetState) ? ScaleWidget(
                         child: Container(
                           padding: EdgeInsets.symmetric(horizontal: 20.dp, vertical: 20.dp),
                           child: Column(
@@ -205,8 +205,16 @@ class EventPanelState extends State<EventPanel> {
                           }
                         },
                       ),
-                    ) : Gaps.empty
+                    ) : Gaps.empty,
 
+                    _eventModel.isMeetState ? ScaleWidget(
+                      child: MeetPanel(
+                        npc: _eventModel.npc!,
+                        onFinish: () {
+                          _eventModel.panelState = _eventModel.lastState;
+                        },
+                      ),
+                    ) : Gaps.empty
                   ],
                 ),
               ),

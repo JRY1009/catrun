@@ -123,7 +123,11 @@ class _OutsidePanelState extends State<OutsidePanel> {
         color: Colours.transparent,
         borderColor: Colours.dark_app_main,
         onPressed: () {
-          _eventModel.doAction(context, action);
+          if (Action.isOutsideNpcAction(action?.id ?? 0)) {
+            _eventModel.doMeet(context, action);
+          } else {
+            _eventModel.doAction(context, action);
+          }
         }
     );
   }

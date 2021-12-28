@@ -1,0 +1,66 @@
+{
+	"xuedinge": {
+		"id": 2021,
+		"name": "薛定谔",
+		"life": 50,
+		"attack": 10,
+		"defence": 0,
+		"next_id": 1,
+		"meets": [
+			{
+				"id": 1,
+				"next_id": 101,
+				"talks": [
+					{
+						"id": 101,
+						"talk": [
+							"嘿，小子别过来",
+							"新来的吧，不知道这是我的地盘吗？"
+						],
+						"talk_options": [
+							{
+								"next_id": 102,
+								"option": "哈？"
+							}
+						]
+					},
+					{
+						"id": 102,
+						"talk": [
+							"最近的食物越来越少了",
+							"想在这片混也行，给我带一根火腿肠来",
+							"否则别在这里出现"
+						],
+						"talk_options": [
+							{
+								"next_id": 0,
+								"option": "哦",
+								"next_meet_id": 2
+							}
+						]
+					}
+				]
+			},
+			{
+				"id": 2,
+				"next_id": 101,
+				"talks": [
+					{
+						"id": 101,
+						"talk": [
+							"小子又来了",
+							"火腿肠带来了吗？"
+						],
+						"talk_options": [
+							{
+								"next_id": 0,
+								"option": "没有",
+								"next_meet_id": 2
+							}
+						]
+					}
+				]
+			}
+		]
+	}
+}

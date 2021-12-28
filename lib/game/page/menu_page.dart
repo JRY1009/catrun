@@ -3,6 +3,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:catrun/game/manager/action_mgr.dart';
 import 'package:catrun/game/manager/diary_mgr.dart';
 import 'package:catrun/game/manager/enemy_mgr.dart';
+import 'package:catrun/game/manager/npc_mgr.dart';
 import 'package:catrun/game/manager/player_mgr.dart';
 import 'package:catrun/game/manager/prop_mgr.dart';
 import 'package:catrun/game/manager/revent_mgr.dart';
@@ -40,6 +41,7 @@ class _MenuState extends State<MenuPage> {
     REventMgr.instance()!.loadREvents();
     EnemyMgr.instance()!.loadEnemys();
     PropMgr.instance()!.loadProps();
+    NpcMgr.instance()!.loadNpcs();
   }
 
   @override
