@@ -184,9 +184,11 @@ class EventModel extends ViewStateModel {
     if (!_enableAction) {
       return;
     }
-    
+
     npc = NpcMgr.instance()!.getNpc(action?.id ?? 0);
-    panelState = PanelState.meet;
+    if (npc != null) {
+      panelState = PanelState.meet;
+    }
 
     startAction(action);
   }

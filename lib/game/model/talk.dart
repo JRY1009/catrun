@@ -51,11 +51,15 @@ class TalkOption {
   num? next_meet_id;
   String? option;
   bool? check_require;
+  bool? fight;
 
   TalkOption({
     this.next_id,
     this.next_meet_id,
+    this.none_id,
     this.option,
+    this.check_require,
+    this.fight,
   });
 
   TalkOption.fromJson(Map<String, dynamic> jsonMap) {
@@ -64,6 +68,7 @@ class TalkOption {
     next_meet_id = jsonMap['next_meet_id'] ?? 0;
     option = jsonMap['option'] ?? '';
     check_require = jsonMap['check_require'] ?? false;
+    fight = jsonMap['fight'] ?? false;
   }
 
   Map<String, dynamic> toJson() {
@@ -73,6 +78,7 @@ class TalkOption {
     jsonMap['next_meet_id'] = next_meet_id;
     jsonMap['option'] = option;
     jsonMap['check_require'] = check_require;
+    jsonMap['fight'] = fight;
 
     return jsonMap;
   }

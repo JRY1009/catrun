@@ -20,6 +20,7 @@ class MeetModel extends ViewStateModel {
   Npc? npc;
   Meet? meet;
   Talk? talk;
+  TalkOption? talkOption;
   
   Fight? fightResult;
   int _animCount = 0;
@@ -49,6 +50,8 @@ class MeetModel extends ViewStateModel {
   }
 
   void doAction(TalkOption option) {
+    talkOption = option;
+
     if (option.check_require ?? false) {
       bool check = meet?.checkRequire() ?? false;
       if (check) {
@@ -57,6 +60,11 @@ class MeetModel extends ViewStateModel {
         talk = meet?.getTalkById(option.none_id ?? 0);
       }
       startAction();
+
+    } else if (option.fight ?? false) {
+      Future.delayed(Duration(milliseconds: 100), () {
+        panelState = MeetState.fight;
+      });
 
     } else {
       talk = meet?.getTalkById(option.next_id ?? 0);
@@ -81,6 +89,18 @@ class MeetModel extends ViewStateModel {
   
   void finishAction() {
     _enableAction = true;
+  }
+
+  void finishFight(Fight result) {
+    panelState = MeetState.meet;
+    fightResult = result;
+
+    if (fightResult?.status == FightStatus.win) {
+      talk = meet?.getTalkById(talkOption?.next_id ?? 0);
+    } else {
+      talk = meet?.getTalkById(talkOption?.none_id ?? 0);
+    }
+    startAction();
   }
 
   List<String> getActionStr() {

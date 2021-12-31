@@ -2,10 +2,11 @@
 import 'package:catrun/game/model/prop.dart';
 import 'package:catrun/utils/object_util.dart';
 
+import 'enemy.dart';
 import 'meet.dart';
-import 'role.dart';
+import 'property_diff.dart';
 
-class Npc extends Role {
+class Npc extends Enemy {
 
   num? next_id;
   List<Meet>? meets;
@@ -27,21 +28,14 @@ class Npc extends Role {
 
   Npc({
     this.next_id,
-    this.meets
+    this.meets,
   }) : super(
-      id: 2000,
-      name: '0',
-      life: 50,
-      maxlife: 50,
-      attack: 20,
-      defence: 0,
-      power: 0,
-      physic: 0,
-      skill: 0,
-      explosion: 0,
-      block: 0,
-      dodge: 0,
-      props: []
+      speak: '',
+      attackText: '',
+      defenceText: '',
+      winText: '',
+      loseText: '',
+      desc: []
   );
 
   Npc.fromJson(Map<String, dynamic> jsonMap) {
@@ -61,6 +55,18 @@ class Npc extends Role {
     if (ObjectUtil.isNotEmpty(jsonMap['props'])) {
       props = Prop.fromJsonList(jsonMap['props']) ?? [];
     }
+
+    if (ObjectUtil.isNotEmpty(jsonMap['diffs'])) {
+      diffs = PropertyDiff.fromJsonList(jsonMap['diffs']) ?? [];
+    }
+
+    desc = jsonMap['desc']?.cast<String>() ?? [''];
+
+    speak = jsonMap['speak'] ?? '';
+    attackText = jsonMap['attackText'] ?? '';
+    defenceText = jsonMap['defenceText'] ?? '';
+    winText = jsonMap['winText'] ?? '';
+    loseText = jsonMap['loseText'] ?? '';
 
     if (ObjectUtil.isNotEmpty(jsonMap['meets'])) {
       meets = Meet.fromJsonList(jsonMap['meets']) ?? [];
@@ -85,8 +91,16 @@ class Npc extends Role {
     jsonMap['block'] = block;
     jsonMap['dodge'] = dodge;
     jsonMap['props'] = props?.map((v) => v.toJson()).toList();
-    jsonMap['meets'] = meets?.map((v) => v.toJson()).toList();
+    jsonMap['diffs'] = diffs?.map((v) => v.toJson()).toList();
+    jsonMap['desc'] = desc;
 
+    jsonMap['speak'] = speak;
+    jsonMap['attackText'] = attackText;
+    jsonMap['defenceText'] = defenceText;
+    jsonMap['winText'] = winText;
+    jsonMap['loseText'] = loseText;
+
+    jsonMap['meets'] = meets?.map((v) => v.toJson()).toList();
     jsonMap['next_id'] = next_id;
     return jsonMap;
   }

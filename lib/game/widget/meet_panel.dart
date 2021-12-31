@@ -1,6 +1,7 @@
 
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:catrun/game/config/app_config.dart';
+import 'package:catrun/game/manager/fight_mgr.dart';
 import 'package:catrun/game/model/npc.dart';
 import 'package:catrun/game/viewmodel/meet_model.dart';
 import 'package:catrun/mvvm/provider_widget.dart';
@@ -12,6 +13,8 @@ import 'package:catrun/widget/animate/scale_widget.dart';
 import 'package:catrun/widget/animate/type_writer_text.dart';
 import 'package:catrun/widget/button/border_button.dart';
 import 'package:flutter/material.dart';
+
+import 'fight_panel.dart';
 
 class MeetPanel extends StatefulWidget {
 
@@ -105,15 +108,28 @@ class _MeetPanelState extends State<MeetPanel> {
     return ProviderWidget<MeetModel>(
         model: _meetModel,
         builder: (context, model, child) {
-          return Container(
-            padding: EdgeInsets.symmetric(horizontal: 20.dp, vertical: 20.dp),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Expanded(child: Column(children: _buildFade(_meetModel.getActionStr()))),
-                _buildSelectButtons()
-              ],
-            ),
+          return Stack(
+            fit: StackFit.expand,
+            children: [
+              _meetModel.isMeetState ? Container(
+                padding: EdgeInsets.symmetric(horizontal: 20.dp, vertical: 20.dp),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Expanded(child: Column(children: _buildFade(_meetModel.getActionStr()))),
+                    _buildSelectButtons()
+                  ],
+                ),
+              ) : Gaps.empty,
+              _meetModel.isFightState ? ScaleWidget(
+                child: FightPanel(
+                  enemy: _meetModel.npc!,
+                  onFinish: (result) {
+                    _meetModel.finishFight(result);
+                  },
+                ),
+              ) : Gaps.empty,
+            ],
           );
         }
     );
