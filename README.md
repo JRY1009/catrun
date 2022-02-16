@@ -1,16 +1,22 @@
 # catrun
 
-A new Flutter project.
+一款Flutter制作的文字冒险游戏模板.
 
-## Getting Started
+## 实现内容
+* 回合制角色养成
+* 故事系统，NPC事件，随机事件
+* 背包仓库系统
+* 回合制战斗系统
+* 文字动画
 
-This project is a starting point for a Flutter application.
+## 截图
 
-A few resources to get you started if this is your first Flutter project:
+| ![](./screenshot/screenshot0.jpg)    |  ![](./screenshot/screenshot1.jpg)    | ![](./screenshot/screenshot2.jpg)   |
+| :--------------------------------: | :---------------------------------: | :-------------------------------: |
+| ![](./screenshot/screenshot4.jpg)    |  ![](./screenshot/screenshot5.jpg)    |
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+## 项目运行环境
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+    1. Flutter version 2.8.1
+
+    2. Dart version 2.15.1

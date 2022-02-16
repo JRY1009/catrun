@@ -100,7 +100,7 @@ class _MenuState extends State<MenuPage> {
                     Text('powered_by: ', style: TextStyles.textMain12),
                     InkWell(
                       onTap: () {},
-                      child: Text('Unicode', style: TextStyles.textMain14),
+                      child: Text('JRY1009', style: TextStyles.textMain14),
                     )
                   ],
                 ),
@@ -113,7 +113,7 @@ class _MenuState extends State<MenuPage> {
                     Text('built_with: ', style: TextStyles.textMain12),
                     InkWell(
                       onTap: () {},
-                      child: Text('Flame', style: TextStyles.textMain14),
+                      child: Text('Flutter', style: TextStyles.textMain14),
                     )
                   ],
                 ),
